@@ -1,0 +1,1305 @@
+{
+  "meta": {
+    "banda": "Cumbia De+Lito",
+    "fuente_principal": "Cumbia_De_Lito_EPK.pdf (EPK de 1 página, creado 2026-09-26)",
+    "fecha_brief": "2026-10-15",
+    "idioma_web": "es",
+    "documentos_relacionados": [
+      "brief/brief.md",
+      "brief/_volcado.md",
+      "brief/assets/"
+    ],
+    "version": "v2",
+    "fuentes": [
+      "EPK (PDF)",
+      "Respuestas del cliente vía Andrés [CLIENTE-1..5]",
+      "Verificación web [WEB-1..18]"
+    ],
+    "imagenes_originales": "imagenes/ (las aporta Andrés; fuente principal de fotos). brief/assets/ solo es referencia."
+  },
+  "convenciones": {
+    "tipo": {
+      "dato": "Explícito en el EPK (texto, link o elemento visual)",
+      "dato_web": "Verificado en una fuente externa [WEB-n]",
+      "interpretacion": "Deducción propia, con su fundamento en 'nota'",
+      "falta": "No disponible; la web lo necesita",
+      "dato_cliente": "Respuesta del cliente del 15-oct-2026 [CLIENTE-n]",
+      "decision": "Pregunta no respondida, resuelta con criterio (ver decisiones)"
+    },
+    "fuente": "[EPK·Sección¶párrafo|•viñeta|Link-n|Img:archivo|Visual] o [WEB-n]; ver _volcado.md",
+    "regla_para_la_ia_web": "Publica como hecho solo lo que sea dato, dato_cliente, dato_web o decision. Lo que sea interpretacion es guía de tono y diseño. Nunca rellenes un campo de tipo falta."
+  },
+  "identidad": {
+    "nombre": {
+      "valor": "Cumbia De+Lito",
+      "tipo": "decision",
+      "fuente": "[EPK·Encabezado] [EPK·Propuesta¶1] [WEB-14]",
+      "nota": "Nombre visible en toda la web. 'CUMBIA DE+LITO' solo en estilos en mayúsculas."
+    },
+    "handle": {
+      "valor": "@cumbiadelito (YouTube: @cumbiadelito282)",
+      "tipo": "dato",
+      "fuente": "[EPK·Link-1,3,5] [WEB-15]"
+    },
+    "significado_nombre": {
+      "valor": "No se explica en la web",
+      "tipo": "decision",
+      "fuente": null,
+      "nota": "El logo lo comunica; el '+' se usa como recurso gráfico de fusión."
+    },
+    "origen": {
+      "valor": "Bogotá, Colombia",
+      "tipo": "dato",
+      "fuente": "[EPK·Encabezado]"
+    },
+    "autodefinicion_corta": {
+      "valor": "Grupo Colombiano de Cumbia!",
+      "tipo": "dato_web",
+      "fuente": "[WEB-15]"
+    },
+    "anio_formacion": {
+      "valor": 2012,
+      "tipo": "dato",
+      "fuente": "[EPK·Historia¶1]"
+    },
+    "fundador": {
+      "valor": "Christian Delgado: fundador, único integrante fijo, manager y director general",
+      "tipo": "dato_cliente",
+      "fuente": "[EPK·Historia¶1] [EPK·Contacto] [CLIENTE-3]"
+    },
+    "roles": {
+      "valor": [
+        "Teclado y Voz Principal",
+        "Bajo",
+        "Guitarra Eléctrica",
+        "Octapad",
+        "Timbal"
+      ],
+      "tipo": "dato",
+      "fuente": "[EPK·Integrantes•1-5]"
+    },
+    "formacion_en_vivo": {
+      "valor": "Formación base: 4 músicos en escena + 3 técnicos",
+      "tipo": "dato",
+      "fuente": "[EPK·Integrantes] [EPK·EnVivo¶1]"
+    },
+    "integrantes_nombres": {
+      "valor": "No se publican nombres de músicos contratados",
+      "tipo": "decision",
+      "fuente": "[CLIENTE-3]"
+    },
+    "generos": {
+      "valor": [
+        "Cumbia Villera",
+        "Cumbia Urbana"
+      ],
+      "tipo": "dato",
+      "fuente": "[EPK·Encabezado] [EPK·Sonido]"
+    },
+    "concepto_artistico": {
+      "valor": "Tradición caribe colombiana + energía urbana latinoamericana.",
+      "tipo": "dato",
+      "fuente": "[EPK·Sonido]"
+    },
+    "influencias": {
+      "valor": [
+        "cumbia villera argentina",
+        "folclor de la costa atlántica colombiana"
+      ],
+      "tipo": "dato",
+      "fuente": "[EPK·Sonido•2] [EPK·Propuesta¶1]"
+    },
+    "alias_seo": {
+      "valor": [
+        "Cumbia Delito",
+        "CUMBIA DE+LITO",
+        "Cumbia DeLito"
+      ],
+      "tipo": "decision",
+      "fuente": "[WEB-11] [WEB-13] [WEB-16]",
+      "nota": "Solo para la meta description, alternateName del JSON-LD y el slug/dominio 'cumbiadelito'; no en el texto visible."
+    },
+    "modelo_formacion": {
+      "valor": "Los músicos se contratan por show según el país o la disponibilidad (colombianos que puedan viajar o disponibles en el país del show); no hay banda fija.",
+      "tipo": "dato_cliente",
+      "fuente": "[CLIENTE-3]"
+    },
+    "rol_christian_en_escena": {
+      "valor": "Muy probablemente teclado (keytar) y voz principal",
+      "tipo": "interpretacion",
+      "fuente": "[EPK·Integrantes•1] [EPK·Rider] [CLIENTE-3]",
+      "nota": "Alta confianza, pero no afirmarlo en el texto salvo que imagenes/ lo identifique (por ejemplo, un nombre de archivo)."
+    }
+  },
+  "historia": [
+    {
+      "valor": "Nace en 2012 por iniciativa de Christian Delgado, tras su recorrido por diversas agrupaciones en Bogotá; busca renovar la cumbia desde una perspectiva urbana y actual.",
+      "tipo": "dato",
+      "fuente": "[EPK·Historia¶1]"
+    },
+    {
+      "valor": "Trabaja con el productor argentino Gustavo Coronel (créditos que declara el EPK: Damas Gratis, Los Ángeles Azules, Los Márquez, El Combo Loco, El Plan Chala, Jimmy y su Combo Negro, Los Geddes).",
+      "tipo": "dato",
+      "fuente": "[EPK·Historia¶2]",
+      "nota": "No verificado en la web."
+    },
+    {
+      "valor": "Consolida un estilo propio: fuerza de la cumbia villera + groove urbano + folclor atlántico colombiano.",
+      "tipo": "dato",
+      "fuente": "[EPK·Historia¶3]"
+    },
+    {
+      "valor": "En 2022 publica tres sencillos con la cinta '10 AÑOS' en la portada.",
+      "tipo": "dato_web",
+      "fuente": "[EPK·Canciones] [WEB-3] [WEB-4] [WEB-5]"
+    },
+    {
+      "valor": "Los sencillos de 2022 celebran 10 años de banda (2012 + 10).",
+      "tipo": "interpretacion",
+      "fuente": "[EPK·Historia¶1] [EPK·Canciones]",
+      "nota": "Cuadra con la fecha de fundación; confirmar."
+    },
+    {
+      "valor": null,
+      "tipo": "falta",
+      "fuente": null,
+      "nota": "Hitos con fecha: primer show, primer lanzamiento, giras, inicio con Coronel."
+    }
+  ],
+  "filosofia": {
+    "sonido": {
+      "valor": "auténtico, fresco y altamente bailable",
+      "tipo": "dato",
+      "fuente": "[EPK·Propuesta¶1]"
+    },
+    "identidad": {
+      "valor": "energía festiva y narrativa popular latinoamericana",
+      "tipo": "dato",
+      "fuente": "[EPK·Propuesta¶2]"
+    },
+    "enfoque": {
+      "valor": "reinterpreta la tradición desde una mirada contemporánea, conectando raíces culturales con nuevos lenguajes sonoros",
+      "tipo": "dato",
+      "fuente": "[EPK·Propuesta¶2]"
+    },
+    "temas": {
+      "valor": "situaciones populares y costumbres latinoamericanas; letras inspiradas en la cultura popular",
+      "tipo": "dato",
+      "fuente": "[EPK·Historia¶3] [EPK·Sonido•4]"
+    },
+    "eje_narrativo": {
+      "valor": "la figura femenina / narrativa centrada en la mujer",
+      "tipo": "dato",
+      "fuente": "[EPK·Historia¶3] [EPK·Sonido•5]"
+    },
+    "como_entienden_a_la_mujer": {
+      "valor": "Solo con las frases del EPK; sin ampliar ni ilustrar con imágenes sexualizadas",
+      "tipo": "decision",
+      "fuente": "[EPK·Historia¶3] [EPK·Sonido•5]"
+    }
+  },
+  "voz": {
+    "registros": {
+      "valor": "Dos registros: institucional de press kit (Propuesta/Historia/En vivo) y popular-pícaro (títulos, afiche 'Se busca').",
+      "tipo": "interpretacion",
+      "fuente": "[EPK·Propuesta] [EPK·EnVivo] [EPK·Canciones] [EPK·Colaboraciones]",
+      "nota": "Usar el popular en titulares y el institucional solo en la zona de organizadores."
+    },
+    "humor_con_el_nombre": {
+      "valor": "SE BUSCA · CANTANDO O TOCANDO · RECOMPENSA EN EFECTIVO · $1,000,000",
+      "tipo": "dato",
+      "fuente": "[EPK·Colaboraciones] [EPK·Img:afiche_se_busca.png]",
+      "nota": "Juego con 'vivo o muerto' y con 'delito' (interpretación)."
+    },
+    "tuteo": {
+      "valor": true,
+      "tipo": "dato",
+      "fuente": "[EPK·Encabezado] [EPK·Canciones]",
+      "nota": "'Visita nuestras redes', 'Haz clic aquí…'"
+    },
+    "idioma": {
+      "valor": "español",
+      "tipo": "dato",
+      "fuente": "EPK completo"
+    },
+    "frases_de_tarima_y_jerga": {
+      "valor": "No se inventan; usar solo el vocabulario verificado",
+      "tipo": "decision",
+      "fuente": null
+    }
+  },
+  "citas": [
+    {
+      "texto": "Tradición caribe colombiana + energía urbana latinoamericana.",
+      "fuente": "[EPK·Sonido]",
+      "uso_sugerido": "subtítulo del hero"
+    },
+    {
+      "texto": "un sonido auténtico, fresco y altamente bailable",
+      "fuente": "[EPK·Propuesta¶1]",
+      "uso_sugerido": "La propuesta"
+    },
+    {
+      "texto": "un repertorio diseñado para mantener la pista en movimiento",
+      "fuente": "[EPK·EnVivo¶2]",
+      "uso_sugerido": "En vivo"
+    },
+    {
+      "texto": "renovar la cumbia desde una perspectiva urbana y actual",
+      "fuente": "[EPK·Historia¶1]",
+      "uso_sugerido": "Historia"
+    },
+    {
+      "texto": "SE BUSCA · CANTANDO O TOCANDO",
+      "fuente": "[EPK·Colaboraciones]",
+      "uso_sugerido": "Contratación"
+    },
+    {
+      "texto": "Grupo Colombiano de Cumbia!",
+      "fuente": "[WEB-15]",
+      "uso_sugerido": "línea de identidad"
+    },
+    {
+      "texto": "Visita nuestras redes",
+      "fuente": "[EPK·Encabezado]",
+      "uso_sugerido": "bloque de redes"
+    }
+  ],
+  "estetica": {
+    "logo": {
+      "valor": "Script de pincel blanca 'Cumbia De+Lito' con '+' rojo; versión neón (cable rojo y azul) y versión plantilla de grafiti.",
+      "tipo": "dato",
+      "fuente": "[EPK·Img:logo_script_sobre_ladrillo.png] [EPK·Img:logo_neon.png] [EPK·Sonido]",
+      "nota": "Falta el archivo vectorial."
+    },
+    "fondo": {
+      "valor": "Muro de ladrillo en tres tonos con franjas curvas y manchas de aerosol",
+      "tipo": "dato",
+      "fuente": "[EPK·Visual]"
+    },
+    "paleta": {
+      "valor": {
+        "azul_marino": [
+          "#151931",
+          "#0D1121"
+        ],
+        "rojo_ladrillo": "#721D1F",
+        "gris_ladrillo": "#8B8D95",
+        "rojo_acento_mas": "#DA291C",
+        "rojo_portadas": "#F41821",
+        "texto": "#FFFFFF"
+      },
+      "tipo": "dato",
+      "fuente": "[EPK·Visual]",
+      "nota": "Valores medidos sobre el render; aproximados."
+    },
+    "soportes": {
+      "valor": [
+        "polaroids con cinta",
+        "hoja de cuaderno cuadriculado y rayado",
+        "papel arrugado",
+        "afiche envejecido"
+      ],
+      "tipo": "dato",
+      "fuente": "[EPK·Visual]"
+    },
+    "tipografia_epk": {
+      "valor": "Gotham (Ultra/Black títulos en mayúsculas espaciadas; Book/Bold texto)",
+      "tipo": "dato",
+      "fuente": "[Volcado §0]",
+      "nota": "Requiere licencia web; alternativa libre parecida: Montserrat."
+    },
+    "portadas_2022": {
+      "valor": "Fondo negro, rayos rojos, tipografía glitch roja y cian, cinta '10 AÑOS', Parental Advisory",
+      "tipo": "dato",
+      "fuente": "[EPK·Canciones]"
+    },
+    "portada_2025": {
+      "valor": "'Cumbiando + el Mundo': script sobre pizarra oscura con rosas y '+' rojo",
+      "tipo": "dato",
+      "fuente": "[EPK·Img:portada_cumbiando_el_mundo.jpg]"
+    },
+    "vestuario": {
+      "valor": "Jerseys estampados 'Cumbia De+Lito' (negro y rojo, calaveras y rosas), camisetas de Argentina y Colombia, bucket hats, gafas oscuras",
+      "tipo": "dato",
+      "fuente": "[EPK·Visual]"
+    },
+    "instrumento_iconico": {
+      "valor": "keytar blanco (Roland)",
+      "tipo": "dato",
+      "fuente": "[EPK·Visual]"
+    },
+    "estilo_foto": {
+      "valor": "Fotos de celular o evento con luces rosa y morada de bar, más escenarios grandes",
+      "tipo": "dato",
+      "fuente": "[EPK·EnVivo] [EPK·Collage]"
+    },
+    "recurso_mas": {
+      "valor": "El '+' se repite en el logo, el concepto artístico y la portada de 'Cumbiando + el Mundo'.",
+      "tipo": "interpretacion",
+      "fuente": "[EPK·Encabezado] [EPK·Sonido] [EPK·Img:portada_cumbiando_el_mundo.jpg]",
+      "nota": "Puede ser el recurso gráfico recurrente de la web."
+    },
+    "webs_referencia": {
+      "valor": null,
+      "tipo": "falta",
+      "fuente": null
+    }
+  },
+  "publico": [
+    {
+      "valor": "Comprador: organizadores de festivales, eventos privados y eventos sociales, en Colombia y el exterior",
+      "tipo": "dato",
+      "fuente": "[EPK·Trayectoria¶] [EPK·Logros•2]"
+    },
+    {
+      "valor": "Fan: público de baile y de cumbia argentina en Colombia",
+      "tipo": "dato_web",
+      "fuente": "[EPK·EnVivo¶2] [WEB-11]"
+    },
+    {
+      "valor": "Los dos públicos pesan igual en la web",
+      "tipo": "dato_cliente",
+      "fuente": "[CLIENTE-1]"
+    }
+  ],
+  "musica": {
+    "sencillos": [
+      {
+        "titulo": "Cumbiando el Mundo",
+        "fecha": "2025-09-20",
+        "tipo": "dato_web",
+        "fuente": "[EPK·Link-13] [WEB-2]",
+        "url": "https://open.spotify.com/track/2LxGPX8pds6awxsRLo3kxE"
+      },
+      {
+        "titulo": "La Rueda de la Cumbia",
+        "fecha": "2022-08-11",
+        "tipo": "dato_web",
+        "fuente": "[EPK·Link-14] [WEB-3] [WEB-17]",
+        "url": "https://open.spotify.com/track/5TDHnKfNF1xL7oUmBYPZ4Y",
+        "nota": "Cinta 10 AÑOS; Parental Advisory"
+      },
+      {
+        "titulo": "La Famosa Banda",
+        "fecha": "2022-08-11",
+        "tipo": "dato_web",
+        "fuente": "[EPK·Link-16] [WEB-5]",
+        "url": "https://open.spotify.com/track/4k9zkSRaV5NIS7RGbcRBTd",
+        "nota": "Cinta 10 AÑOS; Parental Advisory"
+      },
+      {
+        "titulo": "Cumbia Cerveza y Mujer",
+        "fecha": "2022-08-09",
+        "tipo": "dato_web",
+        "fuente": "[EPK·Link-15] [WEB-4]",
+        "url": "https://open.spotify.com/track/0BBn9asbdOC67y2t0QhW6p",
+        "nota": "Cinta 10 AÑOS; Parental Advisory"
+      }
+    ],
+    "lanzamiento_dudoso": {
+      "valor": "EP 'Cumbia Delito' (2019) del perfil 'Cumbia De lito'",
+      "tipo": "decision",
+      "fuente": "[WEB-18]",
+      "nota": "Excluido de la web."
+    },
+    "colaboraciones": [
+      {
+        "con": "Karol G",
+        "obra": "Cuando me muera te olvido — especial 'La Premiere' (KarolGVEVO)",
+        "fecha": "estreno 2025-12-07",
+        "tipo": "dato_web",
+        "fuente": "[EPK·Link-12] [WEB-10] [WEB-11] [WEB-12]",
+        "url_correcta": "https://www.youtube.com/watch?v=LenBa0yOAus&t=83",
+        "nota": "Confirmado por Noticias RCN. En el álbum Tropicoqueta la banda no está acreditada [WEB-8] [WEB-9]: no decir 'feat.' ni enlazar al track del álbum. No mencionar el Teatro Heredia.",
+        "redaccion_web": "Junto a Karol G en «Cuando me muera te olvido» — La Premiere (2025).",
+        "prueba": [
+          "embed oficial de YouTube desde 1:23 (https://www.youtube.com/watch?v=LenBa0yOAus&t=83)",
+          "nota de Noticias RCN [WEB-11]"
+        ],
+        "fotos": "No existen fotos propias [CLIENTE-2]. Prohibido usar portada, capturas o fotos de terceros."
+      },
+      {
+        "con": "Subcantante",
+        "obra": "Eres Mi Cumbia",
+        "fecha": "Spotify 2025-04-11; video oficial 2025-12-28",
+        "tipo": "dato_web",
+        "fuente": "[EPK·Link-18] [EPK·Link-21] [WEB-6] [WEB-13]",
+        "url": "https://open.spotify.com/track/06y7Ldlvfrv7prurOtTxBE",
+        "video": "https://www.youtube.com/watch?v=TKoP6RfIJV8"
+      },
+      {
+        "con": "Los Varriletes",
+        "obra": "Pibe Ganador",
+        "fecha": "2022-03-20",
+        "tipo": "dato_web",
+        "fuente": "[EPK·Link-19] [WEB-7]",
+        "url": "https://open.spotify.com/track/7b4Ya5LYOZWxsRAJClyooR",
+        "nota": "Portada con banderas de Argentina y Colombia"
+      },
+      {
+        "con": "Los Pibes Del Penal",
+        "obra": "Amor a escondidas",
+        "fecha": null,
+        "tipo": "dato_web",
+        "fuente": "[EPK·Link-20] [WEB-14]",
+        "url": "https://www.youtube.com/watch?v=4KgEM-KdnyM",
+        "nota": "En el EPK figura como 'Pibes del Penal'. Fecha: falta."
+      }
+    ],
+    "trayectoria_colombia": {
+      "valor": [
+        "Bogotá",
+        "Mosquera",
+        "Villeta",
+        "Barranquilla",
+        "Cartagena",
+        "Tuluá",
+        "Ibagué",
+        "Medellín",
+        "Manizales",
+        "Pasto",
+        "Nariño",
+        "Bucaramanga",
+        "Girón",
+        "Piedecuesta",
+        "Cúcuta",
+        "entre otras"
+      ],
+      "tipo": "dato",
+      "fuente": "[EPK·Trayectoria]",
+      "nota": "Tildes corregidas (en el EPK: Tulua, Ibague). 'Nariño' es ambiguo."
+    },
+    "trayectoria_internacional": {
+      "valor": [
+        "México",
+        "Ecuador",
+        "Perú",
+        "Argentina",
+        "Chile"
+      ],
+      "tipo": "dato",
+      "fuente": "[EPK·Trayectoria]",
+      "nota": "No verificado en la web. Publicar solo los países, sin ciudades ni años."
+    },
+    "tipos_de_evento": {
+      "valor": "festivales, eventos privados, eventos de carácter social; presencia en radio y TV en los países donde se han presentado",
+      "tipo": "dato",
+      "fuente": "[EPK·Trayectoria¶] [EPK·Logros]",
+      "nota": "Sin nombres ni links."
+    },
+    "logros_declarados": {
+      "valor": [
+        "Expansión nacional e internacional.",
+        "Participación en festivales y eventos privados.",
+        "Presencia en radio y televisión.",
+        "Trabajo con productor internacional Gustavo Coronel."
+      ],
+      "tipo": "dato",
+      "fuente": "[EPK·Logros•1-4]"
+    },
+    "prensa": [
+      {
+        "valor": "Noticias RCN, 11-dic-2025: 'Karol G sorprendió con cumbia villera junto a Cumbia Delito…'",
+        "tipo": "dato_web",
+        "fuente": "[WEB-11]",
+        "nota": "https://www.noticiasrcn.com/tendencias/karol-g-y-cumbia-delito-cuando-me-muera-te-olvido-cancion-video-970301"
+      }
+    ],
+    "agenda": {
+      "valor": "Sección omitida; el CTA invita a consultar fechas",
+      "tipo": "decision",
+      "fuente": null
+    }
+  },
+  "presencia": {
+    "instagram": {
+      "valor": "https://www.instagram.com/cumbiadelito",
+      "tipo": "dato",
+      "fuente": "[EPK·Link-3]"
+    },
+    "facebook": {
+      "valor": "https://www.facebook.com/CUMBIADELITOCOLOMBIA",
+      "tipo": "dato",
+      "fuente": "[EPK·Link-4]",
+      "nota": "Nombre visible: Cumbia Delito"
+    },
+    "tiktok": {
+      "valor": "https://www.tiktok.com/@cumbiadelito",
+      "tipo": "dato",
+      "fuente": "[EPK·Link-5]"
+    },
+    "youtube": {
+      "valor": "https://www.youtube.com/@cumbiadelito282",
+      "tipo": "dato",
+      "fuente": "[EPK·Link-1] [WEB-16]",
+      "nota": "El canal se llama 'Cumbia Delito'"
+    },
+    "spotify": {
+      "valor": "https://open.spotify.com/artist/6ektyhX4BfvzDIMmy5IQX8",
+      "tipo": "dato",
+      "fuente": "[EPK·Link-2]"
+    },
+    "linktree": {
+      "valor": "https://linktr.ee/cumbiadelito",
+      "tipo": "dato",
+      "fuente": "[EPK·QR] [WEB-15]"
+    },
+    "whatsapp": {
+      "valor": "https://wa.me/573144817052",
+      "tipo": "dato_cliente",
+      "fuente": "[WEB-15] [CLIENTE-1]",
+      "nota": "CTA principal de contratación."
+    },
+    "audiomack": {
+      "valor": "https://audiomack.com/cumbia-delito/song/la-rueda-de-la-cumbia",
+      "tipo": "dato_web",
+      "fuente": "[WEB-17]",
+      "nota": "No está en el EPK; solo se verificó esta canción, no la página del perfil."
+    },
+    "contacto_booking": {
+      "valor": {
+        "nombre": "Christian Delgado",
+        "cargo": "Manager / Dirección General",
+        "email": "cumbiadelito@gmail.com",
+        "telefono": "+57 314 481 7052"
+      },
+      "tipo": "dato",
+      "fuente": "[EPK·Contacto]",
+      "nota": "Contacto comercial público. El teléfono se muestra como botón de WhatsApp; el correo es el contacto secundario."
+    },
+    "merch": {
+      "valor": "Sección omitida",
+      "tipo": "decision",
+      "fuente": null
+    },
+    "dominio": {
+      "valor": null,
+      "tipo": "falta",
+      "fuente": null,
+      "nota": "Lo define Andrés (SITE_URL)."
+    },
+    "nota_urls": "Las URL se dejaron sin parámetros de rastreo; las originales están en _volcado.md §18.",
+    "whatsapp_prellenado": {
+      "valor": "https://wa.me/573144817052?text=Hola%20Christian%2C%20vi%20la%20p%C3%A1gina%20de%20Cumbia%20De%2BLito%20y%20quiero%20cotizar%20un%20show.%20Fecha%3A%20%20%7C%20Ciudad%3A%20%20%7C%20Tipo%20de%20evento%3A%20",
+      "tipo": "decision",
+      "fuente": "[CLIENTE-1]",
+      "nota": "Texto: 'Hola Christian, vi la página de Cumbia De+Lito y quiero cotizar un show. Fecha:  | Ciudad:  | Tipo de evento: '"
+    }
+  },
+  "info_tecnica": {
+    "show": {
+      "valor": "4 músicos en escena + 3 técnicos",
+      "tipo": "dato",
+      "fuente": "[EPK·EnVivo¶1]"
+    },
+    "requerimientos_basicos": {
+      "valor": [
+        "Sistema de sonido profesional.",
+        "Monitores en escenario.",
+        "Espacio para 4 músicos.",
+        "Conexiones eléctricas adecuadas."
+      ],
+      "tipo": "dato",
+      "fuente": "[EPK·FichaTecnica]"
+    },
+    "riders": {
+      "valor": "Rider técnico y hospitality rider disponibles bajo solicitud",
+      "tipo": "dato",
+      "fuente": "[EPK·FichaTecnica•1-2]",
+      "nota": "Hospitality rider: 'disponible bajo solicitud' (decisión)."
+    },
+    "rider_tecnico": {
+      "valor": [
+        {
+          "#": 1,
+          "artista": "Voz Líder",
+          "instrumento": "Teclados",
+          "requerimientos": "Micrófono vocal Shure Beta 58, 1 línea mono plug a plug teclado",
+          "base": "Base micrófono"
+        },
+        {
+          "#": 2,
+          "artista": "Guitarrista",
+          "instrumento": "Guitarra / Coros",
+          "requerimientos": "1 línea plug a plug / micrófono vocal",
+          "base": "Base micrófono"
+        },
+        {
+          "#": 3,
+          "artista": "Bajista",
+          "instrumento": "Bajo / Coros",
+          "requerimientos": "1 caja de paso - 1 línea plug a plug - 1 cable canon amplificador para bajo - micrófono vocal",
+          "base": "Base micrófono"
+        },
+        {
+          "#": 4,
+          "artista": "Timbalero",
+          "instrumento": "Timbal electrónico (octapad)",
+          "requerimientos": "2 líneas mono plug a plug",
+          "base": "Base platillo"
+        },
+        {
+          "#": 5,
+          "artista": "Baterista",
+          "instrumento": "Batería electrónica (octapad)",
+          "requerimientos": "2 líneas mono plug a plug",
+          "base": "Base platillo"
+        }
+      ],
+      "tipo": "dato",
+      "fuente": "[EPK·Rider]",
+      "nota": "Erratas corregidas (Lider, Bateria, octopad, timbal electrónica)."
+    },
+    "stage_plot": {
+      "valor": {
+        "atras_centro": "Batería eléctrica (Octapad)",
+        "izquierda": "Guitarra eléctrica",
+        "derecha": "Bajo",
+        "adelante_centro": [
+          "Teclado",
+          "Voz principal"
+        ]
+      },
+      "tipo": "dato",
+      "fuente": "[EPK·StagePlot]"
+    },
+    "formacion_variable": {
+      "valor": "La formación se arma según el destino; la ficha habla de 'formación base' y el rider de 5 puestos cubre el formato más amplio",
+      "tipo": "interpretacion",
+      "fuente": "[CLIENTE-3] [EPK·Rider]"
+    }
+  },
+  "objetivos_web": {
+    "principales": {
+      "valor": [
+        "Conseguir contrataciones (festivales, eventos privados, eventos sociales)",
+        "Que escuchen la música (Spotify, YouTube)"
+      ],
+      "tipo": "dato_cliente",
+      "fuente": "[CLIENTE-1]",
+      "nota": "Los dos con el mismo peso."
+    },
+    "canal_contratacion": {
+      "valor": "WhatsApp",
+      "tipo": "dato_cliente",
+      "fuente": "[CLIENTE-1]"
+    },
+    "secundario": {
+      "valor": "Seguir las redes",
+      "tipo": "interpretacion",
+      "fuente": "[EPK·QR]"
+    }
+  },
+  "sintesis": {
+    "esencia": {
+      "valor": "Cumbia villera hecha en Bogotá: desde 2012, Cumbia De+Lito cruza la cumbia argentina con el folclor de la costa atlántica colombiana para mantener la pista en movimiento.",
+      "tipo": "interpretacion",
+      "fuente": "[EPK·Propuesta¶1] [EPK·Historia¶1] [EPK·Sonido•2] [EPK·EnVivo¶2]"
+    },
+    "pilares": [
+      {
+        "nombre": "Cumbia villera con acento colombiano (el '+' como fusión)",
+        "idea": "Puente entre la villera argentina y el Caribe colombiano; el '+' aparece en el logo, el concepto y la portada de 2025.",
+        "evidencia": [
+          "[EPK·Propuesta¶1]",
+          "[EPK·Sonido]",
+          "[EPK·Historia¶2]",
+          "[EPK·Colaboraciones]",
+          "[EPK·Visual]",
+          "[WEB-11]"
+        ],
+        "en_la_web": "El '+' rojo como recurso gráfico recurrente; los dos mundos en diálogo."
+      },
+      {
+        "nombre": "La pista no para",
+        "idea": "Su función es hacer bailar; el show está diseñado para eso.",
+        "evidencia": [
+          "[EPK·Propuesta¶1]",
+          "[EPK·Propuesta¶2]",
+          "[EPK·Sonido•1]",
+          "[EPK·EnVivo¶2]"
+        ],
+        "en_la_web": "Video en vivo arriba, fotos de tarima y luces, CTA de contratación siempre visible."
+      },
+      {
+        "nombre": "Historias populares con la mujer en el centro",
+        "idea": "Cantan lo cotidiano del barrio latinoamericano con la figura femenina como eje.",
+        "evidencia": [
+          "[EPK·Historia¶3]",
+          "[EPK·Sonido•4]",
+          "[EPK·Sonido•5]",
+          "[WEB-4]",
+          "[WEB-6]"
+        ],
+        "en_la_web": "Contarlo con palabras de la banda (pendiente); no interpretar."
+      },
+      {
+        "nombre": "Desde 2012, de tarima en tarima",
+        "idea": "El proyecto de Christian Delgado: trayectoria comprobable; la formación se arma según el destino.",
+        "evidencia": [
+          "[EPK·Historia¶1]",
+          "[EPK·Canciones]",
+          "[EPK·Trayectoria]",
+          "[WEB-6]",
+          "[WEB-7]",
+          "[WEB-10]",
+          "[WEB-11]",
+          "[WEB-14]",
+          "[CLIENTE-3]"
+        ],
+        "en_la_web": "Franja de credenciales (colaboraciones + mapa de ciudades y países) y línea de tiempo (faltan fechas)."
+      },
+      {
+        "nombre": "El 'delito' como juego",
+        "idea": "El nombre juega con 'delito' y la banda lo asume con humor.",
+        "evidencia": [
+          "[EPK·Encabezado]",
+          "[EPK·Colaboraciones]",
+          "[EPK·Canciones]"
+        ],
+        "en_la_web": "Guiño en la sección de contratación ('Se busca: cantando o tocando'), sin armas, violencia ni drogas."
+      }
+    ],
+    "tono": [
+      {
+        "rasgo": "Festivo y directo",
+        "suena_asi": [
+          "altamente bailable",
+          "mantener la pista en movimiento"
+        ],
+        "no_suena_asi": [
+          "una experiencia sonora contemplativa e inmersiva"
+        ]
+      },
+      {
+        "rasgo": "Pícaro",
+        "suena_asi": [
+          "SE BUSCA · CANTANDO O TOCANDO",
+          "La Famosa Banda"
+        ],
+        "no_suena_asi": [
+          "humor que glorifique el crimen real",
+          "tono solemne sin chispa"
+        ]
+      },
+      {
+        "rasgo": "Popular, de barrio",
+        "suena_asi": [
+          "situaciones populares y costumbres latinoamericanas",
+          "Cumbia Cerveza y Mujer"
+        ],
+        "no_suena_asi": [
+          "propuesta conceptual de vanguardia"
+        ]
+      },
+      {
+        "rasgo": "Colombianos con corazón villero",
+        "suena_asi": [
+          "Grupo Colombiano de Cumbia!",
+          "Influencia de la cumbia villera argentina"
+        ],
+        "no_suena_asi": [
+          "sonar como copia argentina",
+          "renegar de lo colombiano"
+        ]
+      }
+    ],
+    "tono_nota": "Los ejemplos 'no suena así' son ilustrativos (redacción propia), no citas.",
+    "territorio_emocional": {
+      "valor": "Ganas de bailar, la rumba con el parche, querer a esta banda en la fiesta propia.",
+      "tipo": "interpretacion",
+      "fuente": "Pilares 2 y 3"
+    },
+    "vocabulario_propio": {
+      "valor": [
+        "cumbia villera",
+        "cumbia urbana",
+        "pista",
+        "en movimiento",
+        "festivo",
+        "bailable",
+        "popular",
+        "folclor atlántico",
+        "groove urbano",
+        "cumbiando",
+        "la rueda de la cumbia",
+        "la famosa banda",
+        "se busca",
+        "cantando o tocando",
+        "+"
+      ],
+      "tipo": "dato",
+      "fuente": "EPK (varias secciones)"
+    },
+    "direccion_visual": {
+      "valor": "Heredar el sistema del EPK: muro de ladrillo azul marino/rojo/gris, acento rojo #DA291C, polaroids con cinta, papel de cuaderno, afiche envejecido, logo script con '+' rojo y versión neón, sans geométrica gruesa en mayúsculas espaciadas, keytar blanco como ícono.",
+      "tipo": "interpretacion",
+      "fuente": "[EPK·Visual]",
+      "nota": "Los elementos son dato; la recomendación de heredarlos es interpretación."
+    }
+  },
+  "web": {
+    "ctas": [
+      {
+        "prioridad": 1,
+        "texto": "Contrata el show",
+        "destino": "https://wa.me/573144817052?text=Hola%20Christian%2C%20vi%20la%20p%C3%A1gina%20de%20Cumbia%20De%2BLito%20y%20quiero%20cotizar%20un%20show.%20Fecha%3A%20%20%7C%20Ciudad%3A%20%20%7C%20Tipo%20de%20evento%3A%20",
+        "fuente": "[CLIENTE-1] [WEB-15]"
+      },
+      {
+        "prioridad": 1,
+        "texto": "Escúchanos",
+        "destino": "https://open.spotify.com/artist/6ektyhX4BfvzDIMmy5IQX8",
+        "fuente": "[CLIENTE-1] [EPK·Link-2]",
+        "nota": "Mismo peso que contratar"
+      },
+      {
+        "prioridad": 2,
+        "texto": "Síguenos",
+        "destino": [
+          "https://www.instagram.com/cumbiadelito",
+          "https://www.tiktok.com/@cumbiadelito"
+        ],
+        "fuente": "[EPK·Link-3,5]"
+      },
+      {
+        "prioridad": 3,
+        "texto": "Correo",
+        "destino": "mailto:cumbiadelito@gmail.com",
+        "fuente": "[EPK·Contacto]"
+      },
+      {
+        "prioridad": 4,
+        "texto": "Descarga el EPK",
+        "destino": null,
+        "fuente": null,
+        "nota": "Solo si existe una versión liviana (menos de 10 MB); si no, omitir."
+      }
+    ],
+    "secciones": [
+      {
+        "seccion": "Hero",
+        "contenido": "logo, 'Cumbia villera · cumbia urbana · Bogotá, Colombia', concepto artístico, CTA de contratar y escuchar",
+        "notas": "foto de tarima de imagenes/"
+      },
+      {
+        "seccion": "La propuesta",
+        "contenido": "[EPK·Propuesta] + pilares 1 y 2"
+      },
+      {
+        "seccion": "Música",
+        "contenido": "4 sencillos (embeds de Spotify) + YouTube"
+      },
+      {
+        "seccion": "Colaboraciones",
+        "contenido": "Karol G (embed de La Premiere desde 1:23 + RCN), Subcantante (video oficial), Los Varriletes, Los Pibes Del Penal",
+        "notas": "sin fotos de Karol G"
+      },
+      {
+        "seccion": "Historia",
+        "contenido": "2012, Christian Delgado, Gustavo Coronel, estilo propio",
+        "notas": "Coronel con baja prominencia"
+      },
+      {
+        "seccion": "El show",
+        "contenido": "4 músicos + 3 técnicos; la formación se arma según el destino; interacción con el público",
+        "notas": "sin nombres de músicos"
+      },
+      {
+        "seccion": "Trayectoria",
+        "contenido": "15 ciudades de Colombia + 5 países",
+        "notas": "sin fechas"
+      },
+      {
+        "seccion": "Para organizadores",
+        "contenido": "ficha técnica, rider, stage plot; hospitality bajo solicitud",
+        "notas": "registro institucional"
+      },
+      {
+        "seccion": "Contratación / contacto",
+        "contenido": "'Se busca' + WhatsApp + correo + redes"
+      },
+      {
+        "seccion": "Agenda / merch",
+        "contenido": null,
+        "notas": "se omiten"
+      }
+    ],
+    "frases_propuestas": [
+      {
+        "uso": "subtítulo del hero",
+        "texto": "Tradición caribe colombiana + energía urbana latinoamericana.",
+        "base": "cita textual [EPK·Sonido]"
+      },
+      {
+        "uso": "titular alterno",
+        "texto": "Cumbia villera con sabor a costa atlántica.",
+        "base": "[EPK·Propuesta¶1]"
+      },
+      {
+        "uso": "En vivo",
+        "texto": "Un repertorio diseñado para mantener la pista en movimiento.",
+        "base": "cita textual [EPK·EnVivo¶2]"
+      },
+      {
+        "uso": "contratación",
+        "texto": "Se busca: cantando o tocando.",
+        "base": "afiche [EPK·Colaboraciones]"
+      },
+      {
+        "uso": "Historia",
+        "texto": "Cumbiando el mundo desde 2012.",
+        "base": "[WEB-2] + [EPK·Historia¶1]"
+      },
+      {
+        "uso": "Trayectoria",
+        "texto": "De Bogotá a México, Ecuador, Perú, Argentina y Chile.",
+        "base": "[EPK·Trayectoria]"
+      },
+      {
+        "uso": "identidad",
+        "texto": "Grupo colombiano de cumbia.",
+        "base": "[WEB-15]"
+      },
+      {
+        "uso": "Colaboraciones",
+        "texto": "Junto a Karol G en «Cuando me muera te olvido» — La Premiere (2025).",
+        "base": "[WEB-10] [WEB-11] [WEB-12]; redacción decidida"
+      },
+      {
+        "uso": "El show",
+        "texto": "Un show que viaja: la formación se arma según el destino.",
+        "base": "[CLIENTE-3]"
+      }
+    ],
+    "restricciones": [
+      "Karol G: nada de 'feat.', ni enlace al track del álbum, ni fotos, portadas o capturas; solo el embed oficial y la nota de RCN. No mencionar el Teatro Heredia ni la anécdota de los teléfonos.",
+      "No presentar a los músicos contratados como integrantes fijos ni nombrarlos; no asumir quién es quién en las fotos.",
+      "No usar fotos con invitados no identificados.",
+      "No generar con IA imágenes de personas, de la banda ni de shows: las fotos son reales y salen de imagenes/.",
+      "No inventar fechas, festivales, medios, cifras, testimonios ni frases de tarima.",
+      "No publicar métricas de Spotify.",
+      "Parental Advisory en tres portadas: no citar letras.",
+      "Gotham requiere licencia web.",
+      "Escribir los nombres propios como en las plataformas: Los Pibes Del Penal, Subcantante, Los Varriletes, Karol G.",
+      "Idioma: español. Corregir las erratas en el texto propio.",
+      "Humor con 'delito' sin armas, violencia ni drogas."
+    ],
+    "objetivos": "Contratación y escucha con el mismo peso [CLIENTE-1]"
+  },
+  "contradicciones": [
+    {
+      "n": 1,
+      "hallazgo": "Formación: 4 músicos en escena vs 5 roles vs rider de 5 puestos vs stage plot de 4 posiciones + voz.",
+      "fuente": "[EPK·Integrantes] [EPK·Rider] [EPK·StagePlot]",
+      "estado": "resuelto [CLIENTE-3]"
+    },
+    {
+      "n": 2,
+      "hallazgo": "Karol G: el EPK enlaza al track del álbum (sin crédito para la banda); la participación verificable es en La Premiere; no figura en Logros.",
+      "fuente": "[EPK·Link-17] [EPK·Link-12] [EPK·Logros] [WEB-8..12]",
+      "estado": "resuelto: La Premiere + RCN"
+    },
+    {
+      "n": 3,
+      "hallazgo": "Noticias RCN menciona grabación en el Teatro Heredia, sin precisar si se refiere a la parte de la banda.",
+      "fuente": "[WEB-11] [WEB-12]",
+      "estado": "abierto: no mencionar el lugar"
+    },
+    {
+      "n": 4,
+      "hallazgo": "Cinco escrituras distintas del nombre.",
+      "fuente": "identidad.variantes_nombre",
+      "estado": "resuelto (decisión 5)"
+    },
+    {
+      "n": 5,
+      "hallazgo": "Octapad/octopad; 'Timbal electrónica'.",
+      "fuente": "[EPK·Integrantes•4] [EPK·Rider]",
+      "estado": "en la web: 'octapad', 'timbal electrónico'"
+    },
+    {
+      "n": 6,
+      "hallazgo": "'Teclado y Voz Principal' vs 'Voz Lider / Teclados' (mismo rol, distinto nombre).",
+      "fuente": "[EPK·Integrantes•1] [EPK·Rider]",
+      "estado": "consistente: usar 'teclado y voz principal'"
+    },
+    {
+      "n": 7,
+      "hallazgo": "'Nariño' listado como ciudad junto a Pasto: ambiguo (departamento o municipio).",
+      "fuente": "[EPK·Trayectoria]",
+      "estado": "abierto: listar tal cual"
+    },
+    {
+      "n": 8,
+      "hallazgo": "Créditos de Gustavo Coronel y giras internacionales sin verificación externa.",
+      "fuente": "[EPK·Historia¶2] [EPK·Trayectoria]",
+      "estado": "publicar como afirmación del EPK, con baja prominencia"
+    },
+    {
+      "n": 9,
+      "hallazgo": "EP de 2019 en otro perfil de Spotify ('Cumbia De lito'): ¿misma banda u homónimo?",
+      "fuente": "[WEB-18]",
+      "estado": "excluido"
+    },
+    {
+      "n": 10,
+      "hallazgo": "La nota del ícono enlaza a 'La Famosa Banda' (parece un link de prueba).",
+      "fuente": "[EPK·NotaIcono]",
+      "estado": "no aplica (nota del PDF)"
+    },
+    {
+      "n": 11,
+      "hallazgo": "'Pibes del Penal' vs 'Los Pibes Del Penal'.",
+      "fuente": "[EPK·Colaboraciones] [WEB-14]",
+      "estado": "usar 'Los Pibes Del Penal'"
+    },
+    {
+      "n": 12,
+      "hallazgo": "Erratas: Tulua, Ibague, precionalo, ARTÍSTA, Voz Lider, Bateria.",
+      "fuente": "varias",
+      "estado": "corregir en el texto propio"
+    },
+    {
+      "n": 13,
+      "hallazgo": "Coherente: la cinta '10 AÑOS' de 2022 cuadra con la fundación en 2012.",
+      "fuente": "[EPK·Historia¶1] [WEB-3..5]",
+      "tipo": "confirmacion",
+      "estado": "confirmación"
+    }
+  ],
+  "privado": {
+    "no_publicar": [
+      "Anécdota de los teléfonos en la grabación con Karol G [CLIENTE-2]",
+      "56 oyentes mensuales en Spotify [WEB-1]"
+    ],
+    "publicable": "Correo y teléfono de Christian Delgado (contacto comercial, ya públicos en el EPK y el Linktree)."
+  },
+  "descartado": [
+    {
+      "elemento": "'Haz clic aquí…' y 'Cuando veas este ícono precionalo…'",
+      "razon": "Instrucciones de uso del PDF."
+    },
+    {
+      "elemento": "Códigos QR",
+      "razon": "Se reemplazan por links directos."
+    },
+    {
+      "elemento": "Lista de redes repetida en el pie",
+      "razon": "Duplicada."
+    },
+    {
+      "elemento": "Sombrilla con marca de cerveza en una foto",
+      "razon": "Marca de tercero; evitar como imagen destacada."
+    },
+    {
+      "elemento": "Portada de Tropicoqueta y capturas de Vevo",
+      "razon": "Derechos de terceros; solo referencia en assets/_terceros_no_usar/."
+    },
+    {
+      "elemento": "Fotos con invitados no identificados",
+      "razon": "En pausa hasta confirmar identidades y permisos."
+    },
+    {
+      "elemento": "Parámetros de rastreo en las URL",
+      "razon": "Se limpian para la web."
+    },
+    {
+      "elemento": "EP 2019 'Cumbia De lito'",
+      "razon": "No se confirmó que sea de ellos."
+    },
+    {
+      "elemento": "Agenda y merch",
+      "razon": "No hay datos."
+    },
+    {
+      "elemento": "Nombres de músicos contratados",
+      "razon": "No son integrantes fijos [CLIENTE-3]."
+    }
+  ],
+  "assets": [
+    {
+      "archivo": "imagenes/*",
+      "uso": "fuente principal de fotos y logos originales",
+      "apto_web": true,
+      "nota": "Aportadas por Andrés [CLIENTE-4]. Prevalecen sobre brief/assets/."
+    },
+    {
+      "archivo": "logo_neon.png",
+      "uso": "hero (referencia)",
+      "apto_web": "referencia; falta el original"
+    },
+    {
+      "archivo": "logo_script_sobre_ladrillo.png",
+      "uso": "logo (referencia)",
+      "apto_web": "referencia; falta el vector"
+    },
+    {
+      "archivo": "afiche_se_busca.png",
+      "uso": "contratación",
+      "apto_web": "referencia; rehacer en alta"
+    },
+    {
+      "archivo": "foto_escenario_keytar_gafas.jpg",
+      "resolucion": "1440x1800",
+      "uso": "hero",
+      "apto_web": true
+    },
+    {
+      "archivo": "foto_duo_keytar_fondo_naranja.jpg",
+      "resolucion": "1600x1600",
+      "uso": "propuesta / colaboraciones",
+      "apto_web": true
+    },
+    {
+      "archivo": "retrato_keytar.jpg / retrato_guitarra.jpg / retrato_bajo.jpg / retrato_octapad.jpg",
+      "resolucion": "720x1280",
+      "uso": "La banda",
+      "apto_web": true
+    },
+    {
+      "archivo": "foto_grupo_*.jpg / foto_en_vivo_*.jpg / foto_keytar_roland_camiseta_azul.jpg",
+      "resolucion": "256-512 px",
+      "uso": "En vivo",
+      "apto_web": "baja resolución; pedir originales"
+    },
+    {
+      "archivo": "portada_*.jpg / miniatura_*.jpg",
+      "resolucion": "256-336 px",
+      "uso": "Música / Colaboraciones",
+      "apto_web": "mejor embed de Spotify o pedir originales"
+    },
+    {
+      "archivo": "ref_*.jpg",
+      "uso": "referencia de diseño del EPK",
+      "apto_web": false
+    },
+    {
+      "archivo": "fotos con invitados y material de Karol G/Vevo",
+      "uso": null,
+      "apto_web": false,
+      "nota": "Excluidos del paquete del proyecto a propósito (derechos de terceros / personas no identificadas)."
+    }
+  ],
+  "fuentes_web": {
+    "WEB-1": "Spotify, perfil de artista (56 oyentes mensuales, 15-oct-2026)",
+    "WEB-2": "Spotify, 'Cumbiando el Mundo' 2025-09-20",
+    "WEB-3": "Spotify, 'La Rueda de la Cumbia' 2022-08-11",
+    "WEB-4": "Spotify, 'Cumbia Cerveza y Mujer' 2022-08-09",
+    "WEB-5": "Spotify, 'La Famosa Banda' 2022-08-11",
+    "WEB-6": "Spotify, 'Eres Mi Cumbia' (Subcantante, CUMBIA DE+LITO) 2025-04-11",
+    "WEB-7": "Spotify, 'Pibe Ganador' (Los Varriletes, CUMBIA DE+LITO) 2022-03-20",
+    "WEB-8": "Spotify, 'Cuando Me Muera Te Olvido' (KAROL G, Tropicoqueta, 2025-06-20): banda no acreditada",
+    "WEB-9": "Wikipedia, Tropicoqueta: track 6 sin invitados acreditados",
+    "WEB-10": "YouTube oEmbed: 'KAROL G - La PremiEre' (KarolGVEVO)",
+    "WEB-11": "Noticias RCN 11-dic-2025 https://www.noticiasrcn.com/tendencias/karol-g-y-cumbia-delito-cuando-me-muera-te-olvido-cancion-video-970301",
+    "WEB-12": "Señal News 2-dic-2025 https://senalnews.com/es/contenidos/canal-rcn-estrena-la-premiere-una-produccion-sobre-karol-g",
+    "WEB-13": "YouTube oEmbed: 'Subcantante y Cumbia DeLito - Eres Mi Cumbia - (Video Oficial)' (Mario Muñoz)",
+    "WEB-14": "YouTube oEmbed: 'Amor a escondidas - Los Pibes Del Penal Ft Cumbia De+Lito' (Cumbia Delito)",
+    "WEB-15": "Linktree https://linktr.ee/cumbiadelito (bio 'Grupo Colombiano de Cumbia!')",
+    "WEB-16": "YouTube, canal 'Cumbia Delito' @cumbiadelito282",
+    "WEB-17": "Audiomack https://audiomack.com/cumbia-delito/song/la-rueda-de-la-cumbia",
+    "WEB-18": "Spotify, EP 'Cumbia Delito' de 'Cumbia De lito' 2019 https://open.spotify.com/album/1L2HZR3Dk9usOemzNlvvCo"
+  },
+  "respuestas_cliente": {
+    "CLIENTE-1": "Objetivos: contrataciones y escucha con el mismo peso; contacto por WhatsApp.",
+    "CLIENTE-2": "No hay fotos propias con Karol G (les quitaron los teléfonos); solo prensa y video. La anécdota no se publica.",
+    "CLIENTE-3": "Único integrante fijo: Christian Delgado. Los músicos se contratan por show según el país o la disponibilidad; no hay banda fija.",
+    "CLIENTE-4": "Andrés tiene las fotos originales y las pone en imagenes/.",
+    "CLIENTE-5": "Sin datos sobre el nombre; se decide por análisis."
+  },
+  "decisiones": [
+    {
+      "n": 1,
+      "tema": "Objetivo y canal",
+      "resolucion": "Contratación y escucha con el mismo peso; WhatsApp",
+      "tipo": "dato_cliente"
+    },
+    {
+      "n": 2,
+      "tema": "Karol G",
+      "resolucion": "Sin fotos. Redacción: 'Junto a Karol G en «Cuando me muera te olvido» — La Premiere (2025)'. Evita 'feat.' porque no figuran acreditados en el álbum.",
+      "tipo": "dato_cliente+decision"
+    },
+    {
+      "n": 3,
+      "tema": "Integrantes",
+      "resolucion": "Proyecto de Christian Delgado con músicos contratados por show",
+      "tipo": "dato_cliente"
+    },
+    {
+      "n": 4,
+      "tema": "Fotos y logo",
+      "resolucion": "En imagenes/ (las aporta Andrés)",
+      "tipo": "dato_cliente"
+    },
+    {
+      "n": 5,
+      "tema": "Nombre",
+      "resolucion": "Visible: 'Cumbia De+Lito'. Alias SEO: 'Cumbia Delito'. El '+' no se explica.",
+      "tipo": "decision",
+      "analisis": "En su material propio (logo, 5 menciones del EPK, el título de su propio video en YouTube [WEB-14]) usan 'Cumbia De+Lito'. 'CUMBIA DE+LITO' es la misma forma en mayúsculas de las plataformas. 'Cumbia Delito' aparece donde el '+' no cabe (canal, Facebook, handles) y en la prensa."
+    },
+    {
+      "n": 6,
+      "tema": "La mujer en las canciones",
+      "resolucion": "Solo las frases del EPK, sin ampliar",
+      "tipo": "decision"
+    },
+    {
+      "n": 7,
+      "tema": "Frases de tarima",
+      "resolucion": "No se inventan",
+      "tipo": "decision"
+    },
+    {
+      "n": 8,
+      "tema": "Giras internacionales",
+      "resolucion": "Solo los países",
+      "tipo": "decision"
+    },
+    {
+      "n": 9,
+      "tema": "Gustavo Coronel",
+      "resolucion": "Como dice el EPK, en Historia, con baja prominencia",
+      "tipo": "decision"
+    },
+    {
+      "n": 10,
+      "tema": "Personas en el collage",
+      "resolucion": "No se usan esas fotos",
+      "tipo": "decision"
+    },
+    {
+      "n": 11,
+      "tema": "EP 2019 / 10 años",
+      "resolucion": "EP excluido; las portadas de 2022 se muestran tal cual",
+      "tipo": "decision"
+    },
+    {
+      "n": 12,
+      "tema": "Agenda",
+      "resolucion": "Se omite",
+      "tipo": "decision"
+    },
+    {
+      "n": 13,
+      "tema": "Merch",
+      "resolucion": "Se omite",
+      "tipo": "decision"
+    },
+    {
+      "n": 14,
+      "tema": "Hospitality rider",
+      "resolucion": "Bajo solicitud",
+      "tipo": "decision"
+    },
+    {
+      "n": 15,
+      "tema": "Dominio",
+      "resolucion": "Lo define Andrés (SITE_URL)",
+      "tipo": "falta"
+    }
+  ]
+}
