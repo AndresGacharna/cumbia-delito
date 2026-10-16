@@ -50,7 +50,7 @@ const youtubeSocial = SOCIALS.find((social) => social.id === 'youtube')!;
                 <Polaroid
                   src={cover}
                   widths={[240, 300]}
-                  sizes="(max-width: 600px) 70vw, 240px"
+                  sizes="(max-width: 600px) 45vw, 240px"
                   caption={`${single.titulo} · ${single.anio}`}
                   rotate={rotate}
                   tape="top"
@@ -117,15 +117,15 @@ const youtubeSocial = SOCIALS.find((social) => social.id === 'youtube')!;
     padding: 0;
     list-style: none;
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--s-7) var(--s-6);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-6) var(--s-4);
     align-items: start;
   }
 
   .musica__item {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--s-5);
+    gap: var(--s-4);
     justify-items: center;
   }
 
@@ -136,6 +136,17 @@ const youtubeSocial = SOCIALS.find((social) => social.id === 'youtube')!;
 
   .musica__polaroid-wrap :global(.polaroid__photo) {
     max-width: 300px;
+  }
+
+  /* Phone columns are ~170px: caption wraps to two lines, so give it a taller strip. */
+  .musica__polaroid-wrap :global(.polaroid) {
+    padding-bottom: 24%;
+  }
+
+  .musica__polaroid-wrap :global(.polaroid__caption) {
+    height: 24%;
+    font-size: 0.6875rem;
+    line-height: 1.15;
   }
 
   .musica__player {
@@ -150,9 +161,48 @@ const youtubeSocial = SOCIALS.find((social) => social.id === 'youtube')!;
     align-items: center;
   }
 
+  /* Narrow columns: let the facade label wrap, centred, and keep 44px+ targets. */
+  .musica__player :global(.spotify-facade__btn) {
+    min-height: 48px;
+    padding-inline: var(--s-2);
+    gap: var(--s-2);
+    letter-spacing: 0.04em;
+    text-align: center;
+  }
+
+  .musica__player :global(.spotify-facade__label) {
+    min-width: 0;
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+
+  .musica__player :global(.spotify-facade__link) {
+    min-width: 0;
+  }
+
   @media (min-width: 600px) {
     .musica__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--s-7) var(--s-6);
+    }
+
+    .musica__item {
+      gap: var(--s-5);
+    }
+
+    .musica__polaroid-wrap :global(.polaroid) {
+      padding-bottom: 14%;
+    }
+
+    .musica__polaroid-wrap :global(.polaroid__caption) {
+      height: 14%;
+      font-size: var(--t-small);
+      line-height: 1.1;
+    }
+
+    .musica__player :global(.spotify-facade__btn) {
+      padding-inline: var(--s-4);
+      gap: var(--s-3);
+      letter-spacing: 0.08em;
     }
   }
 
