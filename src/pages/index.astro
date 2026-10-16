@@ -1,4 +1,11 @@
 ---
+// TODO: optimize the image sources in src/assets: convert the .jpg/.png files to
+// .webp (photos ~q84, neon-lito-mask.png and noticias-rcn.png lossless) and update
+// every import and the mask url() in Footer.astro. scripts/make-og.mjs reads
+// tarima-keytar.jpg and fondo-tarima.jpg too. public/og.jpg stays JPEG for social cards.
+// TODO: delete unused files: src/assets/logo/logo-azul.svg, src/assets/logo/logo-neon.png,
+// src/components/embeds/SpotifyFacade.astro, src/components/embeds/YouTubeFacade.astro
+// and src/scripts/embeds.ts (only those two facades load it).
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';

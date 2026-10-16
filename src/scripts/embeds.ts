@@ -1,3 +1,4 @@
+// TODO: only the unused Spotify/YouTube facades load this; delete with them.
 function activateEmbed(button: HTMLButtonElement): void {
   const kind = button.dataset.embed;
   const src = button.dataset.src;
