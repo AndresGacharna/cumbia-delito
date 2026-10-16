@@ -198,13 +198,13 @@ const initialMark =
     flex-shrink: 0;
   }
 
+  /* .display sets line-height 0.95, which clips capital accents ("MÚSICA") */
   .stage-map__label {
     font-size: 0.75rem;
     letter-spacing: 0.16em;
+    line-height: 1.6;
     color: var(--c-white);
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   @media (max-width: 759.98px) {
@@ -219,7 +219,7 @@ const initialMark =
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      padding-inline: var(--gutter);
+      padding-inline: var(--s-2) var(--s-3);
       transform: translateY(-6px);
       transform-origin: top center;
     }
@@ -237,16 +237,16 @@ const initialMark =
       position: static;
       display: flex;
       align-items: center;
-      gap: 0.1rem;
+      gap: 0;
       height: 100%;
       background: none;
-      flex: 0 1 auto;
+      flex: 0 0 auto;
     }
 
     .stage-map__mark {
       position: static;
       transform: none;
-      width: 26px;
+      width: 24px;
       height: 44px;
     }
 
@@ -261,7 +261,12 @@ const initialMark =
       border: 0;
       background: none;
       justify-content: flex-end;
+      flex: 1 1 auto;
       min-width: 0;
+    }
+
+    .stage-map__label {
+      letter-spacing: 0.06em;
     }
   }
 
