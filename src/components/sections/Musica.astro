@@ -1,6 +1,164 @@
 ---
-// Stub: replaced by the section owner.
+import type { ImageMetadata } from 'astro';
+import cumbiaCervezaYMujer from '../../assets/portadas/cumbia-cerveza-y-mujer.jpg';
+import cumbiandoElMundo from '../../assets/portadas/cumbiando-el-mundo.jpg';
+import laFamosaBanda from '../../assets/portadas/la-famosa-banda.jpg';
+import laRuedaDeLaCumbia from '../../assets/portadas/la-rueda-de-la-cumbia.jpg';
+import { SOCIALS, SPOTIFY_ARTIST_URL } from '../../config';
+import { singles } from '../../data/content';
+import SpotifyFacade from '../embeds/SpotifyFacade.astro';
+import Button from '../ui/Button.astro';
+import Polaroid from '../ui/Polaroid.astro';
+import TapeX from '../ui/TapeX.astro';
+
+const coverByTrackId: Record<string, ImageMetadata> = {
+  '2LxGPX8pds6awxsRLo3kxE': cumbiandoElMundo,
+  '5TDHnKfNF1xL7oUmBYPZ4Y': laRuedaDeLaCumbia,
+  '4k9zkSRaV5NIS7RGbcRBTd': laFamosaBanda,
+  '0BBn9asbdOC67y2t0QhW6p': cumbiaCervezaYMujer,
+};
+
+const rotations = [-3, 2, -2, 3] as const;
+const youtubeSocial = SOCIALS.find((social) => social.id === 'youtube')!;
 ---
-<section id="musica" class="sec" data-stage="musica" aria-labelledby="musica-title">
-  <h2 id="musica-title">Musica</h2>
+
+<section
+  id="musica"
+  class="sec sec--alt"
+  data-stage="musica"
+  aria-labelledby="musica-title"
+>
+  <div class="container musica__inner">
+    <div class="musica__header">
+      <div class="sec-head">
+        <TapeX size={36} />
+        <h2 id="musica-title">Música</h2>
+      </div>
+      <p class="sec-lead">
+        Cuatro sencillos propios. Dale play aquí mismo o síguenos en Spotify.
+      </p>
+    </div>
+
+    <ul class="musica__grid" role="list">
+      {
+        singles.map((single, index) => {
+          const cover = coverByTrackId[single.spotifyTrackId];
+          const rotate = rotations[index % rotations.length];
+          return (
+            <li class="musica__item">
+              <div class="musica__polaroid-wrap">
+                <Polaroid
+                  src={cover}
+                  widths={[240, 300]}
+                  sizes="(max-width: 600px) 70vw, 240px"
+                  caption={`${single.titulo} · ${single.anio}`}
+                  rotate={rotate}
+                  tape="top"
+                  alt={`Portada del sencillo ${single.titulo}`}
+                  class="musica__polaroid"
+                />
+              </div>
+              <div class="musica__player">
+                <SpotifyFacade
+                  trackId={single.spotifyTrackId}
+                  title={single.titulo}
+                />
+              </div>
+            </li>
+          );
+        })
+      }
+    </ul>
+
+    <div class="musica__actions">
+      <Button
+        href={SPOTIFY_ARTIST_URL}
+        variant="primary"
+        icon="spotify"
+        external
+      >
+        Escúchanos en Spotify
+      </Button>
+      <Button
+        href={youtubeSocial.url}
+        variant="secondary"
+        icon="youtube"
+        external
+      >
+        Canal de YouTube
+      </Button>
+    </div>
+  </div>
 </section>
+
+<style>
+  #musica {
+    overflow: hidden;
+  }
+
+  .musica__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-7);
+  }
+
+  .musica__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-3);
+  }
+
+  .musica__header :global(.sec-head) {
+    margin-bottom: 0;
+  }
+
+  .musica__grid {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-7) var(--s-6);
+    align-items: start;
+  }
+
+  .musica__item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-5);
+    justify-items: center;
+  }
+
+  .musica__polaroid-wrap {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .musica__polaroid-wrap :global(.polaroid__photo) {
+    max-width: 300px;
+  }
+
+  .musica__player {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .musica__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-4);
+    align-items: center;
+  }
+
+  @media (min-width: 600px) {
+    .musica__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .musica__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>
