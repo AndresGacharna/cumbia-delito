@@ -5,6 +5,7 @@ import retratoKeytar from '../../assets/fotos/retrato-keytar.jpg';
 import retratoOctapad from '../../assets/fotos/retrato-octapad.jpg';
 import { show } from '../../data/content';
 import Polaroid from '../ui/Polaroid.astro';
+import RutasViajero from '../ui/RutasViajero.astro';
 import TapeX from '../ui/TapeX.astro';
 
 const EMPHASIS_PHRASES = [
@@ -67,6 +68,7 @@ const portraits = [
 ---
 
 <section id="show" class="sec" data-stage="show" aria-labelledby="show-title">
+  <RutasViajero />
   <div class="container show__inner">
     <div class="sec-head">
       <TapeX size={36} />
@@ -98,7 +100,7 @@ const portraits = [
                   caption={item.caption}
                   rotate={item.rotate}
                   widths={[240, 360, 480]}
-                  sizes="(max-width: 899px) 220px, 240px"
+                  sizes="(max-width: 899px) 220px, 200px"
                   loading="lazy"
                   tape="top"
                 />
@@ -112,6 +114,15 @@ const portraits = [
 </section>
 
 <style>
+  #show {
+    overflow: hidden;
+  }
+
+  .show__inner {
+    position: relative;
+    z-index: 1;
+  }
+
   .show__layout {
     display: grid;
     gap: var(--s-7);
@@ -178,48 +189,66 @@ const portraits = [
     }
   }
 
+  /* every portrait as a 4:5 print, cropped on the musician, so the row of
+     four stays about as tall as the text beside it */
+  .show__card :global(.polaroid__photo) {
+    aspect-ratio: 4 / 5;
+  }
+
+  .show__card :global(.polaroid__photo picture) {
+    display: block;
+    height: 100%;
+  }
+
+  .show__card :global(.polaroid__img) {
+    height: 100%;
+    object-fit: cover;
+    object-position: center 22%;
+  }
+
   @media (min-width: 900px) {
     .show__layout {
       grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-      gap: var(--s-8);
+      gap: var(--s-7);
     }
 
+    /* one row of four, overlapping a little like prints laid on a table */
     .show__spread {
       overflow: visible;
       scroll-snap-type: none;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 235px));
-      justify-content: center;
-      row-gap: var(--s-4);
-      column-gap: 0;
-      padding: var(--s-4);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-items: center;
+      gap: 0;
+      padding: var(--s-5) var(--s-3);
     }
 
     .show__card {
       flex: none;
-      width: 100%;
-      max-width: 235px;
+      width: 112%;
+      max-width: none;
+      margin-left: -6%;
       position: relative;
     }
 
     .show__card--1 {
-      z-index: 2;
-      transform: translate(0.45rem, 0);
+      z-index: 1;
+      transform: translateY(-0.6rem);
     }
 
     .show__card--2 {
-      z-index: 3;
-      transform: translate(-0.45rem, 1.35rem);
+      z-index: 2;
+      transform: translateY(0.9rem);
     }
 
     .show__card--3 {
-      z-index: 4;
-      transform: translate(0.35rem, 0.35rem);
+      z-index: 3;
+      transform: translateY(-0.3rem);
     }
 
     .show__card--4 {
-      z-index: 1;
-      transform: translate(-0.45rem, 1.5rem);
+      z-index: 4;
+      transform: translateY(1rem);
     }
   }
 </style>

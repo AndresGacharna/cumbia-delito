@@ -1,6 +1,6 @@
 ---
 import { Picture } from 'astro:assets';
-import retratoKeytar from '../../assets/fotos/retrato-keytar.jpg';
+import seBusca from '../../assets/fotos/se-busca.png';
 import cierre from '../../assets/muro/cierre.jpg';
 import {
   EMAIL,
@@ -11,12 +11,8 @@ import {
 import { contratacion } from '../../data/content';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
-import Paper from '../ui/Paper.astro';
-import Tape from '../ui/Tape.astro';
 import TapeX from '../ui/TapeX.astro';
 
-const starPath =
-  'M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.86L12 17.77 5.82 21 7 14.14 2 9.27l7.1-1.01L12 2z';
 ---
 
 <section
@@ -48,78 +44,17 @@ const starPath =
 
     <div class="contratacion__grid">
       <div class="contratacion__poster-col">
-        <Paper variant="aged" rotate={-2} class="poster">
-          <Tape class="poster__tape poster__tape--left" angle={-14} />
-          <Tape class="poster__tape poster__tape--right" angle={12} />
-
-          <div class="poster__inner">
-            <p class="display poster__title">{contratacion.afiche.titulo}</p>
-
-            <p class="display poster__band poster__band--top">
-              <svg
-                viewBox="0 0 24 24"
-                width="14"
-                height="14"
-                fill="currentColor"
-                aria-hidden="true"
-                class="poster__star"
-              >
-                <path d={starPath}></path>
-              </svg>
-              <span>{contratacion.afiche.linea1}</span>
-              <svg
-                viewBox="0 0 24 24"
-                width="14"
-                height="14"
-                fill="currentColor"
-                aria-hidden="true"
-                class="poster__star"
-              >
-                <path d={starPath}></path>
-              </svg>
-            </p>
-
-            <div class="poster__photo">
-              <Picture
-                src={retratoKeytar}
-                formats={['avif', 'webp']}
-                widths={[240, 360, 480]}
-                sizes="(max-width: 760px) 75vw, 300px"
-                width={retratoKeytar.width}
-                height={retratoKeytar.height}
-                loading="lazy"
-                alt="Retrato en blanco y negro de un músico con keytar, al estilo de afiche de se busca"
-                class="poster__photo-img"
-              />
-            </div>
-
-            <p class="display poster__band poster__band--bottom">
-              <svg
-                viewBox="0 0 24 24"
-                width="14"
-                height="14"
-                fill="currentColor"
-                aria-hidden="true"
-                class="poster__star"
-              >
-                <path d={starPath}></path>
-              </svg>
-              <span>{contratacion.afiche.linea2}</span>
-              <svg
-                viewBox="0 0 24 24"
-                width="14"
-                height="14"
-                fill="currentColor"
-                aria-hidden="true"
-                class="poster__star"
-              >
-                <path d={starPath}></path>
-              </svg>
-            </p>
-
-            <p class="display poster__amount">{contratacion.afiche.monto}</p>
-          </div>
-        </Paper>
+        <Picture
+          src={seBusca}
+          formats={['avif', 'webp']}
+          widths={[320]}
+          sizes="(max-width: 899px) 90vw, 500px"
+          width={seBusca.width}
+          height={seBusca.height}
+          loading="lazy"
+          alt="Afiche de se busca: cantando o tocando, recompensa en efectivo de $1,000,000"
+          class="poster-img"
+        />
       </div>
 
       <div class="contratacion__panel">
@@ -146,7 +81,9 @@ const starPath =
               <Icon name="mail" size={20} />
               <span>{EMAIL}</span>
             </a>
-            <p class="contratacion__phone">{PHONE_DISPLAY}</p>
+            <a href="tel:+573144817052" class="contratacion__phone">
+              <span>{PHONE_DISPLAY}</span>
+            </a>
           </div>
         </div>
 
@@ -180,6 +117,14 @@ const starPath =
 </section>
 
 <style>
+  .contratacion__poster-col :global(.poster-img) {
+    display: block;
+    width: min(100%, 500px);
+    height: auto;
+    margin-inline: auto;
+    transform: rotate(-2deg);
+  }
+
   .contratacion {
     position: relative;
     overflow: hidden;
@@ -228,7 +173,7 @@ const starPath =
 
   @media (min-width: 900px) {
     .contratacion__grid {
-      grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 500px) minmax(0, 1fr);
       gap: var(--s-7);
     }
   }
@@ -239,104 +184,9 @@ const starPath =
     padding-top: var(--s-3);
   }
 
-  .contratacion :global(.poster) {
-    width: 100%;
-    max-width: 390px;
-    padding: clamp(1rem, 2.5vw, 1.5rem);
-    border: 2px solid rgb(21 25 49 / 0.32);
-    border-radius: 2px 5px 3px 6px / 5px 2px 6px 3px;
-    box-shadow:
-      inset 0 0 28px rgb(21 25 49 / 0.22),
-      inset 0 0 6px rgb(114 29 31 / 0.16),
-      var(--sh-paper);
-    color: var(--c-ink);
-  }
-
-  .contratacion :global(.poster__tape--left) {
-    top: -0.75rem;
-    left: 1.25rem;
-    width: 5.5rem;
-  }
-
-  .contratacion :global(.poster__tape--right) {
-    top: -0.75rem;
-    right: 1.25rem;
-    width: 5.5rem;
-  }
-
-  .poster__inner {
-    display: grid;
-    min-width: 0;
-    gap: var(--s-3);
-    text-align: center;
-    padding: clamp(0.75rem, 2vw, 1.15rem);
-    border: 1.5px solid rgb(21 25 49 / 0.55);
-    border-radius: 3px 1px 4px 2px / 2px 4px 1px 3px;
-  }
-
-  .poster__title {
-    font-size: clamp(2.25rem, 4.2vw, 3.25rem);
-    line-height: 0.9;
-    letter-spacing: 0.04em;
-    color: var(--c-ink);
-  }
-
-  .poster__band {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--s-2);
-    font-size: clamp(0.75rem, 1.25vw, 0.9375rem);
-    letter-spacing: 0.05em;
-    color: var(--c-ink);
-    padding-block: var(--s-2);
-  }
-
-  .poster__band--top {
-    border-bottom: 1.5px solid var(--c-ink);
-  }
-
-  .poster__band--bottom {
-    border-top: 1.5px solid var(--c-ink);
-  }
-
-  .poster__star {
-    flex-shrink: 0;
-    color: var(--c-ink);
-  }
-
-  .poster__photo {
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    overflow: hidden;
-    background-color: var(--c-paper-aged);
-  }
-
-  .poster__photo :global(picture) {
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-
-  .poster__photo :global(.poster__photo-img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 20%;
-    filter: grayscale(1) contrast(1.35) sepia(0.25);
-    mix-blend-mode: multiply;
-  }
-
-  .poster__amount {
-    font-size: clamp(1.75rem, 3.2vw, 2.35rem);
-    line-height: 0.95;
-    letter-spacing: 0.02em;
-    color: var(--c-ink);
-    font-variant-numeric: tabular-nums;
-  }
-
   .contratacion__panel {
     background-color: var(--c-navy-900);
+    background-image: var(--tex-grain);
     border: 1px solid var(--c-navy-700);
     box-shadow: var(--sh-paper);
     padding: clamp(1.75rem, 4.5vw, 3rem);
@@ -398,7 +248,8 @@ const starPath =
     gap: var(--s-3) var(--s-5);
   }
 
-  .contratacion__mail {
+  .contratacion__mail,
+  .contratacion__phone {
     display: inline-flex;
     align-items: center;
     gap: var(--s-2);
@@ -409,14 +260,13 @@ const starPath =
     transition: color var(--dur-1) var(--ease-out);
   }
 
-  .contratacion__mail:hover {
+  .contratacion__mail:hover,
+  .contratacion__phone:hover {
     color: var(--c-text-soft);
   }
 
   .contratacion__phone {
-    color: var(--c-text-soft);
     font-variant-numeric: tabular-nums;
-    font-weight: 600;
   }
 
   .contratacion__socials-group {

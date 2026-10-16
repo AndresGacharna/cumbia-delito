@@ -1,5 +1,5 @@
 ---
-import duoKeytar from '../../assets/fotos/duo-keytar.jpg';
+import grupoPublicoTarima from '../../assets/fotos/grupo-publico-tarima.jpg';
 import { propuesta } from '../../data/content';
 import Paper from '../ui/Paper.astro';
 import Plus from '../ui/Plus.astro';
@@ -23,7 +23,7 @@ import TapeX from '../ui/TapeX.astro';
     <div class="propuesta__grid">
       <div class="propuesta__sheet">
         <Tape class="propuesta__tape" angle={-2} />
-        <Paper variant="grid" rotate={-1} class="propuesta__paper">
+        <Paper variant="grid" rotate={-1} crumpled class="propuesta__paper">
           <div class="propuesta__copy">
             {propuesta.parrafos.map((parrafo) => <p>{parrafo}</p>)}
           </div>
@@ -46,12 +46,12 @@ import TapeX from '../ui/TapeX.astro';
 
       <div class="propuesta__photo">
         <Polaroid
-          src={duoKeytar}
+          src={grupoPublicoTarima}
           rotate={3}
           tape="corners"
           widths={[320, 480, 640, 800]}
           sizes="(max-width: 760px) 80vw, 34vw"
-          alt="Dos músicos posando frente a un fondo naranja; uno lleva un keytar blanco y la camiseta de Cumbia De+Lito"
+          alt="La banda en tarima al aire libre, agachada frente al público, con keytar blanco, octapad y camisetas de la selección argentina"
         />
       </div>
     </div>

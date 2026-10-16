@@ -21,7 +21,7 @@ export const hero = {
 };
 
 export const propuesta = {
-  titulo: 'Cumbia villera con sabor a costa atlántica.',
+  titulo: 'El grupo #1 de cumbia villera en Colombia.',
   parrafos: [
     'Cumbia De+Lito es un grupo colombiano. Su propuesta fusiona la cumbia villera y la cumbia urbana con el folclor de la costa atlántica colombiana, creando un sonido auténtico, fresco y altamente bailable.',
     'Con una identidad marcada por la energía festiva y la narrativa popular latinoamericana, el proyecto reinterpreta la tradición desde una mirada contemporánea, conectando raíces culturales con nuevos lenguajes sonoros.',
@@ -58,7 +58,7 @@ export const colaboraciones: Colaboracion[] = [
 ];
 
 export const historia = {
-  titulo: 'Cumbiando el mundo desde 2012.',
+  titulo: 'Con antecedentes desde 2012.',
   parrafos: [
     'Cumbia De+Lito nace en 2012 por iniciativa de Christian Delgado, tras su recorrido por diversas agrupaciones en Bogotá. A partir de esa experiencia, el proyecto toma forma como una propuesta innovadora que busca renovar la cumbia desde una perspectiva urbana y actual.',
     'Con el tiempo, la agrupación consolida un estilo propio que integra la fuerza de la cumbia villera, el groove urbano y los elementos tradicionales del folclor atlántico colombiano. Su música, inspirada en situaciones populares y costumbres latinoamericanas, tiene como eje central la figura femenina dentro de su narrativa artística.',
@@ -78,12 +78,44 @@ export const show = {
 };
 
 export const trayectoria = {
-  titulo: 'De Bogotá a México, Ecuador, Perú, Argentina y Chile.',
+  titulo: 'Cumbiando el mundo.',
   colombia: ['Bogotá', 'Mosquera', 'Villeta', 'Barranquilla', 'Cartagena', 'Tuluá', 'Ibagué', 'Medellín', 'Manizales', 'Pasto', 'Nariño', 'Bucaramanga', 'Girón', 'Piedecuesta', 'Cúcuta'],
   colombiaCierre: 'y más',
   internacional: ['México', 'Ecuador', 'Perú', 'Argentina', 'Chile'],
   eventos:
     'El proyecto ha participado en festivales, eventos privados y eventos de carácter social, además de contar con presencia en emisoras radiales y canales de televisión en los países donde se ha presentado.',
+};
+
+// Stable id for a place name ("Tuluá" -> "tulua"), shared by the map pins and the list.
+export const lugarId = (name: string): string =>
+  name.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+// [longitude, latitude] for the Trayectoria map. Cities are pinned on the town itself;
+// countries on an inland point, since the EPK publishes no cities abroad.
+export const trayectoriaCoords: Record<string, [number, number]> = {
+  'Bogotá': [-74.0721, 4.711],
+  // Mosquera, Cundinamarca (next to Bogotá), the reading that fits the band's base.
+  'Mosquera': [-74.2302, 4.7059],
+  'Villeta': [-74.4706, 5.0128],
+  'Barranquilla': [-74.7813, 10.9685],
+  'Cartagena': [-75.4794, 10.391],
+  'Tuluá': [-76.1954, 4.0847],
+  'Ibagué': [-75.2322, 4.4389],
+  'Medellín': [-75.5812, 6.2442],
+  'Manizales': [-75.5138, 5.0703],
+  'Pasto': [-77.2811, 1.2136],
+  // Ambiguous in the EPK (brief.json, hallazgo 7): pinned on the municipality of Nariño, Nariño.
+  'Nariño': [-77.3594, 1.2883],
+  'Bucaramanga': [-73.1227, 7.1193],
+  'Girón': [-73.1698, 7.0682],
+  'Piedecuesta': [-73.0503, 6.9886],
+  'Cúcuta': [-72.5078, 7.8939],
+  'Colombia': [-71.6, 2.6],
+  'México': [-102.5, 23.9],
+  'Ecuador': [-78.3, -1.4],
+  'Perú': [-75.0, -9.6],
+  'Argentina': [-65.0, -35.0],
+  'Chile': [-71.0, -31.5],
 };
 
 export const organizadores = {

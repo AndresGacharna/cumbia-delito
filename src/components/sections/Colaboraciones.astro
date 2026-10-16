@@ -1,16 +1,84 @@
 ---
+// Colaboraciones as an old TV: each collaboration is a channel. Changing the
+// channel crackles with static and tunes in its YouTube video, where there is
+// one, or its Spotify player when the song has no video. On Karol G's channel a
+// press card under the channel guide links the Noticias RCN note.
+import type { ImageMetadata } from 'astro';
+import { Image, Picture } from 'astro:assets';
+import logoRcn from '../../assets/logo/noticias-rcn.png';
 import eresMiCumbia from '../../assets/portadas/eres-mi-cumbia.jpg';
 import pibeGanador from '../../assets/portadas/pibe-ganador.jpg';
 import { colaboraciones, karolG } from '../../data/content';
-import SpotifyFacade from '../embeds/SpotifyFacade.astro';
-import YouTubeFacade from '../embeds/YouTubeFacade.astro';
 import Icon from '../ui/Icon.astro';
-import Paper from '../ui/Paper.astro';
-import Polaroid from '../ui/Polaroid.astro';
-import Tape from '../ui/Tape.astro';
+import Plus from '../ui/Plus.astro';
 import TapeX from '../ui/TapeX.astro';
 
 const [subcantante, losVarriletes, losPibesDelPenal] = colaboraciones;
+
+interface Canal {
+  id: string;
+  con: string;
+  obra: string;
+  /** exact credit line, when the brief fixes one */
+  texto?: string;
+  youtubeId?: string;
+  start?: number;
+  /** show YouTube's own thumbnail on the screen before playing */
+  thumb: boolean;
+  /** tune straight into YouTube's own player (its official poster frame) */
+  livePlayer?: boolean;
+  spotifyTrackId?: string;
+  cover?: ImageMetadata;
+}
+
+const canales: Canal[] = [
+  {
+    id: 'karol',
+    con: 'Karol G',
+    obra: 'Cuando me muera te olvido',
+    texto: karolG.texto,
+    youtubeId: karolG.youtubeId,
+    start: karolG.startSeconds,
+    // no stored images of Karol G: the screen shows YouTube's own player,
+    // with the video's official poster frame, as soon as the TV is in view
+    thumb: false,
+    livePlayer: true,
+  },
+  {
+    id: 'subcantante',
+    con: subcantante.con,
+    obra: subcantante.obra,
+    youtubeId: subcantante.youtubeId,
+    thumb: true,
+    spotifyTrackId: subcantante.spotifyTrackId,
+    cover: eresMiCumbia,
+  },
+  {
+    id: 'varriletes',
+    con: losVarriletes.con,
+    obra: losVarriletes.obra,
+    thumb: false,
+    spotifyTrackId: losVarriletes.spotifyTrackId,
+    cover: pibeGanador,
+  },
+  {
+    id: 'pibes',
+    con: losPibesDelPenal.con,
+    obra: losPibesDelPenal.obra,
+    youtubeId: losPibesDelPenal.youtubeId,
+    thumb: true,
+  },
+];
+
+const embedUrl = (canal: Canal): string =>
+  canal.youtubeId
+    ? `https://www.youtube-nocookie.com/embed/${canal.youtubeId}?autoplay=1&rel=0${canal.start ? `&start=${canal.start}` : ''}`
+    : '';
+const idleUrl = (canal: Canal): string => embedUrl(canal).replace('autoplay=1&', '');
+const watchUrl = (canal: Canal): string =>
+  canal.youtubeId
+    ? `https://www.youtube.com/watch?v=${canal.youtubeId}${canal.start ? `&t=${canal.start}` : ''}`
+    : '';
 ---
 
 <section
@@ -25,117 +93,181 @@ const [subcantante, losVarriletes, losPibesDelPenal] = colaboraciones;
       <h2 id="colaboraciones-title">Colaboraciones</h2>
     </div>
 
-    <div class="colab__karol">
-      <p class="colab__karol-quote display">{karolG.texto}</p>
-      <div class="colab__karol-video">
-        <YouTubeFacade
-          videoId={karolG.youtubeId}
-          start={karolG.startSeconds}
-          title="KAROL G – La Premiere"
-          thumbnail={false}
-        >
-          <a
-            slot="links"
-            href={karolG.rcnUrl}
-            target="_blank"
-            rel="noopener"
-            class="colab__rcn-link"
-          >
-            <span>Lee la nota en Noticias RCN</span>
-            <Icon name="external" size={14} />
-          </a>
-        </YouTubeFacade>
-      </div>
-    </div>
-
-    <div class="colab__strips">
-      <!-- 1. Subcantante: notebook strip left + polaroid & Spotify right -->
-      <article class="colab__row colab__row--subcantante">
-        <div class="colab__strip-wrap colab__strip-wrap--left">
-          <Tape class="colab__tape colab__tape--top-left" angle={-4} />
-          <Paper variant="ruled" rotate={-0.8} class="colab__strip">
-            <h3 class="colab__strip-title display">
-              {subcantante.con} · {subcantante.obra}
-            </h3>
-            <YouTubeFacade
-              videoId={subcantante.youtubeId!}
-              title="Subcantante y Cumbia De+Lito – Eres Mi Cumbia"
-              thumbnail={true}
-            />
-          </Paper>
+    <div class="sala" data-tv data-ch="0">
+      <!-- ============ the TV ============ -->
+      <div class="tv">
+        <div class="tv__antenna" aria-hidden="true">
+          <span class="tv__rod tv__rod--l"></span>
+          <span class="tv__rod tv__rod--r"></span>
+          <span class="tv__antenna-base"></span>
         </div>
 
-        <div class="colab__side-media colab__side-media--right">
-          <div class="colab__cover">
-            <Polaroid
-              src={eresMiCumbia}
-              widths={[240, 300]}
-              sizes="(max-width: 600px) 70vw, 260px"
-              rotate={2.5}
-              tape="top"
-              alt="Portada de Eres Mi Cumbia"
-            />
-          </div>
-          <div class="colab__audio">
-            <SpotifyFacade
-              trackId={subcantante.spotifyTrackId!}
-              title={subcantante.obra}
-            />
-          </div>
-        </div>
-      </article>
-
-      <!-- 2. Los Varriletes: polaroid left + notebook strip with Spotify right -->
-      <article class="colab__row colab__row--varriletes">
-        <div class="colab__side-media colab__side-media--left">
-          <div class="colab__cover">
-            <Polaroid
-              src={pibeGanador}
-              widths={[240, 300]}
-              sizes="(max-width: 600px) 70vw, 260px"
-              rotate={-2.5}
-              tape="corners"
-              alt="Portada de Pibe Ganador, con las banderas de Argentina y Colombia"
-            />
-          </div>
-        </div>
-
-        <div class="colab__strip-wrap colab__strip-wrap--right">
-          <Tape class="colab__tape colab__tape--top-right" angle={3} />
-          <Paper variant="grid" rotate={1} class="colab__strip">
-            <h3 class="colab__strip-title display">
-              {losVarriletes.con} · {losVarriletes.obra}
-            </h3>
-            <SpotifyFacade
-              trackId={losVarriletes.spotifyTrackId!}
-              title={losVarriletes.obra}
-            />
-          </Paper>
-        </div>
-      </article>
-
-      <!-- 3. Los Pibes Del Penal: wide notebook strip with heading + video -->
-      <article class="colab__row colab__row--pibes">
-        <div class="colab__strip-wrap colab__strip-wrap--wide">
-          <Tape class="colab__tape colab__tape--tl" angle={-28} />
-          <Tape class="colab__tape colab__tape--tr" angle={26} />
-          <Paper variant="ruled" rotate={-0.5} class="colab__strip colab__strip--split">
-            <h3 class="colab__strip-title display">
-              {losPibesDelPenal.con} · {losPibesDelPenal.obra}
-            </h3>
-            <div class="colab__pibes-video">
-              <YouTubeFacade
-                videoId={losPibesDelPenal.youtubeId!}
-                title="Amor a escondidas – Los Pibes Del Penal y Cumbia De+Lito"
-                thumbnail={true}
-              />
+        <div class="tv__cabinet">
+          <div class="tv__bezel">
+            <div class="tv__screen" data-screen>
+              {
+                canales.map((canal, index) => (
+                  <div
+                    class="tv__channel"
+                    data-channel={index}
+                    hidden={index !== 0}
+                  >
+                    <div class="tv__host" data-host>
+                      <button
+                        type="button"
+                        class="tv__play"
+                        data-play
+                        data-kind={canal.youtubeId ? 'youtube' : 'spotify'}
+                        data-src={canal.youtubeId ? embedUrl(canal) : undefined}
+                        data-idle-src={canal.livePlayer ? idleUrl(canal) : undefined}
+                        data-track={canal.youtubeId ? undefined : canal.spotifyTrackId}
+                        data-title={`${canal.con} y Cumbia De+Lito – ${canal.obra}`}
+                        aria-label={
+                          canal.youtubeId
+                            ? `Ver el video de ${canal.obra} con ${canal.con}`
+                            : `Escuchar ${canal.obra} con ${canal.con} (carga el reproductor de Spotify)`
+                        }
+                      >
+                        {canal.thumb && canal.youtubeId && (
+                          <img
+                            src={`https://i.ytimg.com/vi/${canal.youtubeId}/hqdefault.jpg`}
+                            alt=""
+                            loading="lazy"
+                            width="480"
+                            height="360"
+                            class="tv__thumb"
+                          />
+                        )}
+                        {!canal.youtubeId && canal.cover && (
+                          <Picture
+                            src={canal.cover}
+                            formats={['avif', 'webp']}
+                            widths={[300, 600]}
+                            sizes="(max-width: 959px) 70vw, 460px"
+                            alt=""
+                            class="tv__thumb"
+                          />
+                        )}
+                        <span class="tv__card">
+                          <span class="tv__card-ch display">CH {index + 1}</span>
+                          <span class="tv__card-title display">
+                            {canal.con}
+                            <Plus size={22} class="tv__card-plus" />
+                            Cumbia De+Lito
+                          </span>
+                          <span class="tv__card-obra">«{canal.obra}»</span>
+                          <span class="tv__card-btn display">
+                            <Icon name="play" size={18} /> {canal.youtubeId ? 'Ver video' : 'Escuchar'}
+                          </span>
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                ))
+              }
+              <span class="tv__bug display" aria-hidden="true">D<b>+</b>TV</span>              <canvas class="tv__static" width="160" height="120" data-static aria-hidden="true"></canvas>
+              <span class="tv__glass" aria-hidden="true"></span>
             </div>
-          </Paper>
+          </div>
+
+          <p class="tv__brand">
+            <span class="tv__brand-name display">De<b>+</b>Lito TV</span>
+            <span class="tv__brand-tag">en vivo y en flagrancia</span>
+          </p>
+
+          <div class="tv__panel">
+            <span class="tv__dial display" aria-hidden="true" data-dial>
+              <span class="tv__dial-n" data-dial-n>1</span>
+            </span>
+            <button type="button" class="tv__knob" data-next aria-label="Cambiar de canal">
+              <span class="tv__knob-mark" aria-hidden="true"></span>
+            </button>
+            <span class="tv__knob-label display" aria-hidden="true">Canal</span>
+            <span class="tv__grille" aria-hidden="true"></span>
+          </div>
         </div>
-      </article>
+        <div class="tv__feet" aria-hidden="true"><span></span><span></span></div>
+      </div>
+
+      <!-- ============ beside the TV ============ -->
+      <div class="mesa">
+        <p class="mesa__now" aria-live="polite" data-now>
+          {canales[0].texto}
+        </p>
+
+        <ol class="guia" role="list" aria-label="Canales">
+          {
+            canales.map((canal, index) => (
+              <li>
+                <button
+                  type="button"
+                  class="guia__btn"
+                  data-goto={index}
+                  data-label={canal.texto ?? `${canal.con} · ${canal.obra}`}
+                  aria-pressed={index === 0 ? 'true' : 'false'}
+                >
+                  <span class="guia__ch display">{index + 1}</span>
+                  <span class="guia__name display">{canal.con}</span>
+                  <span class="guia__obra">{canal.obra}</span>
+                </button>
+              </li>
+            ))
+          }
+        </ol>
+
+        {
+          canales.map((canal, index) => (
+            <div class="mesa__item" data-side={index} hidden={index !== 0}>
+              {index === 0 && (
+                <a href={karolG.rcnUrl} target="_blank" rel="noopener" class="prensa">
+                  <span class="prensa__tag display">En las noticias</span>
+                  <span class="prensa__body">
+                    <Image
+                      src={logoRcn}
+                      alt="Noticias RCN"
+                      width={190}
+                      class="prensa__logo"
+                    />
+                    <span class="prensa__fecha">11 de diciembre de 2025</span>
+                  </span>
+                  <span class="prensa__cta display">
+                    Leer nota <Icon name="external" size={14} />
+                  </span>
+                  <span class="visually-hidden">(se abre en otra pestaña)</span>
+                </a>
+              )}
+              {canal.youtubeId && (
+                <a href={watchUrl(canal)} target="_blank" rel="noopener" class="mesa__link">
+                  <span>Ver en YouTube</span>
+                  <Icon name="external" size={14} />
+                  <span class="visually-hidden">(se abre en otra pestaña)</span>
+                </a>
+              )}
+              {canal.spotifyTrackId && (
+                <a
+                  href={`https://open.spotify.com/track/${canal.spotifyTrackId}`}
+                  target="_blank"
+                  rel="noopener"
+                  class="mesa__link"
+                >
+                  <span>Abrir en Spotify</span>
+                  <Icon name="external" size={14} />
+                  <span class="visually-hidden">(se abre en otra pestaña)</span>
+                </a>
+              )}
+            </div>
+          ))
+        }
+
+
+      </div>
     </div>
   </div>
 </section>
+
+<script>
+  import '../../scripts/tv';
+</script>
 
 <style>
   #colaboraciones {
@@ -156,128 +288,645 @@ const [subcantante, losVarriletes, losPibesDelPenal] = colaboraciones;
     margin-bottom: 0;
   }
 
-  .colab__karol {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--s-5);
-  }
-
-  .colab__karol-quote {
-    font-size: calc(var(--t-h3) * 1.3);
-    color: var(--c-white);
-    line-height: 1.08;
-    max-width: 46ch;
-  }
-
-  .colab__karol-video {
-    width: 100%;
-    max-width: 880px;
-  }
-
-  .colab__strips {
+  .sala {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: var(--s-8);
+    align-items: start;
   }
 
-  .colab__row {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--s-6);
-    align-items: center;
+  @media (min-width: 960px) {
+    .sala {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: var(--s-7);
+    }
   }
-
-  .colab__strip-wrap {
+  /* ================= TV ================= */
+  .tv {
     position: relative;
     width: 100%;
-    min-width: 0;
+    max-width: 760px;
+    margin-inline: auto;
+    padding-top: clamp(48px, 9vw, 90px);
   }
 
-  .colab__strip-wrap :global(.colab__strip) {
+  .tv__antenna {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 46%;
+    height: clamp(56px, 10vw, 100px);
+    transform: translateX(-50%);
+  }
+
+  .tv__rod {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(90deg, #8d9099, #e9e9ee 50%, #8d9099);
+    border-radius: 2px;
+    transform-origin: 50% 100%;
+  }
+
+  .tv__rod::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -3px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #c9cbd2;
+  }
+
+  .tv__rod--l {
+    transform: rotate(-32deg);
+  }
+
+  .tv__rod--r {
+    transform: rotate(26deg);
+    height: 86%;
+  }
+
+  .tv__antenna-base {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 64px;
+    height: 20px;
+    border-radius: 32px 32px 4px 4px;
+    background: #1b1c22;
+    transform: translateX(-50%);
+  }
+
+  .tv__cabinet {
+    position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--s-4);
+    grid-template-columns: minmax(0, 1fr) clamp(70px, 14%, 120px);
+    gap: clamp(10px, 2vw, 22px);
+    padding: clamp(14px, 2.6vw, 28px);
+    border-radius: 22px;
+    /* wood-grain cabinet */
+    background:
+      repeating-linear-gradient(
+        92deg,
+        rgb(0 0 0 / 0) 0 7px,
+        rgb(0 0 0 / 0.12) 7px 9px,
+        rgb(255 255 255 / 0.03) 9px 15px
+      ),
+      linear-gradient(180deg, #6b3e22, #4a2914);
+    box-shadow:
+      0 30px 60px rgb(0 0 0 / 0.6),
+      inset 0 2px 0 rgb(255 255 255 / 0.18),
+      inset 0 -4px 0 rgb(0 0 0 / 0.35);
   }
 
-  .colab__strip-title {
-    font-size: var(--t-h3);
-    color: var(--c-ink);
+  .tv__bezel {
+    grid-column: 1;
+    grid-row: 1;
+    padding: clamp(8px, 1.4vw, 16px);
+    border-radius: 18px;
+    background: #1a1a1f;
+    box-shadow: inset 0 0 0 2px #0b0b0e, inset 0 6px 14px rgb(0 0 0 / 0.8);
   }
 
-  .colab__strip-wrap :global(.colab__tape--top-left) {
-    top: -0.85rem;
-    left: 2rem;
+  /* the CRT: rounded glass, slight bulge, scanlines */
+  .tv__screen {
+    position: relative;
+    /* 16:9 like the clips themselves, so they fill the glass with no bars */
+    aspect-ratio: 16 / 9;
+    border-radius: 9% / 15%;
+    overflow: hidden;
+    background: #0c0f12;
+    isolation: isolate;
+    /* the channel card scales with the glass, not the page */
+    container-type: inline-size;
   }
 
-  .colab__strip-wrap :global(.colab__tape--top-right) {
-    top: -0.85rem;
-    right: 2rem;
+  .tv__channel,
+  .tv__host {
+    position: absolute;
+    inset: 0;
   }
 
-  .colab__strip-wrap :global(.colab__tape--tl) {
-    top: -0.5rem;
-    left: -0.6rem;
-    width: 5.25rem;
+  .tv__channel[hidden] {
+    display: none;
   }
 
-  .colab__strip-wrap :global(.colab__tape--tr) {
-    top: -0.5rem;
-    right: -0.6rem;
-    width: 5.25rem;
+  .tv__host :global(iframe) {
+    width: 100%;
+    height: 100%;
+    border: 0;
   }
 
-  .colab__side-media {
+  /* audio-only channel: blurred cover behind, Spotify's card centred on it.
+     Both are created by the script, hence :global. */
+  .tv__host :global(.tv__audio-bg) {
+    position: absolute;
+    inset: -24px;
+    background: center / cover no-repeat var(--c-navy-900);
+    filter: blur(14px) brightness(0.55) saturate(1.2);
+  }
+
+  .tv__host :global(.tv__audio-player) {
+    position: absolute;
+    top: 50%;
+    left: 7%;
+    right: 7%;
+    height: 152px;
+    transform: translateY(-50%);
+  }
+
+  .tv__host :global(.tv__audio-player iframe) {
+    display: block;
+    width: 100%;
+    height: 152px;
+    border: 0;
+    border-radius: 12px;
+    box-shadow: 0 10px 24px rgb(0 0 0 / 0.5);
+  }
+
+  /* small screens: the card is taller than the glass, so it fills it edge to
+     edge and the glass crops the card's own rounded corners */
+  @container (max-width: 320px) {
+    .tv__host :global(.tv__audio-player) {
+      inset: -12px;
+      height: auto;
+      transform: none;
+    }
+
+    .tv__host :global(.tv__audio-player iframe) {
+      height: 100%;
+      border-radius: 0;
+    }
+  }
+
+  .tv__play {
+    position: absolute;
+    inset: 0;
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--s-4);
+    place-items: center;
+    padding: 0;
+    border: 0;
+    background:
+      radial-gradient(circle at 50% 40%, #23305a, #0d1121 70%);
+    color: var(--c-white);
+    cursor: pointer;
+  }
+
+  .tv__thumb {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(1.15) contrast(1.05);
+  }
+
+  .tv__play:has(.tv__thumb)::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to top, rgb(0 0 0 / 0.78), rgb(0 0 0 / 0.15) 60%);
+  }
+
+  .tv__card {
+    position: relative;
+    z-index: 2;
+    display: grid;
     justify-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .tv__card--overlay {
+    position: absolute;
+    inset: auto 0 0;
+    padding-bottom: 1.4rem;
+    background: linear-gradient(to top, rgb(0 0 0 / 0.85), transparent);
+  }
+
+  .tv__card-ch {
+    padding: 0.15rem 0.5rem;
+    background: var(--c-red);
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+  }
+
+  .tv__card-title {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    font-size: clamp(0.85rem, 5.4cqw, 1.75rem);
+    line-height: 1.05;
+    text-shadow: 0 2px 6px rgb(0 0 0 / 0.7);
+  }
+
+  .tv__card-title :global(.tv__card-plus) {
+    color: var(--c-red);
+  }
+
+  .tv__card-obra {
+    font-size: clamp(0.75rem, 3.2cqw, 1rem);
+    color: var(--c-text-soft);
+  }
+
+  .tv__card-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.4rem;
+    padding: 0.55rem 1rem;
+    background: var(--c-white);
+    color: var(--c-navy-900);
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    transition: background-color var(--dur-1) var(--ease-out);
+  }
+
+  /* small screens: keep channel, names and the play button only */
+  @container (max-width: 340px) {
+    .tv__card {
+      gap: 0.3rem;
+      padding: 0.5rem;
+    }
+
+    .tv__card-obra {
+      display: none;
+    }
+
+    .tv__card-btn {
+      margin-top: 0.1rem;
+      padding: 0.35rem 0.7rem;
+      font-size: 0.72rem;
+    }
+  }
+
+  .tv__play:hover .tv__card-btn,
+  .tv__play:focus-visible .tv__card-btn {
+    background: var(--c-red);
+    color: var(--c-white);
+  }
+
+
+  .tv__static {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
     width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+    opacity: 0;
+    pointer-events: none;
   }
 
-  .colab__cover {
+  .tv__static.is-on {
+    opacity: 1;
+  }
+
+  /* scanlines + curved glass highlight, never blocking clicks */
+  .tv__glass {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 80% 60% at 30% 18%, rgb(255 255 255 / 0.1), transparent 60%),
+      radial-gradient(ellipse at center, transparent 60%, rgb(0 0 0 / 0.55) 100%),
+      repeating-linear-gradient(to bottom, rgb(0 0 0 / 0.16) 0 1px, transparent 1px 3px);
+    border-radius: inherit;
+  }
+
+  /* playing video: drop the scanlines over it */
+  .tv__screen.is-playing .tv__glass {
+    background:
+      radial-gradient(ellipse 80% 60% at 30% 18%, rgb(255 255 255 / 0.06), transparent 60%),
+      radial-gradient(ellipse at center, transparent 70%, rgb(0 0 0 / 0.4) 100%);
+  }
+
+  .tv__panel {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(8px, 1.6vw, 16px);
+    padding: 12px 0;
+    border-radius: 12px;
+    background: rgb(0 0 0 / 0.22);
+  }
+
+  /* chrome nameplate on the cabinet, under the screen */
+  .tv__brand {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: center;
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0.3rem 0.9rem 0.35rem;
+    border-radius: 4px;
+    background: linear-gradient(180deg, #f1f1f4, #a9abb3 55%, #dcdde2);
+    box-shadow:
+      0 2px 4px rgb(0 0 0 / 0.5),
+      inset 0 1px 0 rgb(255 255 255 / 0.8);
+    color: #1b1c22;
+  }
+
+  .tv__brand-name {
+    font-size: clamp(0.85rem, 1.6vw, 1.1rem);
+    letter-spacing: 0.08em;
+  }
+
+  .tv__brand-name b,
+  .tv__bug b {
+    color: var(--c-red);
+  }
+
+  .tv__brand-tag {
+    font-size: clamp(0.6rem, 1vw, 0.75rem);
+    font-style: italic;
+    font-weight: 600;
+    color: #3b3d48;
+  }
+
+  @media (max-width: 479.98px) {
+    .tv__brand-tag {
+      display: none;
+    }
+  }
+
+  /* channel logo in the corner of the picture, like broadcast TV */
+  .tv__bug {
+    position: absolute;
+    z-index: 3;
+    top: 7%;
+    right: 6%;
+    font-size: clamp(0.7rem, 1.4vw, 0.95rem);
+    letter-spacing: 0.06em;
+    color: rgb(255 255 255 / 0.8);
+    text-shadow: 0 1px 3px rgb(0 0 0 / 0.8);
+    pointer-events: none;
+  }
+
+  .tv__screen.is-playing .tv__bug {
+    opacity: 0.45;
+  }
+
+  .tv__dial {
+    display: grid;
+    place-items: center;
+    width: 82%;
+    aspect-ratio: 1.3;
+    border-radius: 8px;
+    background: #10140f;
+    box-shadow: inset 0 2px 6px rgb(0 0 0 / 0.9);
+  }
+
+  .tv__dial-n {
+    font-size: clamp(1.2rem, 2.4vw, 2rem);
+    color: #ff5a3c;
+    text-shadow: 0 0 8px rgb(255 90 60 / 0.6);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tv__knob {
+    position: relative;
+    width: 76%;
+    aspect-ratio: 1;
+    border: 0;
+    border-radius: 50%;
+    background:
+      repeating-conic-gradient(#d9d6cf 0 6deg, #b9b5ad 6deg 12deg);
+    box-shadow:
+      0 6px 10px rgb(0 0 0 / 0.55),
+      inset 0 0 0 6px #2a2a30,
+      inset 0 0 0 9px #8c8a85;
+    cursor: pointer;
+    transition: transform 0.35s cubic-bezier(0.3, 1.4, 0.5, 1);
+    transform: rotate(var(--knob, 0deg));
+  }
+
+  .tv__knob-mark {
+    position: absolute;
+    top: 14%;
+    left: 50%;
+    width: 4px;
+    height: 24%;
+    border-radius: 2px;
+    background: var(--c-red);
+    transform: translateX(-50%);
+  }
+
+  .tv__knob:focus-visible {
+    outline-offset: 4px;
+  }
+
+  .tv__knob-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    color: #e8d9c4;
+  }
+
+  .tv__grille {
+    flex: 1;
+    width: 70%;
+    min-height: 40px;
+    border-radius: 6px;
+    background: repeating-linear-gradient(to bottom, #1c1208 0 3px, #5a3519 3px 6px);
+  }
+
+  .tv__feet {
+    display: flex;
+    justify-content: space-between;
+    padding-inline: 12%;
+  }
+
+  .tv__feet span {
+    width: 14%;
+    height: 14px;
+    background: #2a160a;
+    border-radius: 0 0 6px 6px;
+  }
+
+  /* ================= beside the TV ================= */
+  .mesa {
+    display: grid;
+    gap: var(--s-5);
+    align-content: start;
+  }
+
+  /* fixed height (three lines) so the guide below never jumps between channels */
+  .mesa__now {
+    min-height: calc(3 * 1.2em);
+    font-size: var(--t-h3);
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--c-white);
+  }
+
+  .mesa__item {
+    display: grid;
+    gap: var(--s-3);
+    justify-items: start;
+  }
+
+  .mesa__item[hidden] {
+    display: none;
+  }
+
+  .mesa__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    min-height: 40px;
+    font-size: var(--t-small);
+    font-weight: 600;
+    text-underline-offset: 0.22em;
+  }
+
+  /* press card on Karol G's channel, below the guide so nothing above moves */
+  .prensa {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      'tag tag'
+      'body cta';
+    align-items: center;
+    gap: 0.55rem 1rem;
     width: 100%;
-    max-width: 280px;
+    padding: 0.85rem 1rem 0.95rem;
+    background-color: var(--c-paper);
+    background-image: var(--tex-grain);
+    color: var(--c-ink);
+    text-decoration: none;
+    box-shadow: var(--sh-paper);
+    transition: transform var(--dur-1) var(--ease-out);
   }
 
-  .colab__cover :global(.polaroid__photo) {
-    max-width: 300px;
+  .prensa:hover,
+  .prensa:focus-visible {
+    transform: translateY(-2px);
   }
 
-  .colab__audio {
+  .prensa__tag {
+    grid-area: tag;
+    justify-self: start;
+    padding: 0.2rem 0.5rem;
+    background-color: var(--c-red);
+    color: var(--c-white);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+  }
+
+  .prensa__body {
+    grid-area: body;
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  .prensa__body :global(.prensa__logo) {
+    display: block;
+    width: clamp(130px, 40%, 190px);
+    height: auto;
+  }
+
+  .prensa__fecha {
+    font-size: var(--t-small);
+    color: var(--c-ink-soft);
+  }
+
+  .prensa__cta {
+    grid-area: cta;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6rem 0.85rem;
+    background-color: var(--c-navy-900);
+    color: var(--c-white);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    transition: background-color var(--dur-1) var(--ease-out);
+  }
+
+  @media (max-width: 479.98px) {
+    .prensa {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        'tag'
+        'body'
+        'cta';
+    }
+
+    .prensa__cta {
+      justify-self: start;
+    }
+  }
+
+  .prensa:hover .prensa__cta,
+  .prensa:focus-visible .prensa__cta {
+    background-color: var(--c-red);
+  }
+
+  /* channel guide */
+  .guia {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    border-top: 1px solid rgb(255 255 255 / 0.16);
+  }
+
+  .guia__btn {
+    display: grid;
+    grid-template-columns: 2.2rem 1fr;
+    column-gap: var(--s-3);
+    align-items: baseline;
     width: 100%;
-    max-width: 280px;
+    min-height: 48px;
+    padding: var(--s-3) var(--s-2);
+    border: 0;
+    border-bottom: 1px solid rgb(255 255 255 / 0.16);
+    background: none;
+    color: var(--c-white);
+    text-align: left;
+    cursor: pointer;
+    transition: background-color var(--dur-1) var(--ease-out);
   }
 
-  @media (min-width: 820px) {
-    .colab__row {
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-      gap: var(--s-6);
-    }
+  .guia__btn:hover {
+    background: rgb(255 255 255 / 0.06);
+  }
 
-    .colab__strip-wrap--left {
-      grid-column: 1 / 8;
-    }
+  .guia__btn[aria-pressed='true'] {
+    background: var(--c-red);
+    background-image: var(--tex-grain);
+  }
 
-    .colab__side-media--right {
-      grid-column: 8 / 13;
-    }
+  .guia__ch {
+    grid-row: span 2;
+    font-size: 1.25rem;
+  }
 
-    .colab__side-media--left {
-      grid-column: 1 / 6;
-    }
+  .guia__name {
+    font-size: 0.95rem;
+    letter-spacing: 0.06em;
+  }
 
-    .colab__strip-wrap--right {
-      grid-column: 6 / 13;
-    }
+  .guia__obra {
+    font-size: var(--t-small);
+    color: var(--c-text-soft);
+  }
 
-    .colab__strip-wrap--wide {
-      grid-column: 2 / 12;
-    }
-
-    .colab__strip-wrap :global(.colab__strip--split) {
-      grid-template-columns: minmax(200px, 5fr) 7fr;
-      align-items: center;
-      gap: var(--s-6);
-    }
+  .guia__btn[aria-pressed='true'] .guia__obra {
+    color: var(--c-white);
   }
 </style>

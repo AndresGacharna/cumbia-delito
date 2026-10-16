@@ -2,7 +2,6 @@
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
-import StageMap from '../components/StageMap.astro';
 import Propuesta from '../components/sections/Propuesta.astro';
 import Musica from '../components/sections/Musica.astro';
 import Colaboraciones from '../components/sections/Colaboraciones.astro';
@@ -12,26 +11,71 @@ import Trayectoria from '../components/sections/Trayectoria.astro';
 import Organizadores from '../components/sections/Organizadores.astro';
 import Contratacion from '../components/sections/Contratacion.astro';
 import Footer from '../components/Footer.astro';
+import WhatsAppChat from '../components/WhatsAppChat.astro';
 import WallBand from '../components/ui/WallBand.astro';
+import Tendedero from '../components/ui/Tendedero.astro';
+import duoKeytar from '../assets/fotos/duo-keytar.jpg';
+import enVivoLuzMorada from '../assets/fotos/en-vivo-luz-morada.jpg';
+import grupoSoundCity from '../assets/fotos/grupo-sound-city.jpg';
+import enVivoBar from '../assets/fotos/en-vivo-bar.jpg';
+import grupoBar from '../assets/fotos/grupo-bar.jpg';
+import grupoPublicoTarima from '../assets/fotos/grupo-publico-tarima.jpg';
+import keytarCamisetaAzul from '../assets/fotos/keytar-camiseta-azul.jpg';
+import retratoBajo from '../assets/fotos/retrato-bajo.jpg';
+import retratoGuitarra from '../assets/fotos/retrato-guitarra.jpg';
+import retratoKeytar from '../assets/fotos/retrato-keytar.jpg';
+import retratoOctapad from '../assets/fotos/retrato-octapad.jpg';
+import tarimaKeytar from '../assets/fotos/tarima-keytar.jpg';
 import '../styles/sections.css';
 ---
 
 <Layout>
   <Nav />
   <Hero />
-  <StageMap />
   <main>
     <Propuesta />
-    <WallBand variant="franja-gris" />
+    <WallBand
+      variant="fondo-tarima"
+      position="center 65%"
+      height="clamp(400px, 40vw, 580px)"
+      muted
+    >
+      <Tendedero
+        titulo="Pruebas del delito"
+        bajada="Momentos de tarima en tarima, colgados para que no se olviden."
+        fotos={[
+          { src: duoKeytar, alt: 'Dos músicos posando frente a un fondo naranja; uno lleva un keytar blanco y la camiseta de Cumbia De+Lito' },
+          { src: retratoGuitarra, alt: 'Guitarrista de Cumbia De+Lito con su guitarra eléctrica' },
+          { src: grupoSoundCity, alt: 'Cuatro integrantes de Cumbia De+Lito con sus instrumentos en un escenario bajo un letrero de Sound City' },
+          { src: enVivoLuzMorada, alt: 'Músico de Cumbia De+Lito tocando un keytar blanco en vivo bajo luz morada' },
+          { src: grupoPublicoTarima, alt: 'La banda en tarima con el público detrás, en un festival al aire libre' },
+          { src: retratoBajo, alt: 'Bajista de Cumbia De+Lito con su bajo' },
+          { src: enVivoBar, alt: 'La banda tocando en vivo en un bar, con guitarra, keytar blanco y el telón de Cumbia De+Lito' },
+          { src: retratoKeytar, alt: 'Músico de Cumbia De+Lito con un keytar blanco' },
+          { src: tarimaKeytar, alt: 'Músico de Cumbia De+Lito tocando un keytar blanco Roland en tarima, con gafas oscuras' },
+          { src: grupoBar, alt: 'La banda completa posando con sus instrumentos junto al telón de Cumbia De+Lito en un bar' },
+          { src: retratoOctapad, alt: 'Músico de Cumbia De+Lito con baquetas frente a un octapad' },
+          { src: keytarCamisetaAzul, alt: 'Músico de Cumbia De+Lito tocando un keytar Roland con camiseta azul' },
+        ]}
+      />
+    </WallBand>
     <Musica />
     <Colaboraciones />
-    <WallBand variant="franja-roja" />
+    <WallBand
+      variant="franja-roja"
+      position="center 36%"
+      stencil
+    />
     <Historia />
-    <Show />
     <Trayectoria />
-    <WallBand variant="franja-gris" position="center 80%" />
+    <Show />
+    <WallBand
+      variant="franja-gris"
+      position="center 92%"
+    />
     <Organizadores />
     <Contratacion />
   </main>
   <Footer />
+  <WhatsAppChat />
 </Layout>

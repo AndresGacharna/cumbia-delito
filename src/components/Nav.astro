@@ -4,7 +4,7 @@ import { WHATSAPP_BOOKING_URL } from '../config';
 import { stageMarks, type StageMarkId } from '../data/content';
 import Button from './ui/Button.astro';
 
-const navIds: StageMarkId[] = ['musica', 'show', 'organizadores'];
+const navIds: StageMarkId[] = ['musica', 'trayectoria', 'show', 'organizadores'];
 const navLinks = navIds.map((id) => {
   const found = stageMarks.find((mark) => mark.id === id);
   return { id, label: found ? found.label : id };
@@ -30,7 +30,11 @@ const navLinks = navIds.map((id) => {
         {
           navLinks.map((link) => (
             <li>
-              <a href={`#${link.id}`} class="top-bar__link display">
+              <a
+                href={`#${link.id}`}
+                class="top-bar__link display"
+                data-nav-link={link.id}
+              >
                 {link.label}
               </a>
             </li>
@@ -50,6 +54,10 @@ const navLinks = navIds.map((id) => {
     </nav>
   </div>
 </div>
+
+<script>
+  import '../scripts/nav-active';
+</script>
 
 <style>
   .skip-link {
@@ -80,6 +88,7 @@ const navLinks = navIds.map((id) => {
     z-index: var(--z-nav);
     height: 64px;
     background-color: var(--c-navy-900);
+    background-image: var(--tex-grain);
     border-bottom: 1px solid rgb(255 255 255 / 0.08);
   }
 
@@ -143,7 +152,8 @@ const navLinks = navIds.map((id) => {
   }
 
   .top-bar__link:hover::after,
-  .top-bar__link:focus-visible::after {
+  .top-bar__link:focus-visible::after,
+  .top-bar__link[aria-current]::after {
     transform: scaleX(1);
   }
 

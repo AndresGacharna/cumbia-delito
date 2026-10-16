@@ -1,5 +1,6 @@
 ---
-import { trayectoria } from '../../data/content';
+import { lugarId, trayectoria } from '../../data/content';
+import MapaGira from '../MapaGira.astro';
 import Plus from '../ui/Plus.astro';
 import TapeX from '../ui/TapeX.astro';
 ---
@@ -16,49 +17,106 @@ import TapeX from '../ui/TapeX.astro';
       <h2 id="trayectoria-title">{trayectoria.titulo}</h2>
     </div>
 
-    <div class="trayectoria__body">
-      <div class="trayectoria__group">
-        <h3 class="display trayectoria__heading">Colombia</h3>
-        <ul class="trayectoria__list trayectoria__list--colombia">
-          {
-            trayectoria.colombia.map((ciudad) => (
-              <li class="trayectoria__item">
-                <span class="display trayectoria__place">{ciudad}</span>
-                <Plus class="trayectoria__plus" />
-              </li>
-            ))
-          }
-          <li class="trayectoria__item trayectoria__item--cierre">
-            <span class="display trayectoria__cierre">{trayectoria.colombiaCierre}</span>
-          </li>
-        </ul>
+    <div class="trayectoria__grid">
+      <div class="trayectoria__map">
+        <MapaGira />
+        <p class="trayectoria__hint">
+          Toca una marca para ver el lugar.
+        </p>
       </div>
 
-      <div class="trayectoria__group">
-        <h3 class="display trayectoria__heading">Internacional</h3>
-        <ul class="trayectoria__list trayectoria__list--internacional">
-          {
-            trayectoria.internacional.map((pais, index) => (
-              <li class="trayectoria__item">
-                <span class="display trayectoria__place">{pais}</span>
-                {index < trayectoria.internacional.length - 1 && (
-                  <Plus class="trayectoria__plus" />
-                )}
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+      <div class="trayectoria__body">
+        <div class="trayectoria__group">
+          <h3 class="display trayectoria__heading">
+            Internacional
+            <span class="trayectoria__count">{trayectoria.internacional.length} países</span>
+          </h3>
+          <ul class="trayectoria__list trayectoria__list--internacional" role="list">
+            {
+              trayectoria.internacional.map((pais) => (
+                <li>
+                  <button
+                    type="button"
+                    class="lugar display"
+                    data-lugar={lugarId(pais)}
+                    aria-pressed="false"
+                  >
+                    {pais}
+                  </button>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
 
-      <p class="sec-lead">{trayectoria.eventos}</p>
+        <div class="trayectoria__group">
+          <h3 class="display trayectoria__heading">
+            Colombia
+            <span class="trayectoria__count">{trayectoria.colombia.length} ciudades</span>
+          </h3>
+          <ul class="trayectoria__list" role="list">
+            {
+              trayectoria.colombia.map((ciudad) => (
+                <li>
+                  <button
+                    type="button"
+                    class="lugar lugar--ciudad display"
+                    data-lugar={lugarId(ciudad)}
+                    aria-pressed="false"
+                  >
+                    <Plus size={12} class="lugar__plus" />
+                    {ciudad}
+                  </button>
+                </li>
+              ))
+            }
+            <li class="trayectoria__cierre display">{trayectoria.colombiaCierre}</li>
+          </ul>
+        </div>
+
+        <p class="trayectoria__eventos">{trayectoria.eventos}</p>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
+  .trayectoria__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-7);
+    align-items: start;
+  }
+
+  @media (min-width: 900px) {
+    .trayectoria__grid {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: var(--s-8);
+    }
+
+    .trayectoria__body {
+      position: sticky;
+      top: 6rem;
+    }
+  }
+
+  .trayectoria__map {
+    display: grid;
+    gap: var(--s-3);
+    max-width: 640px;
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  .trayectoria__hint {
+    font-size: var(--t-small);
+    color: var(--c-text-soft);
+    text-align: center;
+  }
+
   .trayectoria__body {
     display: grid;
-    gap: var(--s-7);
+    gap: var(--s-6);
   }
 
   .trayectoria__group {
@@ -67,9 +125,21 @@ import TapeX from '../ui/TapeX.astro';
   }
 
   .trayectoria__heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--s-3);
+    padding-bottom: var(--s-2);
+    border-bottom: 2px solid var(--c-red);
     font-size: var(--t-h3);
+    letter-spacing: 0.06em;
+    color: var(--c-white);
+  }
+
+  .trayectoria__count {
+    font-size: var(--t-label);
+    letter-spacing: 0.14em;
     color: var(--c-text-soft);
-    letter-spacing: 0.08em;
   }
 
   .trayectoria__list {
@@ -78,38 +148,59 @@ import TapeX from '../ui/TapeX.astro';
     padding: 0;
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    column-gap: 0.38em;
-    row-gap: 0.2em;
-    line-height: 1.05;
+    gap: var(--s-2);
   }
 
-  .trayectoria__list--colombia {
-    font-size: clamp(1.5rem, 3.4vw, 2.75rem);
-  }
-
-  .trayectoria__list--internacional {
-    font-size: clamp(2.125rem, 4.8vw, 3.75rem);
-  }
-
-  .trayectoria__item {
+  .lugar {
     display: inline-flex;
     align-items: center;
-    gap: 0.38em;
+    gap: 0.4rem;
+    min-height: 40px;
+    padding: 0.45rem 0.75rem;
+    border: 1px solid rgb(255 255 255 / 0.22);
+    background-color: rgb(13 17 33 / 0.55);
+    color: var(--c-white);
+    font-size: 0.875rem;
+    letter-spacing: 0.08em;
+    line-height: 1.2;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-1) var(--ease-out),
+      border-color var(--dur-1) var(--ease-out),
+      color var(--dur-1) var(--ease-out);
   }
 
-  .trayectoria__place {
-    color: var(--c-white);
-    line-height: 1;
+  .trayectoria__list--internacional .lugar {
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    padding-inline: 0.9rem;
+  }
+
+  .lugar:hover {
+    border-color: var(--c-red);
+  }
+
+  .lugar[aria-pressed='true'] {
+    background-color: var(--c-paper);
+    border-color: var(--c-paper);
+    color: var(--c-ink);
+  }
+
+  .lugar :global(.lugar__plus) {
+    color: var(--c-red);
   }
 
   .trayectoria__cierre {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding-inline: 0.4rem;
+    font-size: 0.875rem;
+    letter-spacing: 0.08em;
     color: var(--c-text-soft);
-    line-height: 1;
   }
 
-  .trayectoria__list :global(.trayectoria__plus) {
-    width: 0.7em;
-    height: 0.7em;
+  .trayectoria__eventos {
+    color: var(--c-text-soft);
+    max-width: var(--measure);
   }
 </style>

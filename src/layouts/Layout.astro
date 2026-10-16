@@ -3,6 +3,8 @@ import '@fontsource-variable/archivo/wdth.css';
 import '../styles/tokens.css';
 import '../styles/global.css';
 import archivoLatinWdthUrl from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
+import { getImage } from 'astro:assets';
+import muroAzul from '../assets/muro/azul.jpg';
 import { EMAIL, SITE_URL, SOCIALS } from '../config';
 
 export interface Props {
@@ -14,6 +16,9 @@ const {
   title = 'Cumbia De+Lito · Cumbia villera desde Bogotá',
   description = 'Cumbia De+Lito es cumbia villera hecha en Bogotá desde 2012: tradición caribe colombiana y energía urbana. Escucha a Cumbia Delito y contrata el show.',
 } = Astro.props;
+
+// Navy brick from the EPK wall, used as a texture behind the alternate sections and the footer.
+const brickTexture = await getImage({ src: muroAzul, format: 'webp', width: 1480, quality: 60 });
 
 const siteOrigin = Astro.site ?? new URL(SITE_URL);
 const canonicalUrl = new URL('/', siteOrigin);
@@ -83,7 +88,7 @@ const jsonLd = {
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
-  <body>
+  <body style={`--tex-brick: url(${brickTexture.src});`}>
     <slot />
   </body>
 </html>

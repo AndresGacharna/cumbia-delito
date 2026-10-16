@@ -1,14 +1,14 @@
 ---
 import type { ImageMetadata } from 'astro';
+import { getImage, Picture } from 'astro:assets';
 import cumbiaCervezaYMujer from '../../assets/portadas/cumbia-cerveza-y-mujer.jpg';
 import cumbiandoElMundo from '../../assets/portadas/cumbiando-el-mundo.jpg';
 import laFamosaBanda from '../../assets/portadas/la-famosa-banda.jpg';
 import laRuedaDeLaCumbia from '../../assets/portadas/la-rueda-de-la-cumbia.jpg';
 import { SOCIALS, SPOTIFY_ARTIST_URL } from '../../config';
 import { singles } from '../../data/content';
-import SpotifyFacade from '../embeds/SpotifyFacade.astro';
 import Button from '../ui/Button.astro';
-import Polaroid from '../ui/Polaroid.astro';
+import Icon from '../ui/Icon.astro';
 import TapeX from '../ui/TapeX.astro';
 
 const coverByTrackId: Record<string, ImageMetadata> = {
@@ -18,7 +18,13 @@ const coverByTrackId: Record<string, ImageMetadata> = {
   '0BBn9asbdOC67y2t0QhW6p': cumbiaCervezaYMujer,
 };
 
-const rotations = [-3, 2, -2, 3] as const;
+// Small round crop of each cover for the record's centre label.
+const labels = await Promise.all(
+  singles.map((single) =>
+    getImage({ src: coverByTrackId[single.spotifyTrackId], width: 160, format: 'webp' }),
+  ),
+);
+
 const youtubeSocial = SOCIALS.find((social) => social.id === 'youtube')!;
 ---
 
@@ -35,61 +41,112 @@ const youtubeSocial = SOCIALS.find((social) => social.id === 'youtube')!;
         <h2 id="musica-title">Música</h2>
       </div>
       <p class="sec-lead">
-        Cuatro sencillos propios. Dale play aquí mismo o síguenos en Spotify.
+        Cuatro sencillos propios. Busca en el cajón, saca un disco y suena aquí mismo.
       </p>
     </div>
 
-    <ul class="musica__grid" role="list">
-      {
-        singles.map((single, index) => {
-          const cover = coverByTrackId[single.spotifyTrackId];
-          const rotate = rotations[index % rotations.length];
-          return (
-            <li class="musica__item">
-              <div class="musica__polaroid-wrap">
-                <Polaroid
-                  src={cover}
-                  widths={[240, 300]}
-                  sizes="(max-width: 600px) 45vw, 240px"
-                  caption={`${single.titulo} · ${single.anio}`}
-                  rotate={rotate}
-                  tape="top"
-                  alt={`Portada del sencillo ${single.titulo}`}
-                  class="musica__polaroid"
-                />
-              </div>
-              <div class="musica__player">
-                <SpotifyFacade
-                  trackId={single.spotifyTrackId}
-                  title={single.titulo}
-                />
-              </div>
-            </li>
-          );
-        })
-      }
-    </ul>
+    <div class="musica__deck" data-crate>
+      <!-- The crate: four sleeves standing in a red record crate, seen from above. -->
+      <div class="crate">
+        <div class="crate__stage">
+          <div class="crate__back" aria-hidden="true"></div>
+          {
+            singles.map((single, index) => (
+              <button
+                type="button"
+                class="sleeve"
+                data-sleeve={index}
+                data-track={single.spotifyTrackId}
+                data-title={single.titulo}
+                data-year={single.anio}
+                style={`--i: ${index};`}
+                aria-label={`Sacar ${single.titulo} (${single.anio}) del cajón`}
+              >
+                <span class="sleeve__vinyl" aria-hidden="true">
+                  <span class="sleeve__record" style={`--label: url(${labels[index].src});`} />
+                  <span class="sleeve__shine" />
+                </span>
+                <span class="sleeve__cover">
+                  <Picture
+                    src={coverByTrackId[single.spotifyTrackId]}
+                    formats={['avif', 'webp']}
+                    widths={[240, 300, 480, 720]}
+                    sizes="(max-width: 600px) 64vw, 280px"
+                    width={300}
+                    height={300}
+                    loading="lazy"
+                    alt=""
+                    class="sleeve__img"
+                  />
+                </span>
+              </button>
+            ))
+          }
+          <div class="crate__front" aria-hidden="true">
+            <span class="crate__handle"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- What is playing, the four titles as a plain list, and the one Spotify player. -->
+      <div class="tocadiscos">
+        <h3 class="tocadiscos__title display" aria-live="polite" data-now-title>
+          Escoge un disco
+        </h3>
+        <p class="tocadiscos__meta" data-now-meta>
+          Pasa por el cajón y saca el que quieras escuchar.
+        </p>
+
+        <ol class="tocadiscos__list" role="list">
+          {
+            singles.map((single, index) => (
+              <li>
+                <button
+                  type="button"
+                  class="tocadiscos__track"
+                  data-pick={index}
+                  aria-pressed="false"
+                >
+                  <span class="tocadiscos__track-name display">{single.titulo}</span>
+                  <span class="tocadiscos__track-year">{single.anio}</span>
+                </button>
+              </li>
+            ))
+          }
+        </ol>
+
+        <div class="tocadiscos__player" data-player>
+          <p class="tocadiscos__empty">El reproductor de Spotify aparece aquí.</p>
+        </div>
+
+        <a
+          href={SPOTIFY_ARTIST_URL}
+          target="_blank"
+          rel="noopener"
+          class="tocadiscos__open"
+          data-open-link
+        >
+          <span>Abrir en Spotify</span>
+          <Icon name="external" size={14} />
+          <span class="visually-hidden">(se abre en otra pestaña)</span>
+        </a>
+      </div>
+    </div>
 
     <div class="musica__actions">
-      <Button
-        href={SPOTIFY_ARTIST_URL}
-        variant="primary"
-        icon="spotify"
-        external
-      >
+      <Button href={SPOTIFY_ARTIST_URL} variant="primary" icon="spotify" external>
         Escúchanos en Spotify
       </Button>
-      <Button
-        href={youtubeSocial.url}
-        variant="secondary"
-        icon="youtube"
-        external
-      >
+      <Button href={youtubeSocial.url} variant="secondary" icon="youtube" external>
         Canal de YouTube
       </Button>
     </div>
   </div>
 </section>
+
+<script>
+  import '../../scripts/discos';
+</script>
 
 <style>
   #musica {
@@ -104,7 +161,6 @@ const youtubeSocial = SOCIALS.find((social) => social.id === 'youtube')!;
 
   .musica__header {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
     gap: var(--s-3);
   }
 
@@ -112,46 +168,361 @@ const youtubeSocial = SOCIALS.find((social) => social.id === 'youtube')!;
     margin-bottom: 0;
   }
 
-  .musica__grid {
+  .musica__deck {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-7);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .musica__deck {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: var(--s-8);
+    }
+  }
+
+  /* ---------- the crate ---------- */
+  .crate {
+    --s: min(300px, 62vw); /* sleeve size */
+    perspective: 1000px;
+    perspective-origin: 50% -40%;
+    width: 100%;
+  }
+
+  .crate__stage {
+    /* headroom for a sleeve lifted out over the others */
+    margin-top: calc(var(--s) * 0.2);
+    position: relative;
+    height: calc(var(--s) * 1.72);
+    transform-style: preserve-3d;
+  }
+
+  .crate__back,
+  .crate__front {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: calc(var(--s) * 1.22);
+    border-radius: 10px 10px 6px 6px;
+    background-color: var(--c-red);
+    background-image:
+      var(--tex-grain),
+      repeating-linear-gradient(
+        to bottom,
+        transparent 0 22%,
+        rgb(0 0 0 / 0.16) 22% 25%
+      );
+  }
+
+  .crate__back {
+    height: calc(var(--s) * 0.5);
+    transform: translateX(-50%) translateZ(-150px);
+    filter: brightness(0.55);
+  }
+
+  .crate__front {
+    height: calc(var(--s) * 0.46);
+    transform: translateX(-50%) translateZ(40px);
+    box-shadow:
+      0 18px 30px rgb(0 0 0 / 0.5),
+      inset 0 3px 0 rgb(255 255 255 / 0.18),
+      inset 0 -6px 0 rgb(0 0 0 / 0.25);
+    pointer-events: none;
+  }
+
+  .crate__handle {
+    position: absolute;
+    top: 16%;
+    left: 50%;
+    width: 30%;
+    height: 14%;
+    border-radius: 999px;
+    background-color: #2a0806;
+    transform: translateX(-50%);
+    box-shadow: inset 0 3px 6px rgb(0 0 0 / 0.7);
+  }
+
+  /* ---------- sleeves ---------- */
+  .sleeve {
+    --lift: 0%;
+    --tilt: 12deg;
+    --z: calc(var(--i) * -34px);
+    --y: calc(var(--i) * -9%);
+    position: absolute;
+    left: 50%;
+    bottom: calc(var(--s) * 0.08);
+    width: var(--s);
+    aspect-ratio: 1;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    transform-origin: 50% 100%;
+    transform: translateX(-50%) translateY(calc(var(--y) + var(--lift))) translateZ(var(--z))
+      rotateX(var(--tilt));
+    transition: transform 0.55s var(--ease-out);
+  }
+
+  .sleeve:focus-visible {
+    outline-offset: 4px;
+  }
+
+  /* records in front of the one being looked at fall forward onto the lip */
+  .sleeve.is-front {
+    --tilt: -34deg;
+    --z: calc(var(--i) * -34px + 6px);
+  }
+
+  /* the one you are looking at stands up and peeks out */
+  .sleeve.is-sel {
+    --tilt: 3deg;
+    --lift: -12%;
+  }
+
+  /* lifted straight up out of its own slot, clear of every other sleeve: the
+     way in and out of the crate, so nothing passes through the others */
+  .sleeve.is-up {
+    z-index: 2;
+    transform: translateX(-50%) translateY(calc(var(--y) - 101%)) translateZ(var(--z)) rotateX(0deg);
+    transition: transform 0.42s cubic-bezier(0.45, 0, 0.2, 1);
+  }
+
+  /* out: up, toward you, square to the screen */
+  .sleeve.is-out {
+    z-index: 2;
+    transform: translateX(-74%) translateY(-50%) translateZ(110px) rotateX(0deg);
+    transition: transform 0.56s cubic-bezier(0.45, 0, 0.2, 1);
+  }
+
+  /* phones: a smaller sleeve, and sleeve + record centred as one when out */
+  @media (max-width: 599.98px) {
+    .crate {
+      --s: 50vw;
+    }
+
+    .sleeve.is-out {
+      transform: translateX(-76%) translateY(-50%) translateZ(80px) rotateX(0deg);
+    }
+  }
+
+  .sleeve__cover {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: block;
+    overflow: hidden;
+    background-color: var(--c-navy-900);
+    box-shadow:
+      0 10px 22px rgb(0 0 0 / 0.5),
+      inset 0 0 0 1px rgb(255 255 255 / 0.12);
+  }
+
+  /* cardboard edge wear */
+  .sleeve__cover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      var(--tex-grain),
+      linear-gradient(135deg, rgb(255 255 255 / 0.12), transparent 30%);
+    pointer-events: none;
+  }
+
+  .sleeve__cover :global(picture),
+  .sleeve__cover :global(.sleeve__img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* the record waits inside the sleeve; going in is quick and immediate */
+  .sleeve__vinyl {
+    position: absolute;
+    z-index: 1;
+    inset: 3%;
+    transition: transform 0.35s var(--ease-out);
+  }
+
+  /* the record slides out once the sleeve has reached the front */
+  .is-open .sleeve__vinyl {
+    transform: translateX(58%);
+    transition: transform 0.9s var(--ease-out);
+  }
+
+  .sleeve__record {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle, transparent 0 31%, rgb(255 255 255 / 0.05) 31.5% 32.5%, transparent 33%),
+      radial-gradient(circle, transparent 0 66%, rgb(255 255 255 / 0.04) 66.5% 67.5%, transparent 68%),
+      repeating-radial-gradient(circle, #111114 0 1.4px, #1c1c22 1.4px 2.6px);
+    box-shadow:
+      0 10px 24px rgb(0 0 0 / 0.55),
+      inset 0 0 0 2px #050507;
+  }
+
+  /* centre label: the single's own cover */
+  .sleeve__record::before {
+    content: '';
+    position: absolute;
+    inset: 32%;
+    border-radius: 50%;
+    background: var(--label) center / cover no-repeat;
+    box-shadow: 0 0 0 2px #0a0a0c;
+  }
+
+  /* spindle hole */
+  .sleeve__record::after {
+    content: '';
+    position: absolute;
+    inset: 48.5%;
+    border-radius: 50%;
+    background-color: #d9d6cf;
+  }
+
+  /* light on the grooves stays put while the record turns */
+  .sleeve__shine {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 20deg,
+      transparent 0 8%,
+      rgb(255 255 255 / 0.13) 12%,
+      transparent 18% 50%,
+      rgb(255 255 255 / 0.1) 62%,
+      transparent 68%
+    );
+  }
+
+  /* the spin pauses where it is instead of snapping back to the start */
+  .sleeve__record {
+    animation: disco-spin 1.8s linear infinite paused;
+  }
+
+  .is-spinning .sleeve__record {
+    animation-play-state: running;
+  }
+
+  @keyframes disco-spin {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sleeve__record {
+      animation: none;
+    }
+  }
+
+  /* ---------- now playing ---------- */
+  .tocadiscos {
+    display: grid;
+    gap: var(--s-4);
+    align-content: start;
+  }
+
+  .tocadiscos__title {
+    font-size: var(--t-h3);
+    line-height: 1.1;
+    color: var(--c-white);
+  }
+
+  .tocadiscos__meta {
+    color: var(--c-text-soft);
+    margin-top: calc(var(--s-3) * -1);
+  }
+
+  .tocadiscos__list {
     margin: 0;
     padding: 0;
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--s-6) var(--s-4);
-    align-items: start;
+    border-top: 1px solid rgb(255 255 255 / 0.16);
   }
 
-  .musica__item {
+  .tocadiscos__track {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--s-3);
+    width: 100%;
+    min-height: 48px;
+    padding: var(--s-3) var(--s-2);
+    border: 0;
+    border-bottom: 1px solid rgb(255 255 255 / 0.16);
+    background: none;
+    color: var(--c-white);
+    text-align: left;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-1) var(--ease-out),
+      color var(--dur-1) var(--ease-out);
+  }
+
+  .tocadiscos__track:hover {
+    background-color: rgb(255 255 255 / 0.06);
+  }
+
+  .tocadiscos__track[aria-pressed='true'] {
+    background-color: var(--c-red);
+    background-image: var(--tex-grain);
+  }
+
+  .tocadiscos__track-name {
+    font-size: 0.95rem;
+    letter-spacing: 0.06em;
+  }
+
+  .tocadiscos__track-year {
+    font-size: var(--t-small);
+    color: var(--c-text-soft);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tocadiscos__track[aria-pressed='true'] .tocadiscos__track-year {
+    color: var(--c-white);
+  }
+
+  .tocadiscos__player {
+    min-height: 152px;
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--s-4);
-    justify-items: center;
+    place-items: center;
+    border: 1px dashed rgb(255 255 255 / 0.2);
   }
 
-  .musica__polaroid-wrap {
+  .tocadiscos__player:has(iframe) {
+    border: 0;
+    display: block;
+  }
+
+  .tocadiscos__player :global(iframe) {
+    display: block;
     width: 100%;
-    max-width: 280px;
+    height: 152px;
+    border: 0;
   }
 
-  .musica__polaroid-wrap :global(.polaroid__photo) {
-    max-width: 300px;
+  .tocadiscos__empty {
+    padding: var(--s-4);
+    font-size: var(--t-small);
+    color: var(--c-text-soft);
+    text-align: center;
   }
 
-  /* Phone columns are ~170px: caption wraps to two lines, so give it a taller strip. */
-  .musica__polaroid-wrap :global(.polaroid) {
-    padding-bottom: 24%;
-  }
-
-  .musica__polaroid-wrap :global(.polaroid__caption) {
-    height: 24%;
-    font-size: 0.6875rem;
-    line-height: 1.15;
-  }
-
-  .musica__player {
-    width: 100%;
-    max-width: 280px;
+  .tocadiscos__open {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    justify-self: start;
+    min-height: 44px;
+    font-size: var(--t-small);
+    font-weight: 600;
+    text-underline-offset: 0.22em;
   }
 
   .musica__actions {
@@ -159,56 +530,5 @@ const youtubeSocial = SOCIALS.find((social) => social.id === 'youtube')!;
     flex-wrap: wrap;
     gap: var(--s-4);
     align-items: center;
-  }
-
-  /* Narrow columns: let the facade label wrap, centred, and keep 44px+ targets. */
-  .musica__player :global(.spotify-facade__btn) {
-    min-height: 48px;
-    padding-inline: var(--s-2);
-    gap: var(--s-2);
-    letter-spacing: 0.04em;
-    text-align: center;
-  }
-
-  .musica__player :global(.spotify-facade__label) {
-    min-width: 0;
-    text-align: center;
-    overflow-wrap: anywhere;
-  }
-
-  .musica__player :global(.spotify-facade__link) {
-    min-width: 0;
-  }
-
-  @media (min-width: 600px) {
-    .musica__grid {
-      gap: var(--s-7) var(--s-6);
-    }
-
-    .musica__item {
-      gap: var(--s-5);
-    }
-
-    .musica__polaroid-wrap :global(.polaroid) {
-      padding-bottom: 14%;
-    }
-
-    .musica__polaroid-wrap :global(.polaroid__caption) {
-      height: 14%;
-      font-size: var(--t-small);
-      line-height: 1.1;
-    }
-
-    .musica__player :global(.spotify-facade__btn) {
-      padding-inline: var(--s-4);
-      gap: var(--s-3);
-      letter-spacing: 0.08em;
-    }
-  }
-
-  @media (min-width: 1100px) {
-    .musica__grid {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
   }
 </style>

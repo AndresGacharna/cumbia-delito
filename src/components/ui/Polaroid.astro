@@ -31,7 +31,11 @@ const {
 ---
 
 <figure
-  class:list={['polaroid', className]}
+  class:list={[
+    'polaroid',
+    caption ? 'polaroid--has-caption' : 'polaroid--no-caption',
+    className,
+  ]}
   style={rotate !== 0 ? `--polaroid-rotate: ${rotate}deg;` : undefined}
 >
   {tape === 'top' && <Tape class="polaroid__tape polaroid__tape--top" angle={-2} />}
@@ -63,13 +67,21 @@ const {
 <style>
   .polaroid {
     --c-focus: var(--c-ink);
+    container-type: inline-size;
     position: relative;
     display: block;
-    padding: 4% 4% 14%;
+    padding: 4% 4% 0;
     background-color: var(--c-white);
     color: var(--c-ink);
     box-shadow: var(--sh-paper);
     transform: rotate(var(--polaroid-rotate, 0deg));
+  }
+
+  .polaroid--no-caption::after,
+  .polaroid:not(:has(.polaroid__caption))::after {
+    content: '';
+    display: block;
+    padding-bottom: 14cqw;
   }
 
   .polaroid__photo {
@@ -85,17 +97,16 @@ const {
   }
 
   .polaroid__caption {
-    position: absolute;
-    inset-inline: 4%;
-    bottom: 0;
-    height: 14%;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-size: var(--t-small);
-    line-height: 1.1;
+    padding: 0.55em 0.25em 0.8em;
+    min-height: 2.6em;
+    font-size: clamp(11px, 5.8cqw, var(--t-small));
+    line-height: 1.15;
     color: var(--c-ink);
+    box-sizing: border-box;
   }
 
   .polaroid :global(.polaroid__tape--top) {

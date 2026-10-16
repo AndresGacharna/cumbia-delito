@@ -2,6 +2,8 @@
 import { EMAIL, WHATSAPP_BOOKING_URL } from '../../config';
 import { organizadores } from '../../data/content';
 import Button from '../ui/Button.astro';
+import Instrument from '../ui/Instrument.astro';
+import Keytar from '../ui/Keytar.astro';
 import Paper from '../ui/Paper.astro';
 import TapeX from '../ui/TapeX.astro';
 ---
@@ -78,22 +80,25 @@ import TapeX from '../ui/TapeX.astro';
             <div class="org__stage-wall"></div>
             <div class="org__stage-grid">
               <div class="org__pos org__pos--back">
-                <TapeX size={28} />
+                <Instrument name="octapad" />
                 <span class="org__pos-text">{organizadores.stagePlot.atrasCentro}</span>
               </div>
 
               <div class="org__pos org__pos--left">
-                <TapeX size={28} />
+                <Instrument name="guitarra" />
                 <span class="org__pos-text">{organizadores.stagePlot.izquierda}</span>
               </div>
 
               <div class="org__pos org__pos--right">
-                <TapeX size={28} />
+                <Instrument name="bajo" />
                 <span class="org__pos-text">{organizadores.stagePlot.derecha}</span>
               </div>
 
               <div class="org__pos org__pos--front">
-                <TapeX size={28} />
+                <div class="org__pos-pair">
+                  <Keytar size={96} class="org__keytar" />
+                  <Instrument name="mic" />
+                </div>
                 <span class="org__pos-text">
                   {organizadores.stagePlot.adelanteCentro[0]}
                 </span>
@@ -354,6 +359,20 @@ import TapeX from '../ui/TapeX.astro';
     grid-column: 2;
     grid-row: 3;
   }
+
+  .org__pos-pair {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: var(--s-2);
+    width: 100%;
+  }
+
+  .org__pos-pair :global(.org__keytar) {
+    width: clamp(70px, 72%, 104px);
+    height: auto;
+  }
+
 
   .org__pos-text {
     font-size: var(--t-small);

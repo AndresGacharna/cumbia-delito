@@ -36,8 +36,11 @@
   --gutter: clamp(1rem, 5vw, 4rem);
   --measure: 65ch;
 
+  /* Wall grit: dark and light specks plus slow concrete mottling, tiled. */
+  --tex-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='d'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.4 0 0 0 .62'/%3E%3C/filter%3E%3Cfilter id='l'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 .9 0 0 0 -.6'/%3E%3C/filter%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012' numOctaves='3' seed='5' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .5 0 0 0 -.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3Crect width='100%25' height='100%25' filter='url(%23d)'/%3E%3Crect width='100%25' height='100%25' filter='url(%23l)'/%3E%3C/svg%3E");
+
   --sh-paper: 0 12px 28px rgb(0 0 0 / 0.45), 0 2px 4px rgb(0 0 0 / 0.3);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --dur-1: 0.2s; --dur-2: 0.5s; --dur-3: 0.9s;
-  --z-map: 40; --z-nav: 50;
+  --z-nav: 50;
 }

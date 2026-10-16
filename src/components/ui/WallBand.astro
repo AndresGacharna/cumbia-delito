@@ -6,6 +6,7 @@ import cierre from '../../assets/muro/cierre.jpg';
 import fondoTarima from '../../assets/muro/fondo-tarima.jpg';
 import franjaGris from '../../assets/muro/franja-gris.jpg';
 import franjaRoja from '../../assets/muro/franja-roja.jpg';
+import logoBlanco from '../../assets/logo/logo-blanco.svg';
 
 export type WallBandVariant =
   | 'fondo-tarima'
@@ -18,13 +19,18 @@ export interface Props {
   variant: WallBandVariant;
   height?: string;
   position?: string;
+  stencil?: boolean;
+  /** knocks the wall back so what hangs on it reads first */
+  muted?: boolean;
   class?: string;
 }
 
 const {
   variant,
-  height = 'clamp(120px, 18vw, 260px)',
+  height = 'clamp(160px, 22vw, 320px)',
   position = 'center',
+  stencil = false,
+  muted = false,
   class: className,
 } = Astro.props;
 
@@ -40,42 +46,109 @@ const src = wallImages[variant];
 ---
 
 <div
-  class:list={['wall-band', className]}
+  class:list={['wall-band', muted && 'wall-band--muted', className]}
   style={`--band-height: ${height}; --band-pos: ${position};`}
   aria-hidden="true"
 >
-  <Picture
-    src={src}
-    formats={['avif', 'webp']}
-    widths={[640, 1024, 1480]}
-    sizes="100vw"
-    width={src.width}
-    height={src.height}
-    alt=""
-    loading="lazy"
-    class="wall-band__img"
-  />
+  <div class="wall-band__crop">
+    <Picture
+      src={src}
+      formats={['avif', 'webp']}
+      widths={[640, 1024, 1480]}
+      sizes="100vw"
+      width={src.width}
+      height={src.height}
+      alt=""
+      loading="lazy"
+      class="wall-band__img"
+    />
+    {
+      stencil && (
+        <div class="wall-band__stencil" aria-hidden="true">
+          <img
+            src={logoBlanco.src}
+            alt=""
+            width="1963"
+            height="1234"
+            class="wall-band__stencil-img"
+          />
+        </div>
+      )
+    }
+  </div>
+  <slot />
 </div>
 
 <style>
   .wall-band {
     position: relative;
     width: 100%;
-    height: var(--band-height, clamp(120px, 18vw, 260px));
+    height: var(--band-height, clamp(160px, 22vw, 320px));
+    overflow: visible;
+    z-index: 2;
+  }
+
+  .wall-band__crop {
+    position: relative;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
   }
 
-  .wall-band :global(picture) {
+  .wall-band__crop :global(picture) {
     display: block;
     width: 100%;
     height: 100%;
   }
 
-  .wall-band :global(.wall-band__img) {
+  .wall-band__crop :global(.wall-band__img) {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: var(--band-pos, center);
+  }
+
+  /* same wall, same curves, just in shadow: darker, calmer colour, softer bricks */
+  .wall-band--muted :global(.wall-band__img) {
+    filter: brightness(0.5) saturate(0.6) contrast(0.9) blur(1.5px);
+    transform: scale(1.02);
+  }
+
+  .wall-band--muted .wall-band__crop::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 40%, rgb(13 17 33 / 0.1), rgb(13 17 33 / 0.55));
+    pointer-events: none;
+  }
+
+  .wall-band__stencil {
+    position: absolute;
+    top: 50%;
+    /* over the red and navy bricks, where white reads; the right half is light gray */
+    left: 7%;
+    transform: translateY(-50%) rotate(-3deg);
+    width: clamp(160px, 30%, 420px);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* phones: the light bricks reach higher, so the logo sits in the red band */
+  @media (max-width: 599.98px) {
+    .wall-band__stencil {
+      top: 36%;
+      left: 5%;
+      width: 42%;
+    }
+  }
+
+  .wall-band__stencil-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* painted on the wall: crisp edges, a hard little shadow from the bricks */
+    opacity: 0.94;
+    filter: drop-shadow(2px 3px 0 rgb(0 0 0 / 0.45));
   }
 </style>

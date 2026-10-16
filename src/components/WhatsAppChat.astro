@@ -1,0 +1,621 @@
+---
+// Floating WhatsApp button. A tap opens a little chat window where Cumbia
+// De+Lito "writes" to the visitor (typing dots, then the message). The visitor's
+// answer is already in the composer; the send button drops it into the chat and
+// opens WhatsApp with the booking message filled in.
+import logoBlanco from '../assets/logo/logo-blanco.svg';
+import { WHATSAPP_BOOKING_URL } from '../config';
+import Icon from './ui/Icon.astro';
+---
+
+<div class="wa" data-wa>
+  <div class="wa__chat" id="wa-chat" role="dialog" aria-label="Chat con Cumbia De+Lito" hidden data-wa-chat>
+    <div class="wa__head">
+      <span class="wa__avatar">
+        <img src={logoBlanco.src} alt="" width="1963" height="1234" />
+      </span>
+      <span class="wa__who">
+        <strong>Cumbia De+Lito</strong>
+        <span class="wa__status" data-wa-status>en línea</span>
+      </span>
+      <button type="button" class="wa__close" data-wa-close aria-label="Cerrar el chat">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="wa__body" aria-live="polite">
+      <p class="wa__day">Hoy</p>
+      <p class="wa__typing" data-wa-typing aria-label="Escribiendo">
+        <span></span><span></span><span></span>
+      </p>
+      <p class="wa__msg" data-wa-msg hidden>
+        ¡Quiubo! 👋 ¿Listo para el próximo De+Lito?<br />
+        Escríbenos y armamos la fiesta: fecha, ciudad y tipo de evento.
+        <span class="wa__time" data-wa-time></span>
+      </p>
+      <p class="wa__msg wa__msg--out" data-wa-out hidden>
+        ¡Sí, de una! Armemos el De+Lito
+        <span class="wa__time">
+          <span data-wa-out-time></span>
+          <svg viewBox="0 0 18 11" width="16" height="10" aria-hidden="true"><path d="M1 6l3.5 3.5L11 1.5M7 8.5l1 1L15.5 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </p>
+    </div>
+
+    <!-- composer: the visitor's answer is already typed; send opens WhatsApp -->
+    <div class="wa__composer">
+      <span class="wa__input" aria-hidden="true">
+        <span class="wa__emoji">😎</span>
+        <span class="wa__draft" data-wa-draft></span><span class="wa__caret" data-wa-caret></span>
+      </span>
+      <a
+        href={WHATSAPP_BOOKING_URL}
+        target="_blank"
+        rel="noopener"
+        class="wa__send"
+        data-wa-send
+        aria-disabled="true"
+        aria-label="Enviar «¡Sí, de una!» por WhatsApp (se abre en otra pestaña)"
+      >
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+          <path d="M3.4 20.4 21 12 3.4 3.6 3.4 10.1 15.5 12 3.4 13.9z" fill="currentColor" />
+        </svg>
+      </a>
+    </div>  </div>
+
+  <button
+    type="button"
+    class="wa__fab"
+    data-wa-toggle
+    aria-expanded="false"
+    aria-controls="wa-chat"
+    aria-label="Escríbele a Cumbia De+Lito por WhatsApp"
+  >
+    <span class="wa__fab-icon wa__fab-icon--wa"><Icon name="whatsapp" size={30} /></span>
+    <svg class="wa__fab-icon wa__fab-icon--x" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+      <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" />
+    </svg>
+    <span class="wa__badge" data-wa-badge aria-hidden="true">1</span>
+  </button>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-wa]');
+  if (root) {
+    const chat = root.querySelector<HTMLElement>('[data-wa-chat]')!;
+    const toggle = root.querySelector<HTMLButtonElement>('[data-wa-toggle]')!;
+    const typing = root.querySelector<HTMLElement>('[data-wa-typing]')!;
+    const msg = root.querySelector<HTMLElement>('[data-wa-msg]')!;
+    const status = root.querySelector<HTMLElement>('[data-wa-status]')!;
+    const badge = root.querySelector<HTMLElement>('[data-wa-badge]')!;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const time = root.querySelector<HTMLElement>('[data-wa-time]')!;
+    const out = root.querySelector<HTMLElement>('[data-wa-out]')!;
+    const outTime = root.querySelector<HTMLElement>('[data-wa-out-time]')!;
+    const now = (): string =>
+      new Date().toLocaleTimeString('es-CO', { hour: 'numeric', minute: '2-digit' });
+
+    const draft = root.querySelector<HTMLElement>('[data-wa-draft]')!;
+    const send = root.querySelector<HTMLAnchorElement>('[data-wa-send]')!;
+    const ANSWER = '¡Sí, de una! Armemos el De+Lito';
+    let timers: number[] = [];
+    const later = (ms: number, fn: () => void): void => {
+      timers.push(window.setTimeout(fn, ms));
+    };
+
+    // Every time the chat opens: the band types its greeting, then the
+    // visitor's answer types itself into the composer, ready to send.
+    const play = (): void => {
+      timers.forEach((t) => window.clearTimeout(t));
+      timers = [];
+      root.classList.remove('is-sent', 'is-ready');
+      out.hidden = true;
+      send.setAttribute('aria-disabled', 'true');
+      time.textContent = now();
+
+      if (reduced) {
+        typing.hidden = true;
+        msg.hidden = false;
+        draft.textContent = ANSWER;
+        root.classList.add('is-ready');
+        send.setAttribute('aria-disabled', 'false');
+        return;
+      }
+
+      msg.hidden = true;
+      typing.hidden = false;
+      draft.textContent = '';
+      status.textContent = 'escribiendo…';
+      later(1400, () => {
+        typing.hidden = true;
+        msg.hidden = false;
+        status.textContent = 'en línea';
+      });
+      [...ANSWER].forEach((_, i) => {
+        later(2000 + i * 45, () => {
+          draft.textContent = ANSWER.slice(0, i + 1);
+        });
+      });
+      later(2000 + ANSWER.length * 45 + 100, () => {
+        root.classList.add('is-ready');
+        send.setAttribute('aria-disabled', 'false');
+      });
+    };
+
+    const open = (): void => {
+      chat.hidden = false;
+      root.classList.add('is-open');
+      toggle.setAttribute('aria-expanded', 'true');
+      toggle.setAttribute('aria-label', 'Cerrar el chat de WhatsApp');
+      badge.hidden = true;
+      play();
+    };
+    const close = (): void => {
+      timers.forEach((t) => window.clearTimeout(t));
+      root.classList.remove('is-open');
+      toggle.setAttribute('aria-label', 'Escríbele a Cumbia De+Lito por WhatsApp');
+      chat.hidden = true;
+      toggle.setAttribute('aria-expanded', 'false');
+    };
+
+    // the link itself opens WhatsApp; this only shows the answer as sent
+    send.addEventListener('click', (event) => {
+      // the answer is still being typed: finish it first, send on the next tap
+      if (!root.classList.contains('is-ready')) {
+        event.preventDefault();
+        timers.forEach((t) => window.clearTimeout(t));
+        typing.hidden = true;
+        msg.hidden = false;
+        status.textContent = 'en línea';
+        draft.textContent = ANSWER;
+        root.classList.add('is-ready');
+        send.setAttribute('aria-disabled', 'false');
+        return;
+      }
+      outTime.textContent = now();
+      out.hidden = false;
+      root.classList.add('is-sent');
+      draft.textContent = '';
+    });
+
+    toggle.addEventListener('click', () => (chat.hidden ? open() : close()));
+    root.querySelector('[data-wa-close]')!.addEventListener('click', () => {
+      close();
+      toggle.focus();
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !chat.hidden) {
+        close();
+        toggle.focus();
+      }
+    });
+  }
+</script>
+
+<style>
+  .wa {
+    position: fixed;
+    right: clamp(1rem, 2.5vw, 1.75rem);
+    bottom: clamp(1rem, 2.5vw, 1.75rem);
+    z-index: calc(var(--z-nav) - 1);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--s-3);
+  }
+
+  /* the launcher: the brand's red, WhatsApp's round shape and glyph */
+  .wa__fab {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 60px;
+    height: 60px;
+    border: 0;
+    border-radius: 50%;
+    background-color: var(--c-red);
+    background-image: var(--tex-grain);
+    color: var(--c-white);
+    cursor: pointer;
+    box-shadow:
+      0 10px 24px rgb(0 0 0 / 0.45),
+      0 2px 6px rgb(0 0 0 / 0.3);
+    transition:
+      transform var(--dur-1) var(--ease-out),
+      background-color var(--dur-1) var(--ease-out);
+  }
+
+  .wa__fab-icon {
+    display: grid;
+    place-items: center;
+  }
+
+  .wa__fab-icon--x,
+  .is-open .wa__fab-icon--wa {
+    display: none;
+  }
+
+  .is-open .wa__fab-icon--x {
+    display: block;
+  }
+
+  .is-open .wa__fab {
+    background-color: var(--c-navy-700);
+  }
+
+  /* a ring that keeps pulsing out of the launcher until the chat is opened */
+  .wa__fab::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border: 2px solid var(--c-red);
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .wa:not(.is-open) .wa__fab::after {
+      animation: wa-onda 2.4s ease-out 1s infinite;
+    }
+  }
+
+  @keyframes wa-onda {
+    0% {
+      opacity: 0.8;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.45);
+    }
+  }
+
+  .wa__fab:hover {
+    background-color: var(--c-red-hover);
+    transform: translateY(-3px) scale(1.04);
+  }
+
+  .wa__badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--c-navy-900);
+    border-radius: 50%;
+    background-color: #25d366;
+    color: var(--c-navy-900);
+    font-size: 0.75rem;
+    font-weight: 800;
+  }
+
+  .wa__badge[hidden] {
+    display: none;
+  }
+
+  .wa__chat {
+    width: min(340px, calc(100vw - 2rem));
+    overflow: hidden;
+    border: 1px solid rgb(255 255 255 / 0.1);
+    border-radius: 14px;
+    background-color: var(--c-navy-800);
+    color: var(--c-white);
+    box-shadow: 0 18px 40px rgb(0 0 0 / 0.55);
+    transform-origin: 100% 100%;
+    animation: wa-pop 0.3s var(--ease-out);
+  }
+
+  .wa__chat[hidden] {
+    display: none;
+  }
+
+  @keyframes wa-pop {
+    from {
+      opacity: 0;
+      transform: translateY(8px) scale(0.94);
+    }
+  }
+
+  .wa__head {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.65rem 0.5rem 0.65rem 0.8rem;
+    background-color: var(--c-navy-900);
+    background-image: var(--tex-grain);
+    border-bottom: 2px solid var(--c-red);
+  }
+
+  .wa__avatar {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background-color: var(--c-red);
+  }
+
+  /* online dot */
+  .wa__avatar::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 1px;
+    width: 11px;
+    height: 11px;
+    border: 2px solid var(--c-navy-900);
+    border-radius: 50%;
+    background-color: #25d366;
+  }
+
+  .wa__avatar img {
+    width: 34px;
+    height: auto;
+  }
+
+  .wa__who {
+    flex: 1;
+    display: grid;
+    line-height: 1.2;
+  }
+
+  .wa__who strong {
+    font-size: 0.95rem;
+  }
+
+  .wa__status {
+    font-size: 0.75rem;
+    color: var(--c-text-soft);
+  }
+
+  .wa__close {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    background: none;
+    color: var(--c-white);
+    cursor: pointer;
+  }
+
+  /* chat wallpaper: navy with a faint pattern of "+" marks, like WhatsApp's doodles */
+  .wa__body {
+    display: grid;
+    align-content: start;
+    gap: 0.5rem;
+    min-height: 150px;
+    padding: 1rem 0.8rem;
+    background-color: var(--c-navy-800);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cpath d='M22 15v14M15 22h14' stroke='%23ffffff' stroke-opacity='.03' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  }
+
+  .wa__msg,
+  .wa__typing {
+    position: relative;
+    justify-self: start;
+    max-width: 86%;
+    margin: 0;
+    padding: 0.5rem 0.7rem 0.4rem;
+    border-radius: 0 10px 10px 10px;
+    background-color: var(--c-paper);
+    color: var(--c-ink);
+    box-shadow: 0 1px 1px rgb(0 0 0 / 0.25);
+  }
+
+  /* bubble tails */
+  .wa__msg::before,
+  .wa__typing::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -7px;
+    border-top: 8px solid var(--c-paper);
+    border-left: 8px solid transparent;
+  }
+
+  .wa__msg {
+    font-size: 0.92rem;
+    line-height: 1.4;
+    animation: wa-aparece 0.4s var(--ease-out) both;
+  }
+
+  @keyframes wa-aparece {
+    from {
+      opacity: 0;
+      transform: translateY(6px) scale(0.96);
+    }
+  }
+
+  .wa__day {
+    justify-self: center;
+    margin: 0 0 0.2rem;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    background-color: var(--c-navy-900);
+    color: var(--c-text-soft);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .wa__msg--out {
+    justify-self: end;
+    border-radius: 10px 0 10px 10px;
+    background-color: var(--c-red);
+    color: var(--c-white);
+    animation: wa-pop 0.25s var(--ease-out);
+  }
+
+  .wa__msg--out::before {
+    left: auto;
+    right: -7px;
+    border-top-color: var(--c-red);
+    border-left: 0;
+    border-right: 8px solid transparent;
+  }
+
+  .wa__time {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    float: right;
+    margin: 0.45rem 0 -0.1rem 0.6rem;
+    font-size: 0.68rem;
+    opacity: 0.7;
+  }
+
+  .wa__msg--out .wa__time svg {
+    color: #9fe8ff;
+  }
+
+  .wa__msg[hidden],
+  .wa__typing[hidden] {
+    display: none;
+  }
+
+  .wa__typing {
+    display: inline-flex;
+    gap: 4px;
+    padding: 0.7rem 0.8rem;
+  }
+
+  .wa__typing span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--c-ink-soft);
+    animation: wa-dot 1s ease-in-out infinite;
+  }
+
+  .wa__typing span:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  .wa__typing span:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  @keyframes wa-dot {
+    0%, 60%, 100% {
+      transform: translateY(0);
+      opacity: 0.5;
+    }
+    30% {
+      transform: translateY(-4px);
+      opacity: 1;
+    }
+  }
+
+  /* composer bar */
+  .wa__composer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 0.6rem;
+    background-color: var(--c-navy-900);
+  }
+
+  .wa__input {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+    min-height: 44px;
+    padding: 0 0.9rem;
+    border-radius: 999px;
+    background-color: var(--c-navy-700);
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .wa__draft {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* blinking caret while the answer types itself */
+  .wa__caret {
+    flex-shrink: 0;
+    width: 2px;
+    height: 1.1em;
+    margin-left: -0.4rem;
+    background-color: var(--c-red);
+    animation: wa-caret 1s steps(1) infinite;
+  }
+
+  .is-ready .wa__caret,
+  .is-sent .wa__caret {
+    display: none;
+  }
+
+  @keyframes wa-caret {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  .wa__emoji {
+    flex-shrink: 0;
+  }
+
+  .wa__send {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background-color: var(--c-red);
+    color: var(--c-white);
+    box-shadow: 0 4px 10px rgb(0 0 0 / 0.35);
+    transition:
+      background-color var(--dur-1) var(--ease-out),
+      transform var(--dur-1) var(--ease-out);
+  }
+
+  .wa__send[aria-disabled='true'] {
+    opacity: 0.55;
+  }
+
+  .wa__send:hover {
+    background-color: var(--c-red-hover);
+    transform: scale(1.06);
+  }
+
+  .wa__send svg {
+    margin-left: 3px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .is-ready:not(.is-sent) .wa__send {
+      animation: wa-nudge 2.6s ease-in-out 0.4s infinite;
+    }
+
+    .is-sent .wa__send {
+      animation: none !important;
+    }
+  }
+
+  /* a small nudge so the send button is noticed */
+  @keyframes wa-nudge {
+    0%, 85%, 100% {
+      transform: scale(1);
+    }
+    92% {
+      transform: scale(1.12);
+    }
+  }
+</style>

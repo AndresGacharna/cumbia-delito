@@ -1,26 +1,36 @@
 ---
 import { Picture } from 'astro:assets';
-import logoNeon from '../assets/logo/logo-neon.png';
+import neonCumbia from '../assets/muro/neon-cumbia.jpg';
 import { SOCIALS } from '../config';
 import Icon from './ui/Icon.astro';
 ---
 
 <footer class="site-footer">
-  <div class="container site-footer__inner">
-    <div class="site-footer__logo">
-      <Picture
-        src={logoNeon}
-        formats={['avif', 'webp']}
-        widths={[412, 825]}
-        sizes="(max-width: 760px) 80vw, 412px"
-        width={logoNeon.width}
-        height={logoNeon.height}
-        loading="lazy"
-        alt="Logo de Cumbia De+Lito en neón"
-        class="site-footer__logo-img"
-      />
+  <div class="site-footer__wall">
+    <!-- One photo, three layers: the sign switched off underneath, the lit sign over
+         it, and a switched-off "+Lito" on top that shows when that tube fails. -->
+    <div class="neon">
+      {
+        (['off', 'main', 'lito-off'] as const).map((layer) => (
+          <div class:list={['neon__layer', `neon__layer--${layer}`]} aria-hidden={layer !== 'off' ? 'true' : undefined}>
+            <Picture
+              src={neonCumbia}
+              formats={['avif', 'webp']}
+              widths={[640, 960, 1280, 1920]}
+              sizes="(max-width: 759px) 760px, 100vw"
+              width={neonCumbia.width}
+              height={neonCumbia.height}
+              loading="lazy"
+              alt={layer === 'off' ? 'Letrero de neón de Cumbia De+Lito sobre un muro de ladrillo' : ''}
+              class="neon__img"
+            />
+          </div>
+        ))
+      }
     </div>
+  </div>
 
+  <div class="container site-footer__inner">
     <ul class="site-footer__socials">
       {
         SOCIALS.map((social) => (
@@ -42,42 +52,141 @@ import Icon from './ui/Icon.astro';
     </ul>
 
     <p class="site-footer__copy">© 2026 Cumbia De+Lito</p>
+    <p class="site-footer__credit">
+      <span>Designed by Andrés Felipe Gacharná &amp; Juan Pablo Delgado</span>
+    </p>
+    <p class="site-footer__credit">
+      <span>Developed by Andrés Felipe Gacharná</span>
+      <a href="mailto:andres@magicmachine.tech">andres@magicmachine.tech</a>
+    </p>
   </div>
 </footer>
 
 <style>
+  /* The neon sign on its wall fills the footer edge to edge; the links sit in a
+     dark band below it, so the sign has room to breathe. */
   .site-footer {
-    background-color: var(--c-navy-900);
-    border-top: 1px solid var(--c-navy-700);
-    padding-block: var(--s-8) var(--s-7);
+    --links-band: 9rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: calc(clamp(460px, 56vw, 820px) + var(--links-band));
+    background-color: #0b0c12;
+    border-top: 3px solid #000000;
+    overflow: hidden;
+  }
+
+  .site-footer__wall {
+    /* vertical anchor of the photo inside the frame, like object-position */
+    --neon-y: 0.4;
+    position: absolute;
+    inset: 0 0 var(--links-band);
+    overflow: hidden;
+    container-type: size;
+  }
+
+  /* A 16:9 frame that covers the wall. Sizing it by hand (instead of
+     object-fit) keeps the masks below in photo coordinates at every width. */
+  .neon {
+    --neon-w: max(100cqw, 100cqh * 16 / 9);
+    position: absolute;
+    width: var(--neon-w);
+    aspect-ratio: 16 / 9;
+    left: calc((100cqw - var(--neon-w)) / 2);
+    top: calc((100cqh - var(--neon-w) * 9 / 16) * var(--neon-y));
+  }
+
+  .neon__layer {
+    position: absolute;
+    inset: 0;
+  }
+
+  .neon__layer :global(picture),
+  .neon__layer :global(.neon__img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* switched off: grey tubes, no glow on the bricks */
+  .neon__layer--off :global(.neon__img),
+  .neon__layer--lito-off :global(.neon__img) {
+    filter: brightness(0.42) saturate(0.55) contrast(1.05);
+  }
+
+  /* The mask is traced from the photo itself: only the "+Lito" tubes and their
+     own halo go dark, so the wall lit by the rest of the sign stays put
+     (a round mask showed as a dark blot on the bricks). */
+  .neon__layer--lito-off {
+    opacity: 0;
+    -webkit-mask: url('../assets/muro/neon-lito-mask.png') center / 100% 100% no-repeat;
+    mask: url('../assets/muro/neon-lito-mask.png') center / 100% 100% no-repeat;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .neon__layer--main {
+      animation: neon-main 9s linear infinite;
+    }
+
+    .neon__layer--lito-off {
+      animation: neon-lito 5.3s linear infinite;
+    }
+  }
+
+  /* Mostly steady, then a stutter: a sign that is still holding on. */
+  @keyframes neon-main {
+    0%, 61% { opacity: 1; }
+    62% { opacity: 0.25; }
+    63% { opacity: 1; }
+    64.5% { opacity: 0.1; }
+    66% { opacity: 0.85; }
+    67%, 88% { opacity: 1; }
+    88.6% { opacity: 0.4; }
+    89.2%, 100% { opacity: 1; }
+  }
+
+  /* The bad tube (this is the dead layer, so 1 = off): buzzes, drops out,
+     hangs dark for a moment, comes back. */
+  @keyframes neon-lito {
+    0%, 18% { opacity: 0; }
+    19% { opacity: 0.8; }
+    20% { opacity: 0.1; }
+    21% { opacity: 0.95; }
+    23% { opacity: 0; }
+    44% { opacity: 0; }
+    45% { opacity: 0.4; }
+    46% { opacity: 0; }
+    71% { opacity: 0; }
+    72% { opacity: 1; }
+    79% { opacity: 1; }
+    80% { opacity: 0.3; }
+    81% { opacity: 0.9; }
+    83%, 100% { opacity: 0; }
+  }
+
+  /* the bottom bricks fade into the dark band under the sign */
+  .site-footer__wall::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      #0b0c12 0%,
+      rgb(11 12 18 / 0.6) 12%,
+      rgb(11 12 18 / 0) 30%
+    );
   }
 
   .site-footer__inner {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--s-5);
+    gap: var(--s-4);
+    padding-block: var(--s-6) var(--s-5);
     text-align: center;
-  }
-
-  .site-footer__logo {
-    width: min(100%, 412px);
-    /* The PNG carries its own brick background: fade it out so the neon glows on the navy. */
-    -webkit-mask-image: radial-gradient(
-      ellipse 50% 50% at 50% 50%,
-      rgb(0 0 0) 55%,
-      rgb(0 0 0 / 0) 100%
-    );
-    mask-image: radial-gradient(
-      ellipse 50% 50% at 50% 50%,
-      rgb(0 0 0) 55%,
-      rgb(0 0 0 / 0) 100%
-    );
-  }
-
-  .site-footer__logo :global(.site-footer__logo-img) {
-    width: 100%;
-    height: auto;
   }
 
   .site-footer__socials {
@@ -96,19 +205,17 @@ import Icon from './ui/Icon.astro';
     justify-content: center;
     width: 44px;
     height: 44px;
-    color: var(--c-text-soft);
-    border: 1px solid var(--c-navy-700);
-    background-color: var(--c-navy-800);
+    color: var(--c-white);
+    border: 1px solid rgb(255 255 255 / 0.22);
+    background-color: rgb(13 17 33 / 0.6);
     text-decoration: none;
     transition:
-      color var(--dur-1) var(--ease-out),
       background-color var(--dur-1) var(--ease-out),
       border-color var(--dur-1) var(--ease-out),
       transform var(--dur-1) var(--ease-out);
   }
 
   .site-footer__social-link:hover {
-    color: var(--c-white);
     background-color: var(--c-red);
     border-color: var(--c-red);
     transform: translateY(-2px);
@@ -117,5 +224,56 @@ import Icon from './ui/Icon.astro';
   .site-footer__copy {
     font-size: var(--t-small);
     color: var(--c-text-soft);
+  }
+
+  .site-footer__credit {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 0.5em;
+    margin-top: calc(var(--s-3) * -1);
+    font-size: var(--t-label);
+    color: var(--c-text-soft);
+  }
+
+  /* the email gets a line of its own */
+  .site-footer__credit a {
+    flex-basis: 100%;
+    color: var(--c-white);
+    text-underline-offset: 0.2em;
+  }
+
+  .site-footer__credit a:hover {
+    color: var(--c-red);
+  }
+
+  /* On a phone the wall becomes its own band, sized so the whole sign fits,
+     and the links sit under it instead of over the neon. */
+  @media (max-width: 759.98px) {
+    .site-footer {
+      min-height: 0;
+    }
+
+    .site-footer__wall {
+      position: relative;
+      inset: auto;
+      height: clamp(300px, 92vw, 420px);
+    }
+
+    .site-footer__wall {
+      --neon-y: 0.42;
+    }
+
+    .site-footer__wall::after {
+      background: linear-gradient(
+        to top,
+        #0b0c12 0%,
+        rgb(11 12 18 / 0) 26%
+      );
+    }
+
+    .site-footer__inner {
+      padding-block: var(--s-7) var(--s-6);
+    }
   }
 </style>

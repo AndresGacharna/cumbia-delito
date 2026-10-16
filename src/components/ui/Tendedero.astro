@@ -1,0 +1,218 @@
+---
+// A clothesline across the whole width: the rope and the photos, pinned
+// with wooden clothespins, travel along it. Someone keeps hauling it in short
+// tugs (and the visitor can pull it too by dragging). The photo set is
+// rendered twice so the line loops without a gap.
+import type { ImageMetadata } from 'astro';
+import Polaroid from './Polaroid.astro';
+
+export interface Foto {
+  src: ImageMetadata;
+  alt: string;
+}
+
+export interface Props {
+  fotos: Foto[];
+  titulo?: string;
+  bajada?: string;
+}
+
+const { fotos, titulo, bajada } = Astro.props;
+const tilts = [-5, 3, -3, 4, -4, 2, -2, 5, -3];
+---
+
+<div class:list={['tendedero', titulo && 'tendedero--titled']} data-tendedero>
+  {
+    titulo && (
+      <div class="tendedero__head">
+        <h2 class="tendedero__title" id="tendedero-title">{titulo}</h2>
+        {bajada && <p class="tendedero__bajada">{bajada}</p>}
+      </div>
+    )
+  }
+  <div class="tendedero__window">
+    <div class="tendedero__track" data-track>
+      {
+        [0, 1].map((copy) => (
+          <ul
+            class="tendedero__set"
+            role="list"
+            aria-labelledby={copy === 0 && titulo ? 'tendedero-title' : undefined}
+            aria-hidden={copy === 1 ? 'true' : undefined}
+            inert={copy === 1}
+          >
+            {fotos.map((foto, index) => (
+              <li class="tendedero__slot" style={`--tilt: ${tilts[index % tilts.length]}deg; --delay: ${(index * 0.9) % 2.4}s;`}>
+                <div class="tendedero__foto">
+                  <svg class="tendedero__pin" viewBox="0 0 14 36" aria-hidden="true">
+                    <rect x="1" y="0" width="5.5" height="36" rx="1.6" fill="#c89a62" />
+                    <rect x="7.5" y="0" width="5.5" height="36" rx="1.6" fill="#b5864f" />
+                    <rect x="0" y="15" width="14" height="5" rx="1" fill="#8d8f96" />
+                  </svg>
+                  <Polaroid
+                    src={foto.src}
+                    alt={copy === 0 ? foto.alt : ''}
+                    widths={[200, 320, 400]}
+                    sizes="(max-width: 759px) 34vw, 270px"
+                    tape="none"
+                  />
+                </div>
+              </li>
+            ))}
+          </ul>
+        ))
+      }
+    </div>
+  </div>
+
+  <p class="tendedero__hint">Jala la cuerda</p>
+</div>
+
+<script>
+  import '../../scripts/tendedero';
+</script>
+
+<style>
+  .tendedero {
+    --rope-y: 16%;
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    touch-action: pan-y;
+    cursor: grab;
+    user-select: none;
+  }
+
+  /* with a title the rope hangs lower, leaving the top of the wall for it */
+  .tendedero--titled {
+    --rope-y: 34%;
+  }
+
+  .tendedero__head {
+    position: absolute;
+    top: clamp(0.9rem, 2.2vw, 1.75rem);
+    left: var(--gutter);
+    right: var(--gutter);
+    pointer-events: none;
+  }
+
+  /* painted straight onto the wall */
+  .tendedero__title {
+    margin: 0;
+    font-size: clamp(1.6rem, 4vw, 3.25rem);
+    line-height: 0.95;
+    color: var(--c-white);
+    text-shadow:
+      2px 3px 0 rgb(0 0 0 / 0.5),
+      0 0 18px rgb(0 0 0 / 0.6);
+  }
+
+  .tendedero__bajada {
+    margin-top: 0.35rem;
+    font-size: clamp(0.85rem, 1.3vw, 1.05rem);
+    font-weight: 600;
+    color: var(--c-text-soft);
+    text-shadow: 0 1px 6px rgb(0 0 0 / 0.8);
+  }
+
+  .tendedero.is-dragging {
+    cursor: grabbing;
+  }
+
+  /* edge to edge: the rope runs off both sides of the screen */
+  .tendedero__window {
+    position: absolute;
+    top: var(--rope-y);
+    bottom: -40px;
+    left: 0;
+    right: 0;
+    overflow-x: clip;
+  }
+
+  .tendedero__track {
+    position: relative;
+    display: flex;
+    width: max-content;
+    will-change: transform;
+  }
+
+  /* the rope travels with the photos, so its twist shows it running */
+  .tendedero__track::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 0;
+    right: 0;
+    height: 5px;
+    border-radius: 3px;
+    background: repeating-linear-gradient(
+      115deg,
+      #efe8d8 0 4px,
+      #b9ae96 4px 6px
+    );
+    box-shadow: 0 3px 3px rgb(0 0 0 / 0.45);
+  }
+
+  .tendedero__set {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .tendedero__slot {
+    width: clamp(170px, 28vw, 440px);
+    display: flex;
+    justify-content: center;
+  }
+
+  /* --lean comes from the script: photos swing back when the rope is jerked */
+  .tendedero__foto {
+    position: relative;
+    width: clamp(110px, 18vw, 270px);
+    transform: rotate(calc(var(--tilt) + var(--lean, 0deg)));
+    transform-origin: 50% 0;
+    transition: transform 0.6s cubic-bezier(0.3, 1.6, 0.5, 1);
+  }
+
+  /* every photo as a square print, so tall portraits do not hang too low */
+  .tendedero__foto :global(.polaroid__photo) {
+    aspect-ratio: 1;
+  }
+
+  .tendedero__foto :global(.polaroid__photo picture) {
+    display: block;
+    height: 100%;
+  }
+
+  .tendedero__foto :global(.polaroid__img) {
+    height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+  }
+
+  .tendedero__pin {
+    position: absolute;
+    z-index: 2;
+    top: -17px;
+    left: 50%;
+    width: 13px;
+    height: auto;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 2px 2px rgb(0 0 0 / 0.45));
+  }
+
+  .tendedero__hint {
+    position: absolute;
+    right: var(--gutter);
+    bottom: var(--s-3);
+    padding: 0.3rem 0.6rem;
+    background-color: rgb(13 17 33 / 0.75);
+    color: var(--c-white);
+    font-size: var(--t-label);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+</style>

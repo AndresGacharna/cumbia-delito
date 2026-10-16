@@ -1,0 +1,131 @@
+---
+// Stage-plot instruments, drawn in the same white-body / navy-line style as Keytar.
+export type InstrumentName = 'octapad' | 'guitarra' | 'bajo' | 'mic';
+
+export interface Props {
+  name: InstrumentName;
+  class?: string;
+}
+
+const { name, class: className } = Astro.props;
+
+const ink = 'var(--c-navy-900)';
+
+// Guitar and bass share one drawing; the bass gets a longer neck and four tuners.
+const isBass = name === 'bajo';
+const neckEnd = isBass ? 150 : 128;
+const tuners = Array.from({ length: isBass ? 4 : 6 }, (_, i) =>
+  Math.round((neckEnd + 4 + i * ((isBass ? 16 : 17) / (isBass ? 3 : 5))) * 10) / 10,
+);
+const frets = Array.from({ length: isBass ? 12 : 11 }, (_, i) =>
+  Math.round((60 + (i * (neckEnd - 62)) / (isBass ? 12 : 11)) * 10) / 10,
+);
+const stringWidth = isBass ? 180 : 158;
+
+const pads = [0, 1, 2, 3].flatMap((col) =>
+  [0, 1].map((row) => ({ x: 10 + col * 16, y: 20 + row * 13 })),
+);
+
+const viewBox = {
+  octapad: '0 0 80 56',
+  guitarra: `0 0 ${stringWidth} 52`,
+  bajo: `0 0 ${stringWidth} 52`,
+  mic: '0 0 40 64',
+}[name];
+---
+
+<svg
+  viewBox={viewBox}
+  aria-hidden="true"
+  class:list={['instrument', `instrument--${name}`, className]}
+>
+  {
+    name === 'octapad' && (
+      <g stroke={ink} stroke-width="1.5" stroke-linejoin="round">
+        <rect x="3" y="5" width="74" height="46" rx="4" fill="#FFFFFF" />
+        <rect x="10" y="10" width="22" height="5" rx="1" fill={ink} />
+        <circle cx="62" cy="12.5" r="2.4" fill="#FFFFFF" />
+        <circle cx="69" cy="12.5" r="2.4" fill="#FFFFFF" />
+        {pads.map((pad) => (
+          <rect x={pad.x} y={pad.y} width="13" height="10" rx="2" fill={ink} />
+        ))}
+        <rect x="4" y="5" width="72" height="4" rx="2" fill="var(--c-red)" stroke="none" />
+      </g>
+    )
+  }
+
+  {
+    (name === 'guitarra' || name === 'bajo') && (
+      <g stroke={ink} stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+        <path
+          fill="#FFFFFF"
+          d={
+            isBass
+              ? 'M 6 27 C 5 12, 17 7, 30 12 C 37 14, 42 11, 48 6 C 53 3, 58 7, 54 13 C 51 18, 54 21, 60 23 L 60 30 C 54 31, 51 34, 53 39 C 56 46, 50 49, 45 45 C 40 41, 35 40, 29 42 C 15 46, 7 40, 6 27 Z'
+              : 'M 8 26 C 8 13, 18 9, 30 13 C 36 15, 40 13, 45 9 C 49 6, 53 9, 50 15 C 48 19, 52 22, 58 23 L 58 29 C 52 30, 48 33, 50 37 C 53 43, 49 46, 45 43 C 40 39, 36 37, 30 39 C 18 43, 8 39, 8 26 Z'
+          }
+        />
+        <rect x="56" y="23.2" width={neckEnd - 56} height="5.6" fill="#FFFFFF" />
+        {frets.map((x) => (
+          <line x1={x} y1="23.6" x2={x} y2="28.4" stroke-width="1" />
+        ))}
+        <path
+          fill="#FFFFFF"
+          d={`M ${neckEnd} 22.6 L ${neckEnd + (isBass ? 22 : 19)} 19.8 C ${neckEnd + (isBass ? 26 : 23)} 19.4 ${neckEnd + (isBass ? 27 : 24)} 21 ${neckEnd + (isBass ? 26.4 : 23.4)} 23 L ${neckEnd + (isBass ? 25 : 22)} 30 C ${neckEnd + (isBass ? 24.6 : 21.6)} 32 ${neckEnd + (isBass ? 23 : 20)} 32.4 ${neckEnd + (isBass ? 21 : 18)} 32 L ${neckEnd} 29.4 Z`}
+        />
+        {tuners.map((x) => (
+          <circle cx={x} cy="19.6" r={isBass ? 2 : 1.5} fill={ink} stroke="none" />
+        ))}
+        <rect x="18" y="22" width="5" height="8" rx="1" fill={ink} />
+        {isBass ? (
+          <rect x="33" y="21.5" width="6" height="9" rx="1.5" fill={ink} />
+        ) : (
+          <>
+            <rect x="29" y="22" width="4" height="8" rx="1" fill={ink} />
+            <rect x="38" y="22" width="4" height="8" rx="1" fill={ink} />
+          </>
+        )}
+        <line x1="20" y1="26" x2={neckEnd + 6} y2="26" stroke-width="0.6" />
+        <circle cx={isBass ? 26 : 22} cy="37" r="1.6" fill={ink} stroke="none" />
+        <circle cx={isBass ? 31 : 27} cy="38" r="1.6" fill={ink} stroke="none" />
+      </g>
+    )
+  }
+
+  {
+    name === 'mic' && (
+      <g stroke={ink} stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+        <path fill="#FFFFFF" d="M 13 24 L 17 60 C 17.4 62.5 22.6 62.5 23 60 L 27 24 Z" />
+        <rect x="11.5" y="21" width="17" height="5" rx="1.5" fill={ink} />
+        <circle cx="20" cy="13" r="10" fill="#FFFFFF" />
+        <path d="M 11 9 L 29 9 M 10 13 L 30 13 M 11 17 L 29 17 M 16 4 L 16 22 M 20 3 L 20 23 M 24 4 L 24 22" stroke-width="0.9" />
+        <rect x="18" y="40" width="4" height="7" rx="1" fill="var(--c-red)" stroke="none" />
+      </g>
+    )
+  }
+</svg>
+
+<style>
+  .instrument {
+    display: block;
+    height: auto;
+    flex-shrink: 0;
+    filter: drop-shadow(0 4px 8px rgb(0 0 0 / 0.45));
+  }
+
+  .instrument--octapad {
+    width: clamp(56px, 60%, 76px);
+  }
+
+  .instrument--guitarra {
+    width: clamp(84px, 92%, 128px);
+  }
+
+  .instrument--bajo {
+    width: clamp(92px, 100%, 140px);
+  }
+
+  .instrument--mic {
+    width: 22px;
+  }
+</style>

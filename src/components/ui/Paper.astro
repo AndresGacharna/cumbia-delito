@@ -2,14 +2,25 @@
 export interface Props {
   variant: 'ruled' | 'grid' | 'aged';
   rotate?: number;
+  crumpled?: boolean;
   class?: string;
 }
 
-const { variant, rotate = 0, class: className } = Astro.props;
+const {
+  variant,
+  rotate = 0,
+  crumpled = false,
+  class: className,
+} = Astro.props;
 ---
 
 <div
-  class:list={['paper', `paper--${variant}`, className]}
+  class:list={[
+    'paper',
+    `paper--${variant}`,
+    crumpled && 'paper--crumpled',
+    className,
+  ]}
   style={rotate !== 0 ? `--paper-rotate: ${rotate}deg;` : undefined}
 >
   <slot />
@@ -60,5 +71,27 @@ const { variant, rotate = 0, class: className } = Astro.props;
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.28 0 0 0 0 0.2 0 0 0 0 0.1 0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
       radial-gradient(ellipse at 14% 18%, rgb(114 29 31 / 0.11) 0%, transparent 55%),
       radial-gradient(ellipse at 86% 82%, rgb(21 25 49 / 0.12) 0%, transparent 60%);
+  }
+
+  .paper--crumpled::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    mix-blend-mode: multiply;
+    opacity: 0.52;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNTAwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIj48ZGVmcz48ZmlsdGVyIGlkPSJjciIgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuMDE1IiBudW1PY3RhdmVzPSIzIiByZXN1bHQ9Im4iLz48ZmVEaWZmdXNlTGlnaHRpbmcgaW49Im4iIHN1cmZhY2VTY2FsZT0iMy4yIiBsaWdodGluZy1jb2xvcj0iI2ZmZmZmZiIgcmVzdWx0PSJsIj48ZmVEaXN0YW50TGlnaHQgYXppbXV0aD0iNDUiIGVsZXZhdGlvbj0iNTUiLz48L2ZlRGlmZnVzZUxpZ2h0aW5nPjwvZmlsdGVyPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZmZmIiBmaWx0ZXI9InVybCgjY3IpIi8+PGcgb3BhY2l0eT0iMC43NSI+PHBhdGggZD0iTS0xMCw5NSBMNDEwLDI2MCIgc3Ryb2tlPSJyZ2JhKDMwLDIwLDEwLDAuMzUpIiBzdHJva2Utd2lkdGg9IjEuMiIvPjxwYXRoIGQ9Ik0tMTAsOTYuNSBMNDEwLDI2MS41IiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC43KSIgc3Ryb2tlLXdpZHRoPSIxLjIiLz48cGF0aCBkPSJNMzEwLC0xMCBMNzAsNTEwIiBzdHJva2U9InJnYmEoMzAsMjAsMTAsMC4zMikiIHN0cm9rZS13aWR0aD0iMS4yIi8+PHBhdGggZD0iTTMxMS41LC0xMCBMNzEuNSw1MTAiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjY1KSIgc3Ryb2tlLXdpZHRoPSIxLjIiLz48cGF0aCBkPSJNLTEwLDM0MCBMNDEwLDQzMCIgc3Ryb2tlPSJyZ2JhKDMwLDIwLDEwLDAuMjgpIiBzdHJva2Utd2lkdGg9IjEuMiIvPjxwYXRoIGQ9Ik0tMTAsMzQxLjUgTDQxMCw0MzEuNSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuNikiIHN0cm9rZS13aWR0aD0iMS4yIi8+PHBhdGggZD0iTTIyMCwtMTAgTDQxMCwxNzAiIHN0cm9rZT0icmdiYSgzMCwyMCwxMCwwLjI1KSIgc3Ryb2tlLXdpZHRoPSIxLjIiLz48cGF0aCBkPSJNMjIxLC0xMSBMNDExLDE2OSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuNTUpIiBzdHJva2Utd2lkdGg9IjEuMiIvPjxwYXRoIGQ9Ik0tMTAsMzkwIEwxNzAsNTEwIiBzdHJva2U9InJnYmEoMzAsMjAsMTAsMC4yNSkiIHN0cm9rZS13aWR0aD0iMS4yIi8+PHBhdGggZD0iTS05LDM4OSBMMTcxLDUwOSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuNTUpIiBzdHJva2Utd2lkdGg9IjEuMiIvPjwvZz48L3N2Zz4=");
+    background-size: 100% 100%;
+    mask-image: radial-gradient(
+      ellipse at 50% 50%,
+      rgb(0 0 0 / 0.35) 20%,
+      rgb(0 0 0 / 0.95) 90%
+    );
+    -webkit-mask-image: radial-gradient(
+      ellipse at 50% 50%,
+      rgb(0 0 0 / 0.35) 20%,
+      rgb(0 0 0 / 0.95) 90%
+    );
   }
 </style>

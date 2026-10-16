@@ -1,12 +1,21 @@
 .sec {
   position: relative;
   padding-block: var(--section-pad);
-  background: var(--c-navy-900);
+  background-color: var(--c-navy-900);
+  background-image: var(--tex-grain);
   scroll-margin-top: 64px;
 }
 
 .sec--alt {
-  background: var(--c-navy-800);
+  background-color: var(--c-navy-800);
+  /* the EPK's navy brick, knocked back so it reads as wall, not picture */
+  background-image:
+    var(--tex-grain),
+    linear-gradient(rgb(21 25 49 / 0.74), rgb(21 25 49 / 0.74)),
+    var(--tex-brick);
+  background-size: auto, auto, cover;
+  background-repeat: repeat, no-repeat, no-repeat;
+  background-position: 0 0, 0 0, center 60%;
 }
 
 .sec-head {
