@@ -207,9 +207,12 @@ const starPath =
   .contratacion__bg-overlay {
     position: absolute;
     inset: 0;
-    background-color: var(--c-navy-900);
-    opacity: 0.35;
-    mix-blend-mode: multiply;
+    background: linear-gradient(
+      to bottom,
+      rgb(13 17 33 / 0.8) 0%,
+      rgb(13 17 33 / 0.35) 45%,
+      rgb(13 17 33 / 0.35) 100%
+    );
   }
 
   .contratacion__inner {
@@ -225,8 +228,8 @@ const starPath =
 
   @media (min-width: 900px) {
     .contratacion__grid {
-      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-      gap: var(--s-8);
+      grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+      gap: var(--s-7);
     }
   }
 
@@ -345,7 +348,24 @@ const starPath =
     width: 100%;
     min-height: 60px;
     font-size: clamp(1rem, 1.5vw, 1.125rem);
-    padding: 1.1rem 1.5rem;
+    padding: 1.1rem 1rem;
+    letter-spacing: 0.08em;
+    text-align: center;
+  }
+
+  .contratacion__panel :global(.contratacion__cta svg) {
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 900px) {
+    .contratacion__panel :global(.contratacion__cta) {
+      font-size: clamp(0.875rem, 1.35vw, 1.125rem);
+      padding-inline: 1.25rem;
+    }
+
+    .contratacion__panel :global(.contratacion__cta .btn__label) {
+      white-space: nowrap;
+    }
   }
 
   .contratacion__contact {

@@ -62,6 +62,17 @@ import Icon from './ui/Icon.astro';
 
   .site-footer__logo {
     width: min(100%, 412px);
+    /* The PNG carries its own brick background: fade it out so the neon glows on the navy. */
+    -webkit-mask-image: radial-gradient(
+      ellipse 50% 50% at 50% 50%,
+      rgb(0 0 0) 55%,
+      rgb(0 0 0 / 0) 100%
+    );
+    mask-image: radial-gradient(
+      ellipse 50% 50% at 50% 50%,
+      rgb(0 0 0) 55%,
+      rgb(0 0 0 / 0) 100%
+    );
   }
 
   .site-footer__logo :global(.site-footer__logo-img) {
