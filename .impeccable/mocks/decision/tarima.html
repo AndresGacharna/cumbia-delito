@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es-CO"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;800;900&family=Kaushan+Script&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1440px;height:900px;overflow:hidden;background:#0D1121;font-family:Montserrat,sans-serif;color:#fff;position:relative}
+/* back wall: brick in curved bands */
+.wall{position:absolute;inset:0 0 auto 0;height:250px;background:
+ repeating-linear-gradient(0deg,transparent 0 22px,rgba(0,0,0,.45) 22px 25px),
+ repeating-linear-gradient(90deg,transparent 0 60px,rgba(0,0,0,.45) 60px 63px),#151931}
+.band{position:absolute;left:-10%;width:120%;height:140px;border-radius:50%;top:120px;background:#721D1F;transform:rotate(-3deg)}
+.band.g{background:#8B8D95;top:170px;height:90px;transform:rotate(2deg)}
+/* stage floor */
+.floor{position:absolute;left:0;right:0;top:230px;bottom:0;background:
+ repeating-linear-gradient(90deg,rgba(255,255,255,.03) 0 2px,transparent 2px 120px),#0D1121;border-top:6px solid #000}
+.nav{position:absolute;top:24px;left:48px;right:48px;display:flex;justify-content:space-between;align-items:center;z-index:3}
+.nav b{font-family:'Kaushan Script';font-size:30px;font-weight:400}
+.nav b i{color:#DA291C;font-style:normal}
+.nav span{font-weight:800;font-size:13px;letter-spacing:.2em;margin-left:28px}
+.nav .wa{background:#DA291C;padding:10px 18px}
+/* tape X marks and positions */
+.mark{position:absolute;width:46px;height:46px;z-index:2}
+.mark:before,.mark:after{content:"";position:absolute;left:-4px;top:19px;width:54px;height:9px;background:#DA291C;transform:rotate(45deg)}
+.mark:after{transform:rotate(-45deg)}
+.pos{position:absolute;z-index:2;font-weight:900;letter-spacing:.18em;font-size:26px}
+.pos small{display:block;font-weight:500;letter-spacing:.06em;font-size:15px;color:#8B8D95;margin-top:6px;text-transform:none}
+.line{position:absolute;height:2px;background:#fff;opacity:.7;transform-origin:left}
+/* front-center: voice */
+.front{position:absolute;left:520px;top:430px;width:620px;z-index:2}
+.logo{font-family:'Kaushan Script';font-size:132px;line-height:.86;transform:rotate(-7deg);margin-left:-10px}
+.logo i{color:#DA291C;font-style:normal}
+.tag{font-weight:800;letter-spacing:.24em;font-size:15px;margin:34px 0 10px}
+.sub{font-weight:500;font-size:24px;max-width:560px;line-height:1.3}
+.sub em{color:#DA291C;font-style:normal;font-weight:900}
+.ctas{display:flex;gap:18px;margin-top:28px}
+.ctas a{font-weight:900;letter-spacing:.16em;font-size:17px;padding:22px 30px;color:#fff;text-decoration:none}
+.c1{background:#DA291C}.c2{background:#fff;color:#0D1121!important}
+/* keytar position: the stage photo as polaroid */
+.pola{position:absolute;left:110px;top:330px;width:360px;background:#fff;padding:16px 16px 60px;transform:rotate(-4deg);z-index:2;box-shadow:0 16px 30px rgba(0,0,0,.5)}
+.pola div{height:420px;background:linear-gradient(160deg,#1c2a6b,#0b0f22 60%,#3a0d16);display:flex;align-items:flex-end;padding:14px;font-weight:800;font-size:13px;letter-spacing:.15em;color:#8B8D95}
+.tape{position:absolute;top:-16px;left:120px;width:120px;height:34px;background:rgba(233,228,218,.85);transform:rotate(3deg)}
+.mon{position:absolute;bottom:0;width:150px;height:60px;background:#151931;border-top:4px solid #8B8D95;clip-path:polygon(10% 0,90% 0,100% 100%,0 100%)}
+</style></head><body>
+<div class="wall"><div class="band"></div><div class="band g"></div></div>
+<div class="floor"></div>
+<nav class="nav"><b>Cumbia De<i>+</i>Lito</b><div><span>MÚSICA</span><span>EL SHOW</span><span>ORGANIZADORES</span><span class="wa">CONTRATA</span></div></nav>
+<!-- back center: drums = Música -->
+<div class="mark" style="left:697px;top:268px"></div>
+<div class="pos" style="left:770px;top:262px">MÚSICA<small>Atrás al centro · 4 sencillos</small></div>
+<!-- right: bass = Organizadores -->
+<div class="mark" style="left:1250px;top:360px"></div>
+<div class="line" style="left:1180px;top:383px;width:60px"></div>
+<div class="pos" style="left:1180px;top:420px;font-size:20px">ORGANIZADORES<small>Rider · stage plot</small></div>
+<!-- left: guitar = El show -->
+<div class="mark" style="left:500px;top:300px"></div>
+<div class="pos" style="left:330px;top:250px;font-size:20px">EL SHOW<small>4 músicos · 3 técnicos</small></div>
+<div class="pola"><span class="tape"></span><div>FOTO DE TARIMA · KEYTAR</div></div>
+<div class="front">
+ <div class="logo">Cumbia<br>&nbsp;&nbsp;De<i>+</i>Lito</div>
+ <p class="tag">CUMBIA VILLERA · CUMBIA URBANA · BOGOTÁ, COLOMBIA</p>
+ <p class="sub">Tradición caribe colombiana <em>+</em> energía urbana latinoamericana.</p>
+ <div class="ctas"><a class="c1">CONTRATA EL SHOW</a><a class="c2">ESCÚCHANOS</a></div>
+</div>
+<div class="mon" style="left:560px"></div><div class="mon" style="left:900px"></div>
+</body></html>

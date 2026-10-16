@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es-CO"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prototipo · La tarima</title>
+<style>
+:root{--navy:#0D1121;--navy2:#151931;--brick:#721D1F;--gray:#8B8D95;--red:#DA291C;--paper:#E9E4DA}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--navy);color:#fff;font:16px/1.5 system-ui,sans-serif}
+.note{position:fixed;left:12px;bottom:12px;z-index:50;background:var(--paper);color:var(--navy);font-size:12px;padding:8px 12px;max-width:320px}
+/* nav: contratar siempre a un toque */
+nav{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:rgba(13,17,33,.92)}
+nav b{font-size:20px}nav b i{color:var(--red);font-style:normal}
+nav a{color:#fff;text-decoration:none;font-weight:800;font-size:12px;letter-spacing:.14em;margin-left:18px}
+nav .wa{background:var(--red);padding:10px 14px}
+@media(max-width:760px){nav .links{display:none}}
+/* ---------- HERO: la tarima completa vista desde arriba ---------- */
+.hero{position:relative;height:100vh;min-height:640px;overflow:hidden}
+.wall{position:absolute;left:0;right:0;top:0;height:24%;background:var(--navy2);border-bottom:6px solid #000}
+.wall:after{content:"MURO DE LADRILLO (franjas curvas)";position:absolute;left:20px;bottom:10px;font-size:11px;letter-spacing:.2em;color:var(--gray)}
+.stage{position:absolute;inset:24% 0 0 0}
+.x{position:absolute;width:34px;height:34px;transform:translate(-50%,-50%)}
+.x:before,.x:after{content:"";position:absolute;left:-3px;top:13px;width:40px;height:8px;background:var(--red);transform:rotate(45deg)}
+.x:after{transform:rotate(-45deg)}
+.x span{position:absolute;left:44px;top:4px;white-space:nowrap;font-weight:800;font-size:12px;letter-spacing:.16em}
+.front{position:absolute;left:50%;bottom:7%;transform:translateX(-50%);width:min(620px,90vw);text-align:center}
+.logo{display:inline-block;border:2px dashed #fff;padding:18px 34px;font-size:clamp(36px,7vw,80px);font-weight:900;line-height:1}
+.logo i{color:var(--red);font-style:normal}
+.tag{margin-top:16px;font-weight:800;font-size:12px;letter-spacing:.22em}
+.sub{margin-top:8px;font-size:clamp(17px,2vw,22px)}
+.sub em{color:var(--red);font-style:normal;font-weight:900}
+.ctas{display:flex;gap:12px;justify-content:center;margin-top:20px;flex-wrap:wrap}
+.ctas a{font-weight:900;font-size:14px;letter-spacing:.14em;padding:16px 22px;text-decoration:none}
+.c1{background:var(--red);color:#fff}.c2{background:#fff;color:var(--navy)}
+.photo{position:absolute;left:6%;top:12%;width:min(260px,30vw);aspect-ratio:3/4;background:#fff;padding:10px 10px 36px;transform:rotate(-4deg)}
+.photo div{height:100%;background:#2a3157;display:grid;place-items:center;font-size:11px;letter-spacing:.18em;color:#cfd2dc;text-align:center}
+@media(max-width:760px){.photo{left:auto;right:6%;top:6%;width:34vw}.x span{font-size:10px}}
+/* ---------- MINIMAPA: la tarima se encoge y te dice dónde estás ---------- */
+.map{position:fixed;right:20px;top:84px;z-index:30;width:200px;height:150px;background:var(--navy2);border:2px solid #000;opacity:0;transform:scale(.6);transform-origin:top right;transition:.4s;pointer-events:none}
+.map.on{opacity:1;transform:none}
+.map .x{width:16px;height:16px}
+.map .x:before,.map .x:after{width:20px;height:4px;top:6px;left:-2px;background:var(--gray);transition:.3s}
+.map .x.act:before,.map .x.act:after{background:var(--red)}
+.map .x span{display:none}
+.map .lbl{position:absolute;left:8px;bottom:6px;font-size:10px;font-weight:800;letter-spacing:.16em}
+.map .wallm{position:absolute;left:0;right:0;top:0;height:22%;background:#0b0e1c}
+@media(max-width:760px){.map{right:auto;left:0;top:56px;width:100%;height:54px;border-width:0 0 2px}.map .wallm{display:none}.map .lbl{bottom:auto;top:18px;left:auto;right:12px}}
+/* ---------- SECCIONES (bloques) ---------- */
+section.s{min-height:90vh;padding:120px 6vw 80px;position:relative;border-top:1px solid #222846}
+.s h2{font-weight:900;font-size:clamp(28px,5vw,56px);letter-spacing:.06em}
+.s .pos{font-size:12px;letter-spacing:.2em;font-weight:800;color:var(--red);margin-bottom:10px}
+.lead{max-width:640px;margin:14px 0 26px;color:#cfd2dc}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;max-width:1000px}
+.blk{background:#1d2342;min-height:120px;display:grid;place-items:center;font-size:11px;letter-spacing:.18em;color:var(--gray);text-align:center;padding:10px}
+.paper{background:var(--paper);color:var(--navy)}
+.line{position:absolute;left:6vw;top:100px;height:3px;background:var(--red);width:0;transition:width .8s ease}
+.s.in .line{width:min(240px,40vw)}
+.plot{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:80px 80px 80px;gap:10px;max-width:520px;margin-top:20px}
+.plot div{background:#1d2342;display:grid;place-items:center;font-size:11px;letter-spacing:.12em;text-align:center}
+.wanted{max-width:420px;background:var(--paper);color:var(--navy);padding:30px;text-align:center;transform:rotate(-2deg)}
+.wanted b{display:block;font-size:44px;font-weight:900}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body>
+<p class="note"><b>Prototipo de scroll · La tarima.</b> Bloques sin fotos. Fíjate en el minimapa: aparece al salir de la primera pantalla y marca en rojo en qué puesto de la tarima estás. En celular se vuelve una franja arriba.</p>
+<nav><b>Cumbia De<i>+</i>Lito</b><div><span class="links"><a href="#musica">MÚSICA</a><a href="#show">EL SHOW</a><a href="#org">ORGANIZADORES</a></span><a class="wa" href="#contacto">CONTRATA</a></div></nav>
+
+<header class="hero" id="top">
+ <div class="wall"></div>
+ <div class="stage">
+  <div class="x" style="left:50%;top:14%"><span>MÚSICA ↗</span></div>
+  <div class="x" style="left:24%;top:46%"><span>LA PROPUESTA</span></div>
+  <div class="x" style="left:78%;top:40%"><span>COLABORACIONES</span></div>
+  <div class="x" style="left:66%;top:16%"><span>TRAYECTORIA</span></div>
+  <div class="photo"><div>FOTO DE TARIMA<br>(puesto del keytar)</div></div>
+  <div class="front">
+   <div class="logo">Cumbia De<i>+</i>Lito</div>
+   <p class="tag">CUMBIA VILLERA · CUMBIA URBANA · BOGOTÁ, COLOMBIA</p>
+   <p class="sub">Tradición caribe colombiana <em>+</em> energía urbana latinoamericana.</p>
+   <div class="ctas"><a class="c1" href="#contacto">CONTRATA EL SHOW</a><a class="c2" href="#musica">ESCÚCHANOS</a></div>
+  </div>
+ </div>
+</header>
+
+<div class="map" id="map"><div class="wallm"></div>
+ <div class="x" data-k="musica" style="left:50%;top:34%"></div>
+ <div class="x" data-k="propuesta" style="left:22%;top:60%"></div>
+ <div class="x" data-k="colab" style="left:80%;top:58%"></div>
+ <div class="x" data-k="tray" style="left:68%;top:34%"></div>
+ <div class="x" data-k="show" style="left:36%;top:40%"></div>
+ <div class="x" data-k="org" style="left:12%;top:34%"></div>
+ <div class="x" data-k="contacto" style="left:50%;top:84%"></div>
+ <div class="lbl" id="lbl">—</div>
+</div>
+
+<section class="s" id="propuesta" data-k="propuesta" data-n="LA PROPUESTA"><i class="line"></i><p class="pos">PUESTO · GUITARRA</p><h2>LA PROPUESTA</h2><p class="lead">Cumbia villera con sabor a costa atlántica. Texto del EPK sobre una hoja de cuaderno.</p><div class="grid"><div class="blk paper">HOJA DE CUADERNO · ¶1–2</div><div class="blk">CARACTERÍSTICAS DEL SONIDO</div></div></section>
+<section class="s" id="musica" data-k="musica" data-n="MÚSICA"><i class="line"></i><p class="pos">PUESTO · BATERÍA, ATRÁS AL CENTRO</p><h2>MÚSICA</h2><p class="lead">Los 4 sencillos: polaroid de la portada + reproductor de Spotify que carga al tocarlo.</p><div class="grid"><div class="blk">CUMBIANDO EL MUNDO · 2025</div><div class="blk">LA RUEDA DE LA CUMBIA · 2022</div><div class="blk">LA FAMOSA BANDA · 2022</div><div class="blk">CUMBIA CERVEZA Y MUJER · 2022</div></div></section>
+<section class="s" id="colab" data-k="colab" data-n="COLABORACIONES"><i class="line"></i><p class="pos">PUESTO · BAJO</p><h2>COLABORACIONES</h2><p class="lead">Junto a Karol G en «Cuando me muera te olvido» — La Premiere (2025). Video oficial + nota de Noticias RCN.</p><div class="grid"><div class="blk" style="grid-column:span 2;min-height:220px">VIDEO LA PREMIERE (carga al tocar)</div><div class="blk">SUBCANTANTE</div><div class="blk">LOS VARRILETES</div><div class="blk">LOS PIBES DEL PENAL</div></div></section>
+<section class="s" id="show" data-k="show" data-n="EL SHOW"><i class="line"></i><p class="pos">TODA LA TARIMA</p><h2>EL SHOW</h2><p class="lead">4 músicos en escena · 3 técnicos · la formación se arma según el destino. Más la historia desde 2012.</p><div class="grid"><div class="blk">4 MÚSICOS</div><div class="blk">3 TÉCNICOS</div><div class="blk paper">HISTORIA · 2012</div></div></section>
+<section class="s" id="tray" data-k="tray" data-n="TRAYECTORIA"><i class="line"></i><p class="pos">PUESTO · TIMBAL</p><h2>TRAYECTORIA</h2><p class="lead">15 ciudades de Colombia y 5 países, sin fechas.</p><div class="grid"><div class="blk">MAPA / LISTA COLOMBIA</div><div class="blk">MÉXICO · ECUADOR · PERÚ · ARGENTINA · CHILE</div></div></section>
+<section class="s" id="org" data-k="org" data-n="ORGANIZADORES"><i class="line"></i><p class="pos">LA TARIMA VUELVE EN GRANDE</p><h2>PARA ORGANIZADORES</h2><p class="lead">Aquí la tarima del inicio reaparece como stage plot real, con su rider en tabla.</p><div class="plot"><div></div><div>BATERÍA (OCTAPAD)</div><div></div><div>GUITARRA</div><div></div><div>BAJO</div><div></div><div style="background:var(--red)">TECLADO + VOZ</div><div></div></div><div class="grid" style="margin-top:18px"><div class="blk">TABLA RIDER · 5 PUESTOS</div><div class="blk">REQUERIMIENTOS BÁSICOS</div></div></section>
+<section class="s" id="contacto" data-k="contacto" data-n="CONTRATACIÓN"><i class="line"></i><p class="pos">DE VUELTA AL FRENTE · VOZ</p><h2>CONTRATACIÓN</h2><p class="lead">Cierre: el afiche y el WhatsApp.</p><div class="wanted"><b>SE BUSCA</b>CANTANDO O TOCANDO<div class="ctas"><a class="c1">CONTRATA EL SHOW</a></div></div></section>
+
+<script>
+const map=document.getElementById('map'),lbl=document.getElementById('lbl');
+new IntersectionObserver(([e])=>map.classList.toggle('on',!e.isIntersecting),{threshold:.15}).observe(document.getElementById('top'));
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');
+ map.querySelectorAll('.x').forEach(x=>x.classList.toggle('act',x.dataset.k===e.target.dataset.k));lbl.textContent=e.target.dataset.n;}),{rootMargin:'-45% 0px -45% 0px'});
+document.querySelectorAll('section.s').forEach(s=>io.observe(s));
+</script>
+</body></html>

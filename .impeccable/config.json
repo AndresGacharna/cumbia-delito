@@ -1,3 +1,216 @@
 {
-  "buildPath": "code"
+  "buildPath": "code",
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/tarima.html"
+        ],
+        "createdAt": "2026-10-16T01:25:05.935Z",
+        "reason": "lead: throwaway decision sketch; placeholder photo labels, never shipped"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/rueda.html"
+        ],
+        "createdAt": "2026-10-16T01:25:06.102Z",
+        "reason": "lead: throwaway decision sketch; placeholder photo labels, never shipped"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/pico.html"
+        ],
+        "createdAt": "2026-10-16T01:25:06.239Z",
+        "reason": "lead: throwaway decision sketch; placeholder photo labels, never shipped"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/decollage.html"
+        ],
+        "createdAt": "2026-10-16T01:25:06.397Z",
+        "reason": "lead: throwaway decision sketch; placeholder photo labels, never shipped"
+      },
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/pico.html"
+        ],
+        "createdAt": "2026-10-16T01:25:06.563Z",
+        "reason": "lead: throwaway decision sketch; neon sign is a brand material (EPK neon logo)"
+      },
+      {
+        "rule": "wide-tracking",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/tarima.html"
+        ],
+        "createdAt": "2026-10-16T01:27:33.726Z",
+        "reason": "lead: throwaway decision sketch; type is a stand-in, final faces are chosen at build"
+      },
+      {
+        "rule": "overused-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/tarima.html"
+        ],
+        "createdAt": "2026-10-16T01:27:33.868Z",
+        "reason": "lead: throwaway decision sketch; type is a stand-in, final faces are chosen at build"
+      },
+      {
+        "rule": "wide-tracking",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/rueda.html"
+        ],
+        "createdAt": "2026-10-16T01:27:34.015Z",
+        "reason": "lead: throwaway decision sketch; type is a stand-in, final faces are chosen at build"
+      },
+      {
+        "rule": "overused-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/rueda.html"
+        ],
+        "createdAt": "2026-10-16T01:27:34.163Z",
+        "reason": "lead: throwaway decision sketch; type is a stand-in, final faces are chosen at build"
+      },
+      {
+        "rule": "wide-tracking",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/pico.html"
+        ],
+        "createdAt": "2026-10-16T01:27:34.309Z",
+        "reason": "lead: throwaway decision sketch; type is a stand-in, final faces are chosen at build"
+      },
+      {
+        "rule": "overused-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/pico.html"
+        ],
+        "createdAt": "2026-10-16T01:27:34.448Z",
+        "reason": "lead: throwaway decision sketch; type is a stand-in, final faces are chosen at build"
+      },
+      {
+        "rule": "wide-tracking",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/decollage.html"
+        ],
+        "createdAt": "2026-10-16T01:27:34.588Z",
+        "reason": "lead: throwaway decision sketch; type is a stand-in, final faces are chosen at build"
+      },
+      {
+        "rule": "overused-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/decollage.html"
+        ],
+        "createdAt": "2026-10-16T01:27:34.739Z",
+        "reason": "lead: throwaway decision sketch; type is a stand-in, final faces are chosen at build"
+      },
+      {
+        "rule": "gray-on-color",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/proto-tarima.html"
+        ],
+        "createdAt": "2026-10-16T01:31:46.249Z",
+        "reason": "lead: throwaway scroll prototype; gray block labels are wireframe annotations, never shipped"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/proto-tarima.html"
+        ],
+        "createdAt": "2026-10-16T01:31:46.414Z",
+        "reason": "lead: throwaway scroll prototype; gray block labels are wireframe annotations, never shipped"
+      },
+      {
+        "rule": "tiny-text",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/proto-tarima.html"
+        ],
+        "createdAt": "2026-10-16T01:31:46.556Z",
+        "reason": "lead: throwaway scroll prototype; gray block labels are wireframe annotations, never shipped"
+      },
+      {
+        "rule": "gray-on-color",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/proto-rueda.html"
+        ],
+        "createdAt": "2026-10-16T01:31:46.738Z",
+        "reason": "lead: throwaway scroll prototype; gray block labels are wireframe annotations, never shipped"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/proto-rueda.html"
+        ],
+        "createdAt": "2026-10-16T01:31:46.894Z",
+        "reason": "lead: throwaway scroll prototype; gray block labels are wireframe annotations, never shipped"
+      },
+      {
+        "rule": "tiny-text",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/proto-rueda.html"
+        ],
+        "createdAt": "2026-10-16T01:31:47.031Z",
+        "reason": "lead: throwaway scroll prototype; gray block labels are wireframe annotations, never shipped"
+      },
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/proto-tarima.html"
+        ],
+        "createdAt": "2026-10-16T01:32:02.859Z",
+        "reason": "lead: throwaway scroll prototype; wireframe annotation labels, never shipped"
+      },
+      {
+        "rule": "wide-tracking",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/proto-tarima.html"
+        ],
+        "createdAt": "2026-10-16T01:32:02.994Z",
+        "reason": "lead: throwaway scroll prototype; wireframe annotation labels, never shipped"
+      },
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/proto-rueda.html"
+        ],
+        "createdAt": "2026-10-16T01:32:03.153Z",
+        "reason": "lead: throwaway scroll prototype; wireframe annotation labels, never shipped"
+      },
+      {
+        "rule": "wide-tracking",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/proto-rueda.html"
+        ],
+        "createdAt": "2026-10-16T01:32:03.306Z",
+        "reason": "lead: throwaway scroll prototype; wireframe annotation labels, never shipped"
+      }
+    ]
+  }
 }

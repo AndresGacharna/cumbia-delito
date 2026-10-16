@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es-CO"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prototipo · La rueda</title>
+<style>
+:root{--navy:#0D1121;--navy2:#151931;--brick:#721D1F;--gray:#8B8D95;--red:#DA291C;--paper:#E9E4DA}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--navy2);color:#fff;font:16px/1.5 system-ui,sans-serif}
+.note{position:fixed;left:12px;bottom:12px;z-index:50;background:var(--paper);color:var(--navy);font-size:12px;padding:8px 12px;max-width:330px}
+nav{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:rgba(21,25,49,.92)}
+nav b{font-size:20px}nav b i{color:var(--red);font-style:normal}
+nav a{color:#fff;text-decoration:none;font-weight:800;font-size:12px;letter-spacing:.14em}
+nav .wa{background:var(--red);padding:10px 14px}
+/* ---------- LA RUEDA: un tramo largo de scroll con la escena fija ---------- */
+.track{height:500vh;position:relative}
+.scene{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;place-items:center}
+.ringwrap{position:relative;width:min(640px,92vw);aspect-ratio:1}
+.ring{position:absolute;inset:0;border-radius:50%;border:3px dashed rgba(255,255,255,.3);will-change:transform}
+.p{position:absolute;left:50%;top:50%;width:22%;aspect-ratio:4/5;margin:-13.75% 0 0 -11%;background:#fff;padding:4% 4% 9%;color:var(--navy);transition:transform .25s}
+.p div{height:100%;background:#2a3157}
+.p span{position:absolute;left:6%;bottom:2.5%;font-weight:900;font-size:clamp(9px,1.2vw,13px);letter-spacing:.1em;white-space:nowrap}
+.p.act{outline:4px solid var(--red)}
+.core{position:absolute;left:50%;top:50%;width:46%;aspect-ratio:3/4;transform:translate(-50%,-56%);background:#fff;padding:3% 3% 8%;z-index:2}
+.core div{height:100%;background:#3a4170;display:grid;place-items:center;font-size:11px;letter-spacing:.18em;color:#cfd2dc;text-align:center}
+.logo{position:absolute;left:50%;top:62%;transform:translateX(-50%) rotate(-6deg);z-index:3;border:2px dashed #fff;background:var(--navy2);padding:8px 18px;font-weight:900;font-size:clamp(24px,4.4vw,48px);white-space:nowrap}
+.logo i{color:var(--red);font-style:normal}
+/* lo que se lee: siempre quieto, nunca gira */
+.read{position:absolute;left:0;right:0;bottom:4vh;text-align:center;z-index:4;padding:0 16px}
+.now{font-size:12px;letter-spacing:.22em;font-weight:800;color:var(--gray)}
+.now b{color:#fff;font-size:20px;display:block;letter-spacing:.12em}
+.ctas{display:flex;gap:12px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.ctas a{font-weight:900;font-size:14px;letter-spacing:.14em;padding:15px 22px;text-decoration:none}
+.c1{background:var(--red);color:#fff}.c2{background:#fff;color:var(--navy)}
+.side{position:absolute;left:5vw;top:22vh;width:260px;z-index:4}
+.side .tag{font-weight:800;font-size:12px;letter-spacing:.22em;line-height:1.9}
+.side .sub{margin-top:14px;font-size:20px}
+.side em{color:var(--red);font-style:normal;font-weight:900}
+.bar{position:absolute;right:4vw;top:22vh;bottom:22vh;width:4px;background:#2a3157;z-index:4}
+.bar i{position:absolute;left:0;top:0;width:100%;background:var(--red)}
+@media(max-width:760px){
+ .side{display:none}.bar{display:none}
+ /* en celular la rueda baja y se ve como un arco: media rueda que gira */
+ .ringwrap{width:150vw;position:absolute;left:50%;top:44vh;transform:translateX(-50%)}
+ .core{width:30%;transform:translate(-50%,-80%)}
+ .logo{top:6%;font-size:28px}
+ .p{width:16%;margin:-10% 0 0 -8%}
+}
+/* ---------- secciones normales, quietas ---------- */
+section.s{min-height:80vh;padding:110px 6vw 70px;border-top:1px solid #2a3157}
+.s h2{font-weight:900;font-size:clamp(28px,5vw,56px);letter-spacing:.06em}
+.s .k{font-size:12px;letter-spacing:.2em;font-weight:800;color:var(--red)}
+.lead{max-width:640px;margin:14px 0 26px;color:#cfd2dc}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;max-width:1000px}
+.blk{background:#232a52;min-height:120px;display:grid;place-items:center;font-size:11px;letter-spacing:.18em;color:var(--gray);text-align:center;padding:10px}
+@media (prefers-reduced-motion:reduce){.track{height:auto}.scene{position:relative}.ring{transform:none!important}}
+</style></head><body>
+<p class="note"><b>Prototipo de scroll · La rueda.</b> Bloques sin fotos. Los primeros 5 pantallazos de scroll no bajan la página: hacen girar la rueda. La polaroid que llega abajo (borde rojo) es la sección "del momento" y su nombre aparece quieto debajo; al tocarla saltas a esa sección. Después de la vuelta completa, la página sigue normal. En celular solo se ve el arco de arriba.</p>
+<nav><b>Cumbia De<i>+</i>Lito</b><a class="wa" href="#contacto">CONTRATA</a></nav>
+
+<div class="track" id="track"><div class="scene">
+ <div class="side"><p class="tag">CUMBIA VILLERA<br>CUMBIA URBANA<br>BOGOTÁ, COLOMBIA</p><p class="sub">Tradición caribe colombiana <em>+</em> energía urbana latinoamericana.</p></div>
+ <div class="ringwrap">
+  <div class="ring" id="ring"></div>
+  <div class="core"><div>FOTO DE TARIMA<br>(el centro de la rueda)</div></div>
+  <div class="logo">Cumbia De<i>+</i>Lito</div>
+ </div>
+ <div class="bar"><i id="prog"></i></div>
+ <div class="read"><p class="now">AHORA EN LA RUEDA<b id="now">MÚSICA</b></p><div class="ctas"><a class="c1" href="#contacto">CONTRATA EL SHOW</a><a class="c2" href="#musica">ESCÚCHANOS</a></div></div>
+</div></div>
+
+<section class="s" id="musica"><p class="k">DE LA RUEDA</p><h2>MÚSICA</h2><p class="lead">Los 4 sencillos con su reproductor.</p><div class="grid"><div class="blk">CUMBIANDO EL MUNDO</div><div class="blk">LA RUEDA DE LA CUMBIA</div><div class="blk">LA FAMOSA BANDA</div><div class="blk">CUMBIA CERVEZA Y MUJER</div></div></section>
+<section class="s" id="karol"><p class="k">DE LA RUEDA</p><h2>KAROL G</h2><p class="lead">Junto a Karol G en «Cuando me muera te olvido» — La Premiere (2025).</p><div class="grid"><div class="blk" style="min-height:220px">VIDEO + NOTA RCN</div></div></section>
+<section class="s" id="colab"><p class="k">DE LA RUEDA</p><h2>COLABORACIONES</h2><div class="grid"><div class="blk">SUBCANTANTE</div><div class="blk">LOS VARRILETES</div><div class="blk">LOS PIBES DEL PENAL</div></div></section>
+<section class="s" id="historia"><p class="k">DE LA RUEDA</p><h2>DESDE 2012</h2><div class="grid"><div class="blk">HISTORIA · PROPUESTA</div></div></section>
+<section class="s" id="show"><p class="k">DE LA RUEDA</p><h2>EL SHOW</h2><div class="grid"><div class="blk">4 MÚSICOS · 3 TÉCNICOS</div><div class="blk">TRAYECTORIA</div></div></section>
+<section class="s" id="org"><p class="k">DE LA RUEDA</p><h2>ORGANIZADORES</h2><div class="grid"><div class="blk">RIDER</div><div class="blk">STAGE PLOT</div></div></section>
+<section class="s" id="contacto"><p class="k">DE LA RUEDA</p><h2>SE BUSCA</h2><div class="grid"><div class="blk">AFICHE + WHATSAPP</div></div></section>
+
+<script>
+const items=[['MÚSICA','musica'],['KAROL G','karol'],['COLABORACIONES','colab'],['DESDE 2012','historia'],['EL SHOW','show'],['ORGANIZADORES','org'],['SE BUSCA','contacto'],['ESCÚCHANOS','musica']];
+const ring=document.getElementById('ring'),now=document.getElementById('now'),prog=document.getElementById('prog'),track=document.getElementById('track');
+const N=items.length,R=41; // radio en % del ancho
+const ps=items.map(([t,id],i)=>{const a=document.createElement('a');a.className='p';a.href='#'+id;a.innerHTML='<div></div><span>'+t+'</span>';ring.appendChild(a);return a;});
+function place(rot){const rad=ring.offsetWidth*R/100;ps.forEach((p,i)=>{const ang=(i/N)*360+rot;p.style.transform=`rotate(${ang}deg) translateY(${rad}px) rotate(${-ang}deg)`;});}
+addEventListener('resize',()=>onScroll());
+// la polaroid que queda abajo (ángulo 0 = abajo) es la activa
+function onScroll(){const r=track.getBoundingClientRect(),tot=track.offsetHeight-innerHeight;let t=Math.min(1,Math.max(0,-r.top/tot));
+ const rot=-t*360;place(rot);prog.style.height=(t*100)+'%';
+ const idx=Math.round(t*N)%N;ps.forEach((p,i)=>p.classList.toggle('act',i===idx));now.textContent=items[idx][0];}
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){addEventListener('scroll',onScroll,{passive:true});}
+onScroll();
+</script>
+</body></html>

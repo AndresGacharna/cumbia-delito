@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es-CO"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;800;900&family=Kaushan+Script&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1440px;height:900px;overflow:hidden;font-family:Montserrat,sans-serif;color:#fff;position:relative;background:
+ repeating-linear-gradient(0deg,transparent 0 26px,rgba(0,0,0,.45) 26px 29px),
+ repeating-linear-gradient(90deg,transparent 0 70px,rgba(0,0,0,.45) 70px 73px),#151931}
+.nav{position:absolute;top:22px;left:48px;right:48px;display:flex;justify-content:space-between;z-index:9;font-weight:800;font-size:13px;letter-spacing:.2em}
+.nav b{font-family:'Kaushan Script';font-size:28px;font-weight:400;letter-spacing:0}
+.nav i{color:#DA291C;font-style:normal}
+/* older posters underneath: 2022 "10 AÑOS" */
+.old{position:absolute;background:#0b0b0b;color:#F41821;font-weight:900;padding:24px;z-index:1}
+.old b{display:block;font-size:64px;line-height:.9;letter-spacing:-.01em}
+.old span{display:inline-block;background:#F41821;color:#0b0b0b;padding:4px 12px;font-size:18px;margin-top:14px;letter-spacing:.2em}
+.oldest{position:absolute;background:#8B8D95;color:#0D1121;z-index:0;padding:20px;font-weight:900;font-size:120px;opacity:.85}
+/* newest poster: torn paper */
+.new{position:absolute;left:360px;top:70px;width:780px;height:800px;background:#E9E4DA;color:#0D1121;z-index:5;padding:60px 70px;transform:rotate(-1.5deg);
+ clip-path:polygon(0 3%,8% 0,22% 2%,40% 0,58% 3%,75% 0,92% 2%,100% 0,98% 30%,100% 55%,97% 78%,100% 100%,80% 97%,60% 100%,38% 97%,18% 100%,0 98%,2% 70%,0 45%,3% 22%);box-shadow:0 20px 50px rgba(0,0,0,.6)}
+.logo{font-family:'Kaushan Script';font-size:130px;line-height:.85;transform:rotate(-7deg);color:#0D1121;margin:10px 0 0 10px}
+.logo i{color:#DA291C;font-style:normal}
+.tag{font-weight:800;font-size:15px;letter-spacing:.24em;margin:56px 0 14px}
+.sub{font-size:28px;font-weight:500;line-height:1.25;max-width:560px}
+.sub em{color:#DA291C;font-style:normal;font-weight:900}
+.photo{position:absolute;right:60px;top:70px;width:250px;height:300px;background:linear-gradient(160deg,#1c2a6b,#0b0f22 60%,#3a0d16);transform:rotate(4deg);border:10px solid #fff;display:flex;align-items:flex-end;padding:8px;color:#8B8D95;font-size:12px;font-weight:800;letter-spacing:.14em}
+.ctas{display:flex;gap:16px;margin-top:40px}
+.ctas a{font-weight:900;letter-spacing:.16em;font-size:18px;padding:24px 32px}
+.c1{background:#DA291C;color:#fff}.c2{background:#0D1121;color:#fff}
+.flap{position:absolute;right:-6px;bottom:80px;width:180px;height:140px;background:#d8d2c4;transform:rotate(-18deg);box-shadow:-10px 10px 20px rgba(0,0,0,.35);z-index:6}
+.drip{position:absolute;width:10px;background:#DA291C;border-radius:0 0 6px 6px;z-index:6}
+.year{position:absolute;bottom:40px;left:70px;font-weight:900;font-size:14px;letter-spacing:.3em;color:#721D1F}
+</style></head><body>
+<nav class="nav"><b>Cumbia De<i>+</i>Lito</b><span>MÚSICA · KAROL G · EL SHOW · ORGANIZADORES</span></nav>
+<div class="oldest" style="left:-30px;top:520px;transform:rotate(3deg)">2012</div>
+<div class="old" style="left:60px;top:120px;transform:rotate(-5deg);width:380px"><b>LA RUEDA DE LA CUMBIA</b><span>10 AÑOS</span></div>
+<div class="old" style="left:1060px;top:180px;transform:rotate(6deg);width:360px"><b>LA FAMOSA BANDA</b><span>10 AÑOS</span></div>
+<div class="old" style="left:1040px;top:560px;transform:rotate(-3deg);width:380px"><b>CUMBIA CERVEZA Y MUJER</b><span>10 AÑOS</span></div>
+<div class="new">
+ <div class="photo">FOTO DE TARIMA</div>
+ <div class="logo">Cumbia<br>&nbsp;De<i>+</i>Lito</div>
+ <p class="tag">CUMBIA VILLERA · CUMBIA URBANA · BOGOTÁ, COLOMBIA</p>
+ <p class="sub">Tradición caribe colombiana <em>+</em> energía urbana latinoamericana.</p>
+ <div class="ctas"><a class="c1">CONTRATA EL SHOW</a><a class="c2">ESCÚCHANOS</a></div>
+ <p class="year">2025 · CUMBIANDO EL MUNDO</p>
+ <div class="flap"></div>
+</div>
+<div class="drip" style="left:1160px;top:60px;height:120px"></div>
+<div class="drip" style="left:330px;top:640px;height:90px;background:#fff"></div>
+</body></html>
