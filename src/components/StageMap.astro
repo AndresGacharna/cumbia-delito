@@ -1,0 +1,277 @@
+---
+import { stageMarks } from '../data/content';
+import TapeX from './ui/TapeX.astro';
+
+const orderedMarks = [...stageMarks].sort((a, b) => a.x - b.x || a.y - b.y);
+const initialMark =
+  stageMarks.find((mark) => mark.id === 'propuesta') ?? stageMarks[0];
+---
+
+<nav class="stage-map" aria-label="Mapa de la tarima" data-stage-map>
+  <div class="stage-map__wall" aria-hidden="true">
+    <svg
+      class="stage-map__wall-svg"
+      viewBox="0 0 208 38"
+      preserveAspectRatio="none"
+    >
+      <path
+        d="M-12 22 Q 78 4, 220 20 L 220 38 L -12 38 Z"
+        fill="var(--c-brick)"
+      />
+      <path
+        d="M-12 31 Q 96 16, 220 29 L 220 38 L -12 38 Z"
+        fill="var(--c-gray)"
+      />
+    </svg>
+  </div>
+
+  <div class="stage-map__floor">
+    <svg
+      class="stage-map__leader"
+      viewBox="0 0 100 100"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <line
+        class="stage-map__leader-line"
+        data-stage-leader
+        x1={initialMark.x}
+        y1={initialMark.y}
+        x2="24"
+        y2="98"
+        vector-effect="non-scaling-stroke"
+      />
+    </svg>
+
+    {
+      orderedMarks.map((mark) => (
+        <a
+          href={`#${mark.id}`}
+          class="stage-map__mark"
+          data-stage-link={mark.id}
+          data-stage-label={mark.label}
+          data-x={mark.x}
+          data-y={mark.y}
+          style={`--mark-x: ${mark.x}%; --mark-y: ${mark.y}%;`}
+        >
+          <TapeX size={16} active={false} />
+          <span class="visually-hidden">Ir a {mark.label}</span>
+        </a>
+      ))
+    }
+  </div>
+
+  <div class="stage-map__bar">
+    <span
+      class="stage-map__label display"
+      aria-live="polite"
+      data-stage-current
+    >
+      {initialMark.label}
+    </span>
+  </div>
+</nav>
+
+<script>
+  import '../scripts/stage-map';
+</script>
+
+<style>
+  .stage-map {
+    position: fixed;
+    top: 84px;
+    right: 20px;
+    width: 208px;
+    height: 170px;
+    z-index: var(--z-map);
+    background-color: var(--c-navy-800);
+    box-shadow: var(--sh-paper);
+    border: 1px solid rgb(255 255 255 / 0.12);
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: scale(0.7);
+    transform-origin: top right;
+    transition:
+      opacity var(--dur-2) var(--ease-out),
+      transform var(--dur-2) var(--ease-out),
+      visibility 0s linear var(--dur-2);
+  }
+
+  .stage-map.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: scale(1);
+    transition:
+      opacity var(--dur-2) var(--ease-out),
+      transform var(--dur-2) var(--ease-out),
+      visibility 0s linear 0s;
+  }
+
+  .stage-map__wall {
+    position: relative;
+    height: 22%;
+    background-color: var(--c-navy-800);
+    border-bottom: 2px solid #000000;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .stage-map__wall-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .stage-map__floor {
+    position: relative;
+    flex: 1;
+    background-color: var(--c-navy-900);
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 17px,
+      rgb(255 255 255 / 0.03) 17px,
+      rgb(255 255 255 / 0.03) 18px
+    );
+  }
+
+  .stage-map__leader {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .stage-map__leader-line {
+    stroke: rgb(255 255 255 / 0.65);
+    stroke-width: 1.5px;
+    transition:
+      x1 0.35s var(--ease-out),
+      y1 0.35s var(--ease-out),
+      x2 0.35s var(--ease-out),
+      y2 0.35s var(--ease-out),
+      opacity 0.35s var(--ease-out);
+  }
+
+  .stage-map__mark {
+    position: absolute;
+    left: var(--mark-x);
+    top: var(--mark-y);
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: transform var(--dur-1) var(--ease-out);
+  }
+
+  .stage-map__mark:hover,
+  .stage-map__mark:focus-visible {
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+
+  .stage-map__mark :global(.tape-x .tape-x__strip) {
+    fill: var(--c-gray);
+    transition: fill var(--dur-1) var(--ease-out);
+  }
+
+  .stage-map__mark.is-active :global(.tape-x .tape-x__strip) {
+    fill: var(--c-red);
+  }
+
+  .stage-map__bar {
+    height: 28px;
+    padding-inline: var(--s-2);
+    background-color: var(--c-navy-800);
+    border-top: 1px solid rgb(255 255 255 / 0.08);
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .stage-map__label {
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    color: var(--c-white);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media (max-width: 759.98px) {
+    .stage-map {
+      top: 56px;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 44px;
+      border: 0;
+      border-bottom: 1px solid rgb(255 255 255 / 0.1);
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding-inline: var(--gutter);
+      transform: translateY(-6px);
+      transform-origin: top center;
+    }
+
+    .stage-map.is-visible {
+      transform: translateY(0);
+    }
+
+    .stage-map__wall,
+    .stage-map__leader {
+      display: none;
+    }
+
+    .stage-map__floor {
+      position: static;
+      display: flex;
+      align-items: center;
+      gap: 0.1rem;
+      height: 100%;
+      background: none;
+      flex: 0 1 auto;
+    }
+
+    .stage-map__mark {
+      position: static;
+      transform: none;
+      width: 26px;
+      height: 44px;
+    }
+
+    .stage-map__mark:hover,
+    .stage-map__mark:focus-visible {
+      transform: scale(1.15);
+    }
+
+    .stage-map__bar {
+      height: 100%;
+      padding: 0 0 0 var(--s-2);
+      border: 0;
+      background: none;
+      justify-content: flex-end;
+      min-width: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stage-map,
+    .stage-map.is-visible,
+    .stage-map__leader-line,
+    .stage-map__mark,
+    .stage-map__mark :global(.tape-x .tape-x__strip) {
+      transition: none !important;
+    }
+  }
+</style>

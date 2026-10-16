@@ -1,0 +1,175 @@
+---
+import logoBlanco from '../assets/logo/logo-blanco.svg';
+import { WHATSAPP_BOOKING_URL } from '../config';
+import { stageMarks, type StageMarkId } from '../data/content';
+import Button from './ui/Button.astro';
+
+const navIds: StageMarkId[] = ['musica', 'show', 'organizadores'];
+const navLinks = navIds.map((id) => {
+  const found = stageMarks.find((mark) => mark.id === id);
+  return { id, label: found ? found.label : id };
+});
+---
+
+<a href="#propuesta" class="skip-link display">Saltar al contenido</a>
+
+<div class="top-bar">
+  <div class="container top-bar__inner">
+    <a href="#top" class="top-bar__brand">
+      <img
+        src={logoBlanco.src}
+        alt="Cumbia De+Lito"
+        width="1963"
+        height="1234"
+        class="top-bar__logo"
+      />
+    </a>
+
+    <nav class="top-bar__nav" aria-label="Principal">
+      <ul class="top-bar__links" role="list">
+        {
+          navLinks.map((link) => (
+            <li>
+              <a href={`#${link.id}`} class="top-bar__link display">
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <Button
+        href={WHATSAPP_BOOKING_URL}
+        variant="primary"
+        icon="whatsapp"
+        external
+        class="top-bar__cta"
+      >
+        Contrata
+      </Button>
+    </nav>
+  </div>
+</div>
+
+<style>
+  .skip-link {
+    position: fixed;
+    top: var(--s-2);
+    left: var(--gutter);
+    z-index: calc(var(--z-nav) + 1);
+    padding: var(--s-3) var(--s-4);
+    background-color: var(--c-red);
+    color: var(--c-white);
+    font-size: var(--t-label);
+    letter-spacing: 0.14em;
+    text-decoration: none;
+    transform: translateY(-200%);
+    transition: transform var(--dur-1) var(--ease-out);
+  }
+
+  .skip-link:focus,
+  .skip-link:focus-visible {
+    transform: translateY(0);
+  }
+
+  .top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-nav);
+    height: 64px;
+    background-color: var(--c-navy-900);
+    border-bottom: 1px solid rgb(255 255 255 / 0.08);
+  }
+
+  .top-bar__inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4);
+  }
+
+  .top-bar__brand {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    flex-shrink: 0;
+  }
+
+  .top-bar__logo {
+    width: auto;
+    height: 40px;
+  }
+
+  .top-bar__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--s-6);
+  }
+
+  .top-bar__links {
+    display: flex;
+    align-items: center;
+    gap: var(--s-6);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .top-bar__link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: var(--t-label);
+    letter-spacing: 0.14em;
+    color: var(--c-white);
+    text-decoration: none;
+  }
+
+  .top-bar__link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.55rem;
+    height: 2px;
+    background-color: var(--c-red);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--dur-1) var(--ease-out);
+  }
+
+  .top-bar__link:hover::after,
+  .top-bar__link:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  .top-bar :global(.top-bar__cta) {
+    min-height: 44px;
+    padding: 0.55rem 1rem;
+    font-size: var(--t-label);
+    letter-spacing: 0.14em;
+  }
+
+  @media (max-width: 759.98px) {
+    .top-bar {
+      height: 56px;
+    }
+
+    .top-bar__logo {
+      height: 34px;
+    }
+
+    .top-bar__links {
+      display: none;
+    }
+
+    .top-bar :global(.top-bar__cta) {
+      min-height: 44px;
+      padding: 0.5rem 0.9rem;
+    }
+  }
+</style>

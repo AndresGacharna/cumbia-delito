@@ -1,0 +1,36 @@
+.sec {
+  position: relative;
+  padding-block: var(--section-pad);
+  background: var(--c-navy-900);
+  scroll-margin-top: 64px;
+}
+
+.sec--alt {
+  background: var(--c-navy-800);
+}
+
+.sec-head {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: var(--s-4);
+  margin-bottom: var(--s-7);
+}
+
+.sec-head h2 {
+  margin: 0;
+  max-width: 20ch;
+}
+
+.sec-lead {
+  font-size: var(--t-lead);
+  color: var(--c-text-soft);
+  max-width: var(--measure);
+  line-height: 1.45;
+}
+
+@media (max-width: 759.98px) {
+  .sec {
+    scroll-margin-top: 100px;
+  }
+}
