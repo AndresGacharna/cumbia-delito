@@ -1,0 +1,43 @@
+:root {
+  --c-navy-900: #0D1121;
+  --c-navy-800: #151931;
+  --c-navy-700: #1E2442;
+  --c-brick: #721D1F;
+  --c-gray: #8B8D95;
+  --c-red: #DA291C;
+  --c-red-hover: #B81F14;
+  --c-red-cover: #F41821;
+  --c-white: #FFFFFF;
+  --c-text: #FFFFFF;
+  --c-text-soft: #C9CCD6;
+  --c-paper: #EDE8DD;
+  --c-paper-aged: #D9CDB4;
+  --c-paper-rule: #A9BCD9;
+  --c-ink: #151931;
+  --c-ink-soft: #3B4060;
+  --c-tape: rgb(236 230 214 / 0.82);
+  --c-focus: #FFFFFF;
+
+  --f-sans: 'Archivo Variable', system-ui, sans-serif;
+  --f-display-stretch: 125%;
+  --f-display-weight: 900;
+
+  --t-display: clamp(2.5rem, 6vw, 5.5rem);
+  --t-h2: clamp(2rem, 4.4vw, 3.75rem);
+  --t-h3: clamp(1.25rem, 2vw, 1.625rem);
+  --t-lead: clamp(1.125rem, 1.6vw, 1.375rem);
+  --t-body: 1.0625rem;
+  --t-small: 0.9375rem;
+  --t-label: 0.8125rem;
+
+  --s-1: 0.25rem; --s-2: 0.5rem; --s-3: 0.75rem; --s-4: 1rem; --s-5: 1.5rem;
+  --s-6: 2rem; --s-7: 3rem; --s-8: 4rem; --s-9: 6rem; --s-10: 8rem;
+  --section-pad: clamp(5rem, 10vw, 9rem);
+  --gutter: clamp(1rem, 5vw, 4rem);
+  --measure: 65ch;
+
+  --sh-paper: 0 12px 28px rgb(0 0 0 / 0.45), 0 2px 4px rgb(0 0 0 / 0.3);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-1: 0.2s; --dur-2: 0.5s; --dur-3: 0.9s;
+  --z-map: 40; --z-nav: 50;
+}

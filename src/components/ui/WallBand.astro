@@ -1,0 +1,81 @@
+---
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import azul from '../../assets/muro/azul.jpg';
+import cierre from '../../assets/muro/cierre.jpg';
+import fondoTarima from '../../assets/muro/fondo-tarima.jpg';
+import franjaGris from '../../assets/muro/franja-gris.jpg';
+import franjaRoja from '../../assets/muro/franja-roja.jpg';
+
+export type WallBandVariant =
+  | 'fondo-tarima'
+  | 'franja-gris'
+  | 'franja-roja'
+  | 'cierre'
+  | 'azul';
+
+export interface Props {
+  variant: WallBandVariant;
+  height?: string;
+  position?: string;
+  class?: string;
+}
+
+const {
+  variant,
+  height = 'clamp(120px, 18vw, 260px)',
+  position = 'center',
+  class: className,
+} = Astro.props;
+
+const wallImages: Record<WallBandVariant, ImageMetadata> = {
+  'fondo-tarima': fondoTarima,
+  'franja-gris': franjaGris,
+  'franja-roja': franjaRoja,
+  cierre: cierre,
+  azul: azul,
+};
+
+const src = wallImages[variant];
+---
+
+<div
+  class:list={['wall-band', className]}
+  style={`--band-height: ${height}; --band-pos: ${position};`}
+  aria-hidden="true"
+>
+  <Picture
+    src={src}
+    formats={['avif', 'webp']}
+    widths={[640, 1024, 1480]}
+    sizes="100vw"
+    width={src.width}
+    height={src.height}
+    alt=""
+    loading="lazy"
+    class="wall-band__img"
+  />
+</div>
+
+<style>
+  .wall-band {
+    position: relative;
+    width: 100%;
+    height: var(--band-height, clamp(120px, 18vw, 260px));
+    overflow: hidden;
+  }
+
+  .wall-band :global(picture) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .wall-band :global(.wall-band__img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--band-pos, center);
+  }
+</style>

@@ -1,0 +1,90 @@
+---
+import {
+  siFacebook,
+  siInstagram,
+  siSpotify,
+  siTiktok,
+  siWhatsapp,
+  siYoutube,
+} from 'simple-icons';
+
+export type IconName =
+  | 'whatsapp'
+  | 'spotify'
+  | 'instagram'
+  | 'tiktok'
+  | 'youtube'
+  | 'facebook'
+  | 'mail'
+  | 'play'
+  | 'arrow-right'
+  | 'external';
+
+export interface Props {
+  name: IconName;
+  size?: number;
+  class?: string;
+}
+
+const { name, size = 20, class: className } = Astro.props;
+
+const brandPaths: Partial<Record<IconName, string>> = {
+  whatsapp: siWhatsapp.path,
+  spotify: siSpotify.path,
+  instagram: siInstagram.path,
+  tiktok: siTiktok.path,
+  youtube: siYoutube.path,
+  facebook: siFacebook.path,
+};
+
+const brandPath = brandPaths[name];
+---
+
+{
+  brandPath ? (
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="currentColor"
+      aria-hidden="true"
+      class={className}
+    >
+      <path d={brandPath} />
+    </svg>
+  ) : (
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      class={className}
+    >
+      {name === 'mail' && (
+        <>
+          <rect x="3" y="5" width="18" height="14" rx="1" />
+          <path d="M3 7l9 6 9-6" />
+        </>
+      )}
+      {name === 'play' && <polygon points="6 4 20 12 6 20 6 4" />}
+      {name === 'arrow-right' && (
+        <>
+          <path d="M5 12h14" />
+          <path d="M13 6l6 6-6 6" />
+        </>
+      )}
+      {name === 'external' && (
+        <>
+          <path d="M14 4h6v6" />
+          <path d="M20 4l-9 9" />
+          <path d="M18 14v5H5V6h5" />
+        </>
+      )}
+    </svg>
+  )
+}

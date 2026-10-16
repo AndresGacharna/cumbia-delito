@@ -1,0 +1,96 @@
+---
+import Icon, { type IconName } from './Icon.astro';
+
+export interface Props {
+  href: string;
+  variant?: 'primary' | 'secondary' | 'paper';
+  icon?: IconName;
+  external?: boolean;
+  class?: string;
+}
+
+const {
+  href,
+  variant = 'primary',
+  icon,
+  external = false,
+  class: className,
+} = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={['btn', `btn--${variant}`, className]}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener' : undefined}
+>
+  {icon && <Icon name={icon} size={20} class="btn__icon" />}
+  <span class="btn__label"><slot /></span>
+  {external && <span class="visually-hidden"> (se abre en otra pestaña)</span>}
+</a>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    min-height: 52px;
+    padding: 0.95rem 1.4rem;
+    border: 0;
+    border-radius: 0;
+    font-family: var(--f-sans);
+    font-size: 1rem;
+    font-stretch: 112%;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    line-height: 1.1;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-1) var(--ease-out),
+      color var(--dur-1) var(--ease-out),
+      transform var(--dur-1) var(--ease-out),
+      box-shadow var(--dur-1) var(--ease-out);
+  }
+
+  .btn--primary {
+    background-color: var(--c-red);
+    color: var(--c-white);
+  }
+
+  .btn--primary:hover {
+    background-color: var(--c-red-hover);
+  }
+
+  .btn--secondary {
+    background-color: var(--c-white);
+    color: var(--c-navy-900);
+  }
+
+  .btn--secondary:hover {
+    background-color: var(--c-paper);
+  }
+
+  .btn--paper {
+    background-color: var(--c-navy-800);
+    color: var(--c-white);
+  }
+
+  .btn--paper:hover {
+    background-color: var(--c-navy-700);
+  }
+
+  .btn:hover,
+  .btn:active {
+    transform: translateY(-2px);
+    box-shadow:
+      0 6px 16px rgb(0 0 0 / 0.35),
+      0 2px 4px rgb(0 0 0 / 0.22);
+  }
+
+  .btn__icon {
+    flex-shrink: 0;
+  }
+</style>

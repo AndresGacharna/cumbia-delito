@@ -1,0 +1,38 @@
+---
+export interface Props {
+  class?: string;
+  angle?: number;
+}
+
+const { class: className, angle = -2 } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 120 34"
+  aria-hidden="true"
+  class:list={['tape', className]}
+  style={`--tape-angle: ${angle}deg;`}
+>
+  <path
+    d="M3.2 4.1 L6.4 8.5 L2.8 13.4 L6.9 18.2 L3.4 23.6 L7.1 28.4 L4.0 31.6 L116.4 30.8 L113.2 26.2 L117.1 21.0 L113.5 15.8 L116.8 10.4 L113.0 5.6 L116.2 2.4 Z"
+    fill="var(--c-tape)"
+  />
+  <path
+    d="M9 9.5 L111 8.5 M11 24.5 L109 23.8"
+    stroke="rgb(255 255 255 / 0.28)"
+    stroke-width="0.9"
+    stroke-linecap="round"
+  />
+</svg>
+
+<style>
+  .tape {
+    position: absolute;
+    width: 6.75rem;
+    height: 1.9rem;
+    pointer-events: none;
+    z-index: 2;
+    transform: rotate(var(--tape-angle, -2deg));
+    filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.28));
+  }
+</style>

@@ -1,11 +1,128 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import tarimaKeytar from '../assets/fotos/tarima-keytar.jpg';
+import Button from '../components/ui/Button.astro';
+import Icon from '../components/ui/Icon.astro';
+import Paper from '../components/ui/Paper.astro';
+import Plus from '../components/ui/Plus.astro';
+import Polaroid from '../components/ui/Polaroid.astro';
+import Tape from '../components/ui/Tape.astro';
+import TapeX from '../components/ui/TapeX.astro';
+import WallBand from '../components/ui/WallBand.astro';
+import { SPOTIFY_ARTIST_URL, WHATSAPP_BOOKING_URL } from '../config';
+import { hero, propuesta } from '../data/content';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<Welcome />
+  <WallBand variant="fondo-tarima" />
+  <main class="container stage-preview">
+    <header class="stage-preview__header">
+      <h1 class="display">Cumbia De+Lito</h1>
+      <p class="stage-preview__genres">
+        <Icon name="play" size={18} />
+        <span>{hero.generos}</span>
+        <Plus size={24} />
+      </p>
+      <p class="stage-preview__subtitle">{hero.subtitulo}</p>
+      <div class="stage-preview__actions">
+        <Button href={WHATSAPP_BOOKING_URL} variant="primary" icon="whatsapp" external>
+          Contrata el show
+        </Button>
+        <Button href={SPOTIFY_ARTIST_URL} variant="secondary" icon="spotify" external>
+          Escúchanos
+        </Button>
+      </div>
+    </header>
+
+    <div class="stage-preview__grid">
+      <div class="stage-preview__photo">
+        <Polaroid
+          src={tarimaKeytar}
+          alt="Cumbia De+Lito en tarima con su keytar blanco"
+          caption="Cumbia De+Lito"
+          rotate={-2}
+          widths={[420, 720, 1080]}
+          sizes="(max-width: 768px) 90vw, 420px"
+          loading="eager"
+          fetchpriority="high"
+          tape="top"
+        />
+      </div>
+
+      <div class="stage-preview__sheet">
+        <Tape class="stage-preview__corner-tape" angle={12} />
+        <Paper variant="ruled" rotate={1}>
+          <h2>{propuesta.titulo}</h2>
+          <p>{propuesta.parrafos[0]}</p>
+        </Paper>
+        <div class="stage-preview__marks">
+          <TapeX size={40} active={true} />
+          <TapeX size={40} active={false} />
+        </div>
+      </div>
+    </div>
+  </main>
 </Layout>
+
+<style>
+  .stage-preview {
+    padding-block: var(--section-pad);
+    display: grid;
+    gap: var(--s-8);
+  }
+
+  .stage-preview__header {
+    display: grid;
+    gap: var(--s-4);
+    max-width: var(--measure);
+  }
+
+  .stage-preview__header h1 {
+    font-size: var(--t-display);
+  }
+
+  .stage-preview__genres {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    color: var(--c-text-soft);
+  }
+
+  .stage-preview__subtitle {
+    font-size: var(--t-lead);
+  }
+
+  .stage-preview__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-4);
+  }
+
+  .stage-preview__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--s-7);
+    align-items: start;
+  }
+
+  .stage-preview__photo {
+    max-width: 420px;
+  }
+
+  .stage-preview__sheet {
+    position: relative;
+    display: grid;
+    gap: var(--s-5);
+  }
+
+  .stage-preview__sheet :global(.stage-preview__corner-tape) {
+    top: -0.75rem;
+    right: 1.5rem;
+  }
+
+  .stage-preview__marks {
+    display: flex;
+    gap: var(--s-4);
+    align-items: center;
+  }
+</style>

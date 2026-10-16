@@ -1,23 +1,89 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+---
+import '@fontsource-variable/archivo/wdth.css';
+import '../styles/tokens.css';
+import '../styles/global.css';
+import archivoLatinWdthUrl from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
+import { EMAIL, SITE_URL, SOCIALS } from '../config';
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Cumbia De+Lito · Cumbia villera desde Bogotá',
+  description = 'Cumbia De+Lito es cumbia villera hecha en Bogotá desde 2012: tradición caribe colombiana y energía urbana. Escucha a Cumbia Delito y contrata el show.',
+} = Astro.props;
+
+const siteOrigin = Astro.site ?? new URL(SITE_URL);
+const canonicalUrl = new URL('/', siteOrigin);
+const ogImageUrl = new URL('/og.jpg', siteOrigin).href;
+const ogImageAlt = 'Cumbia De+Lito en tarima con su keytar blanco';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'MusicGroup',
+  name: 'Cumbia De+Lito',
+  alternateName: ['Cumbia Delito', 'CUMBIA DE+LITO'],
+  foundingDate: '2012',
+  foundingLocation: {
+    '@type': 'Place',
+    name: 'Bogotá, Colombia',
+  },
+  genre: ['Cumbia villera', 'Cumbia urbana'],
+  founder: {
+    '@type': 'Person',
+    name: 'Christian Delgado',
+  },
+  url: SITE_URL,
+  image: ogImageUrl,
+  sameAs: SOCIALS.map((s) => s.url),
+  email: EMAIL,
+};
+---
+
+<!doctype html>
+<html lang="es-CO">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl.href} />
+    <meta name="theme-color" content="#0D1121" />
+
+    <link
+      rel="preload"
+      href={archivoLatinWdthUrl}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:site_name" content="Cumbia De+Lito" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl.href} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

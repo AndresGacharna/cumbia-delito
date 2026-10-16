@@ -1,5 +1,8 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import { SITE_URL } from './src/config.ts';
 
-// https://astro.build/config
-export default defineConfig({});
+export default defineConfig({
+  site: SITE_URL,
+  output: 'static',
+});

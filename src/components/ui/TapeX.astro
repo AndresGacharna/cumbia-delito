@@ -1,0 +1,66 @@
+---
+export interface Props {
+  size?: number;
+  active?: boolean;
+  class?: string;
+}
+
+const { size = 40, active = true, class: className } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 48 48"
+  width={size}
+  height={size}
+  aria-hidden="true"
+  class:list={['tape-x', !active && 'tape-x--inactive', className]}
+>
+  <g transform="rotate(-44 24 24)">
+    <path
+      class="tape-x__strip"
+      d="M3.5 19.4 L5.2 21.1 L3.9 23.0 L5.6 24.9 L4.1 26.8 L5.4 28.6 L44.3 28.3 L42.9 26.5 L44.5 24.6 L43.1 22.8 L44.4 21.0 L43.2 19.2 Z"
+    />
+    <path
+      class="tape-x__sheen"
+      d="M6.5 21.4 L41.5 21.1"
+      stroke="rgb(255 255 255 / 0.24)"
+      stroke-width="1.2"
+      stroke-linecap="round"
+    />
+  </g>
+  <g transform="rotate(46 24 24)">
+    <path
+      class="tape-x__shadow"
+      d="M4.2 20.4 L44.2 20.1 L43.8 29.4 L4.6 29.6 Z"
+      fill="rgb(0 0 0 / 0.28)"
+    />
+    <path
+      class="tape-x__strip"
+      d="M3.8 19.2 L5.4 20.9 L4.0 22.8 L5.7 24.6 L4.2 26.5 L5.6 28.4 L44.1 28.5 L42.8 26.7 L44.4 24.8 L43.0 22.9 L44.2 21.1 L42.9 19.4 Z"
+    />
+    <path
+      class="tape-x__sheen"
+      d="M6.8 21.3 L41.2 21.5"
+      stroke="rgb(255 255 255 / 0.28)"
+      stroke-width="1.2"
+      stroke-linecap="round"
+    />
+  </g>
+</svg>
+
+<style>
+  .tape-x {
+    display: inline-block;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 4px rgb(0 0 0 / 0.4));
+  }
+
+  .tape-x__strip {
+    fill: var(--c-red);
+    transition: fill var(--dur-1) var(--ease-out);
+  }
+
+  .tape-x--inactive .tape-x__strip {
+    fill: var(--c-gray);
+  }
+</style>

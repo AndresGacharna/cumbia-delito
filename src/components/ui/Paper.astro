@@ -1,0 +1,64 @@
+---
+export interface Props {
+  variant: 'ruled' | 'grid' | 'aged';
+  rotate?: number;
+  class?: string;
+}
+
+const { variant, rotate = 0, class: className } = Astro.props;
+---
+
+<div
+  class:list={['paper', `paper--${variant}`, className]}
+  style={rotate !== 0 ? `--paper-rotate: ${rotate}deg;` : undefined}
+>
+  <slot />
+</div>
+
+<style>
+  .paper {
+    --c-focus: var(--c-ink);
+    position: relative;
+    background-color: var(--c-paper);
+    color: var(--c-ink);
+    padding: clamp(1.5rem, 4vw, 3rem);
+    box-shadow: var(--sh-paper);
+    transform: rotate(var(--paper-rotate, 0deg));
+  }
+
+  .paper--ruled {
+    line-height: 1.75rem;
+    padding-left: clamp(2rem, 5vw, 3.5rem);
+    background-image:
+      linear-gradient(
+        90deg,
+        transparent calc(clamp(1.25rem, 3.2vw, 2.25rem) - 1px),
+        rgb(218 41 28 / 0.45) calc(clamp(1.25rem, 3.2vw, 2.25rem) - 1px),
+        rgb(218 41 28 / 0.45) clamp(1.25rem, 3.2vw, 2.25rem),
+        transparent clamp(1.25rem, 3.2vw, 2.25rem)
+      ),
+      repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent calc(1.75rem - 1px),
+        var(--c-paper-rule) calc(1.75rem - 1px),
+        var(--c-paper-rule) 1.75rem
+      );
+    background-position: 0 0, 0 0.35rem;
+  }
+
+  .paper--grid {
+    background-image:
+      linear-gradient(to right, rgb(169 188 217 / 0.5) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(169 188 217 / 0.5) 1px, transparent 1px);
+    background-size: 5mm 5mm;
+  }
+
+  .paper--aged {
+    background-color: var(--c-paper-aged);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.28 0 0 0 0 0.2 0 0 0 0 0.1 0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+      radial-gradient(ellipse at 14% 18%, rgb(114 29 31 / 0.11) 0%, transparent 55%),
+      radial-gradient(ellipse at 86% 82%, rgb(21 25 49 / 0.12) 0%, transparent 60%);
+  }
+</style>
