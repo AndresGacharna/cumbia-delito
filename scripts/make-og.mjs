@@ -52,18 +52,56 @@ const shadowSvg = Buffer.from(
 
 const shadowPng = await sharp(shadowSvg).png().toBuffer();
 
+const overlayPng = await sharp(
+  Buffer.from(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}">
+      <defs>
+        <linearGradient id="navyFade" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="${WIDTH * 0.6}" y2="0">
+          <stop offset="0%" stop-color="rgb(13, 17, 33)" stop-opacity="0.7" />
+          <stop offset="100%" stop-color="rgb(13, 17, 33)" stop-opacity="0" />
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="${WIDTH * 0.6}" height="${HEIGHT}" fill="url(#navyFade)" />
+    </svg>`,
+  ),
+)
+  .png()
+  .toBuffer();
+
+const logoPad = 36;
 const logoPng = await sharp(path.join(root, 'src/assets/logo/logo-blanco.svg'), { density: 200 })
   .resize({ width: 560 })
+  .extend({
+    top: logoPad,
+    bottom: logoPad,
+    left: logoPad,
+    right: logoPad,
+    background: { r: 0, g: 0, b: 0, alpha: 0 },
+  })
   .png()
   .toBuffer();
 const logoMeta = await sharp(logoPng).metadata();
 
+const logoShadowPng = await sharp(logoPng)
+  .ensureAlpha()
+  .linear([0, 0, 0, 0.5], [0, 0, 0, 0])
+  .blur(9)
+  .png()
+  .toBuffer();
+
 const cardLeft = WIDTH - rw - 64;
 const cardTop = Math.round((HEIGHT - rh) / 2);
+const logoLeft = 68 - logoPad;
+const logoTop = Math.round((HEIGHT - logoMeta.height) / 2);
 
 await sharp(path.join(root, 'src/assets/muro/fondo-tarima.jpg'))
   .resize(WIDTH, HEIGHT, { fit: 'cover' })
   .composite([
+    {
+      input: overlayPng,
+      left: 0,
+      top: 0,
+    },
     {
       input: shadowPng,
       left: cardLeft - 40,
@@ -75,9 +113,14 @@ await sharp(path.join(root, 'src/assets/muro/fondo-tarima.jpg'))
       top: cardTop,
     },
     {
+      input: logoShadowPng,
+      left: logoLeft,
+      top: logoTop + 4,
+    },
+    {
       input: logoPng,
-      left: 68,
-      top: Math.round((HEIGHT - logoMeta.height) / 2),
+      left: logoLeft,
+      top: logoTop,
     },
   ])
   .jpeg({ quality: 85, mozjpeg: true })
