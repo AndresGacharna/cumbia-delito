@@ -1,6 +1,386 @@
 ---
-// Stub: replaced by the section owner.
+import { EMAIL, WHATSAPP_BOOKING_URL } from '../../config';
+import { organizadores } from '../../data/content';
+import Button from '../ui/Button.astro';
+import Paper from '../ui/Paper.astro';
+import TapeX from '../ui/TapeX.astro';
 ---
-<section id="organizadores" class="sec" data-stage="organizadores" aria-labelledby="organizadores-title">
-  <h2 id="organizadores-title">Organizadores</h2>
+
+<section
+  id="organizadores"
+  class="sec sec--alt"
+  data-stage="organizadores"
+  aria-labelledby="organizadores-title"
+>
+  <div class="container org__inner">
+    <div class="sec-head">
+      <TapeX size={36} />
+      <h2 id="organizadores-title">{organizadores.titulo}</h2>
+    </div>
+
+    <div class="org__grid">
+      <Paper variant="grid" class="org__sheet">
+        <div class="org__block">
+          <h3 class="display org__subhead">Requerimientos básicos</h3>
+          <ul class="org__req-list">
+            {organizadores.requerimientos.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+
+        <div class="org__block">
+          <h3 class="display org__subhead">Rider técnico</h3>
+          <table class="org__table">
+            <caption class="org__caption">
+              Rider técnico · formación más amplia (5 puestos)
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Puesto</th>
+                <th scope="col">Instrumento</th>
+                <th scope="col">Requerimientos de sonido</th>
+                <th scope="col">Base</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                organizadores.rider.map((row) => (
+                  <tr>
+                    <td data-label="#" class="org__cell-num">
+                      {row.n}
+                    </td>
+                    <th scope="row" data-label="Puesto">
+                      {row.puesto}
+                    </th>
+                    <td data-label="Instrumento">{row.instrumento}</td>
+                    <td data-label="Requerimientos de sonido">
+                      {row.requerimientos}
+                    </td>
+                    <td data-label="Base">{row.base}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <p class="org__note">{organizadores.riders}</p>
+      </Paper>
+
+      <figure class="org__plot-figure">
+        <figcaption class="display org__plot-caption">Stage plot</figcaption>
+        <div
+          class="org__plot-diagram"
+          role="img"
+          aria-label="Stage plot: atrás al centro, batería eléctrica (octapad); a la izquierda, guitarra eléctrica; a la derecha, bajo; adelante al centro, teclado y voz principal."
+        >
+          <div class="org__stage" aria-hidden="true">
+            <div class="org__stage-wall"></div>
+            <div class="org__stage-grid">
+              <div class="org__pos org__pos--back">
+                <TapeX size={28} />
+                <span class="org__pos-text">{organizadores.stagePlot.atrasCentro}</span>
+              </div>
+
+              <div class="org__pos org__pos--left">
+                <TapeX size={28} />
+                <span class="org__pos-text">{organizadores.stagePlot.izquierda}</span>
+              </div>
+
+              <div class="org__pos org__pos--right">
+                <TapeX size={28} />
+                <span class="org__pos-text">{organizadores.stagePlot.derecha}</span>
+              </div>
+
+              <div class="org__pos org__pos--front">
+                <TapeX size={28} />
+                <span class="org__pos-text">
+                  {organizadores.stagePlot.adelanteCentro[0]}
+                </span>
+                <span class="org__pos-text org__pos-text--sub">
+                  {organizadores.stagePlot.adelanteCentro[1]}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="display org__stage-audience" aria-hidden="true">PÚBLICO</div>
+        </div>
+      </figure>
+    </div>
+
+    <div class="org__actions">
+      <Button
+        href={WHATSAPP_BOOKING_URL}
+        variant="primary"
+        icon="whatsapp"
+        external
+      >
+        Cotiza por WhatsApp
+      </Button>
+      <Button href={`mailto:${EMAIL}`} variant="secondary" icon="mail">
+        Pide el rider por correo
+      </Button>
+    </div>
+  </div>
 </section>
+
+<style>
+  #organizadores-title {
+    font-size: clamp(1.625rem, 4.4vw, 3.75rem);
+  }
+
+  .org__grid {
+    display: grid;
+    gap: var(--s-7);
+    align-items: start;
+  }
+
+  @media (min-width: 960px) {
+    .org__grid {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: var(--s-7);
+    }
+  }
+
+  .org__inner :global(.org__sheet) {
+    display: grid;
+    gap: var(--s-6);
+    min-width: 0;
+  }
+
+  .org__block {
+    display: grid;
+    gap: var(--s-3);
+    min-width: 0;
+  }
+
+  .org__subhead {
+    font-size: var(--t-h3);
+    color: var(--c-ink);
+  }
+
+  .org__req-list {
+    margin: 0;
+    padding-left: 1.25rem;
+    display: grid;
+    gap: var(--s-2);
+    color: var(--c-ink);
+  }
+
+  .org__table {
+    width: 100%;
+    color: var(--c-ink);
+    font-size: var(--t-small);
+    font-variant-numeric: tabular-nums;
+    border-top: 2px solid var(--c-ink);
+    border-bottom: 2px solid var(--c-ink);
+  }
+
+  .org__caption {
+    text-align: left;
+    font-size: var(--t-small);
+    font-weight: 600;
+    color: var(--c-ink-soft);
+    margin-bottom: var(--s-2);
+  }
+
+  .org__table th,
+  .org__table td {
+    padding: 0.7rem 0.6rem;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--c-paper-rule);
+    line-height: 1.4;
+  }
+
+  .org__table thead th {
+    font-size: var(--t-label);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 800;
+    color: var(--c-ink);
+    border-bottom: 2px solid var(--c-ink);
+    background-color: rgb(21 25 49 / 0.06);
+  }
+
+  .org__table tbody th[scope='row'] {
+    font-weight: 800;
+    color: var(--c-ink);
+    white-space: nowrap;
+  }
+
+  .org__cell-num {
+    font-weight: 800;
+    width: 2.25rem;
+  }
+
+  @media (max-width: 759px) {
+    .org__table thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .org__table,
+    .org__caption,
+    .org__table tbody,
+    .org__table tr {
+      display: block;
+      width: 100%;
+    }
+
+    .org__table tr {
+      padding-block: var(--s-3);
+      border-bottom: 2px solid var(--c-paper-rule);
+    }
+
+    .org__table tr:last-child {
+      border-bottom: 0;
+    }
+
+    .org__table td,
+    .org__table tbody th[scope='row'] {
+      display: grid;
+      grid-template-columns: minmax(7.5rem, 44%) minmax(0, 1fr);
+      gap: var(--s-3);
+      padding: 0.4rem 0;
+      border-bottom: 1px solid rgb(169 188 217 / 0.45);
+      white-space: normal;
+      width: auto;
+    }
+
+    .org__table tr > :last-child {
+      border-bottom: 0;
+    }
+
+    .org__table td::before,
+    .org__table tbody th[scope='row']::before {
+      content: attr(data-label);
+      font-size: var(--t-label);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      line-height: 1.25;
+      color: var(--c-ink-soft);
+    }
+  }
+
+  .org__note {
+    font-size: var(--t-small);
+    font-weight: 600;
+    color: var(--c-ink-soft);
+  }
+
+  .org__plot-figure {
+    display: grid;
+    gap: var(--s-3);
+    min-width: 0;
+  }
+
+  .org__plot-caption {
+    font-size: var(--t-h3);
+    color: var(--c-white);
+  }
+
+  .org__plot-diagram {
+    display: grid;
+    gap: var(--s-3);
+  }
+
+  .org__stage {
+    position: relative;
+    background-color: var(--c-navy-800);
+    border: 1px solid var(--c-gray);
+    box-shadow: var(--sh-paper);
+    overflow: hidden;
+  }
+
+  .org__stage-wall {
+    height: 0.85rem;
+    background: linear-gradient(
+      90deg,
+      var(--c-brick) 0%,
+      var(--c-brick) 68%,
+      var(--c-gray) 68%,
+      var(--c-gray) 100%
+    );
+    border-bottom: 2px solid var(--c-red);
+  }
+
+  .org__stage-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(3, minmax(5.75rem, auto));
+    gap: var(--s-3);
+    padding: var(--s-5) var(--s-3);
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+    background-size: 33.333% 33.333%;
+  }
+
+  .org__pos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: var(--s-1);
+    padding: var(--s-1);
+  }
+
+  .org__pos--back {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .org__pos--left {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .org__pos--right {
+    grid-column: 3;
+    grid-row: 2;
+  }
+
+  .org__pos--front {
+    grid-column: 2;
+    grid-row: 3;
+  }
+
+  .org__pos-text {
+    font-size: var(--t-small);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--c-white);
+  }
+
+  .org__pos-text--sub {
+    font-size: var(--t-label);
+    font-weight: 500;
+    color: var(--c-text-soft);
+  }
+
+  .org__stage-audience {
+    text-align: center;
+    font-size: var(--t-small);
+    letter-spacing: 0.24em;
+    color: var(--c-text-soft);
+    padding-top: var(--s-1);
+  }
+
+  .org__actions {
+    margin-top: var(--s-7);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-4);
+    align-items: center;
+  }
+</style>

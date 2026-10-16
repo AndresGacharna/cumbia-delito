@@ -1,6 +1,115 @@
 ---
-// Stub: replaced by the section owner.
+import { trayectoria } from '../../data/content';
+import Plus from '../ui/Plus.astro';
+import TapeX from '../ui/TapeX.astro';
 ---
-<section id="trayectoria" class="sec" data-stage="trayectoria" aria-labelledby="trayectoria-title">
-  <h2 id="trayectoria-title">Trayectoria</h2>
+
+<section
+  id="trayectoria"
+  class="sec sec--alt"
+  data-stage="trayectoria"
+  aria-labelledby="trayectoria-title"
+>
+  <div class="container trayectoria__inner">
+    <div class="sec-head">
+      <TapeX size={36} />
+      <h2 id="trayectoria-title">{trayectoria.titulo}</h2>
+    </div>
+
+    <div class="trayectoria__body">
+      <div class="trayectoria__group">
+        <h3 class="display trayectoria__heading">Colombia</h3>
+        <ul class="trayectoria__list trayectoria__list--colombia">
+          {
+            trayectoria.colombia.map((ciudad) => (
+              <li class="trayectoria__item">
+                <span class="display trayectoria__place">{ciudad}</span>
+                <Plus class="trayectoria__plus" />
+              </li>
+            ))
+          }
+          <li class="trayectoria__item trayectoria__item--cierre">
+            <span class="display trayectoria__cierre">{trayectoria.colombiaCierre}</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="trayectoria__group">
+        <h3 class="display trayectoria__heading">Internacional</h3>
+        <ul class="trayectoria__list trayectoria__list--internacional">
+          {
+            trayectoria.internacional.map((pais, index) => (
+              <li class="trayectoria__item">
+                <span class="display trayectoria__place">{pais}</span>
+                {index < trayectoria.internacional.length - 1 && (
+                  <Plus class="trayectoria__plus" />
+                )}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <p class="sec-lead">{trayectoria.eventos}</p>
+    </div>
+  </div>
 </section>
+
+<style>
+  .trayectoria__body {
+    display: grid;
+    gap: var(--s-7);
+  }
+
+  .trayectoria__group {
+    display: grid;
+    gap: var(--s-3);
+  }
+
+  .trayectoria__heading {
+    font-size: var(--t-h3);
+    color: var(--c-text-soft);
+    letter-spacing: 0.08em;
+  }
+
+  .trayectoria__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 0.38em;
+    row-gap: 0.2em;
+    line-height: 1.05;
+  }
+
+  .trayectoria__list--colombia {
+    font-size: clamp(1.5rem, 3.4vw, 2.75rem);
+  }
+
+  .trayectoria__list--internacional {
+    font-size: clamp(2.125rem, 4.8vw, 3.75rem);
+  }
+
+  .trayectoria__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.38em;
+  }
+
+  .trayectoria__place {
+    color: var(--c-white);
+    line-height: 1;
+  }
+
+  .trayectoria__cierre {
+    color: var(--c-text-soft);
+    line-height: 1;
+  }
+
+  .trayectoria__list :global(.trayectoria__plus) {
+    width: 0.7em;
+    height: 0.7em;
+  }
+</style>

@@ -1,4 +1,110 @@
 ---
-// Stub: replaced by the section owner.
+import { Picture } from 'astro:assets';
+import logoNeon from '../assets/logo/logo-neon.png';
+import { SOCIALS } from '../config';
+import Icon from './ui/Icon.astro';
 ---
-<footer></footer>
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__logo">
+      <Picture
+        src={logoNeon}
+        formats={['avif', 'webp']}
+        widths={[412, 825]}
+        sizes="(max-width: 760px) 80vw, 412px"
+        width={logoNeon.width}
+        height={logoNeon.height}
+        loading="lazy"
+        alt="Logo de Cumbia De+Lito en neón"
+        class="site-footer__logo-img"
+      />
+    </div>
+
+    <ul class="site-footer__socials">
+      {
+        SOCIALS.map((social) => (
+          <li>
+            <a
+              href={social.url}
+              target="_blank"
+              rel="noopener"
+              class="site-footer__social-link"
+            >
+              <Icon name={social.id} size={20} />
+              <span class="visually-hidden">
+                {social.label} de Cumbia De+Lito (se abre en otra pestaña)
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="site-footer__copy">© 2026 Cumbia De+Lito</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background-color: var(--c-navy-900);
+    border-top: 1px solid var(--c-navy-700);
+    padding-block: var(--s-8) var(--s-7);
+  }
+
+  .site-footer__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--s-5);
+    text-align: center;
+  }
+
+  .site-footer__logo {
+    width: min(100%, 412px);
+  }
+
+  .site-footer__logo :global(.site-footer__logo-img) {
+    width: 100%;
+    height: auto;
+  }
+
+  .site-footer__socials {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--s-3);
+  }
+
+  .site-footer__social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    color: var(--c-text-soft);
+    border: 1px solid var(--c-navy-700);
+    background-color: var(--c-navy-800);
+    text-decoration: none;
+    transition:
+      color var(--dur-1) var(--ease-out),
+      background-color var(--dur-1) var(--ease-out),
+      border-color var(--dur-1) var(--ease-out),
+      transform var(--dur-1) var(--ease-out);
+  }
+
+  .site-footer__social-link:hover {
+    color: var(--c-white);
+    background-color: var(--c-red);
+    border-color: var(--c-red);
+    transform: translateY(-2px);
+  }
+
+  .site-footer__copy {
+    font-size: var(--t-small);
+    color: var(--c-text-soft);
+  }
+</style>

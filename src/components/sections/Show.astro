@@ -1,6 +1,225 @@
 ---
-// Stub: replaced by the section owner.
+import retratoBajo from '../../assets/fotos/retrato-bajo.jpg';
+import retratoGuitarra from '../../assets/fotos/retrato-guitarra.jpg';
+import retratoKeytar from '../../assets/fotos/retrato-keytar.jpg';
+import retratoOctapad from '../../assets/fotos/retrato-octapad.jpg';
+import { show } from '../../data/content';
+import Polaroid from '../ui/Polaroid.astro';
+import TapeX from '../ui/TapeX.astro';
+
+const EMPHASIS_PHRASES = [
+  '4 músicos en escena',
+  'un equipo técnico de 3 personas',
+] as const;
+
+interface CopySegment {
+  text: string;
+  strong: boolean;
+}
+
+function splitParagraph(paragraph: string): CopySegment[] {
+  let segments: CopySegment[] = [{ text: paragraph, strong: false }];
+
+  for (const phrase of EMPHASIS_PHRASES) {
+    segments = segments.flatMap((segment) => {
+      if (segment.strong || !segment.text.includes(phrase)) {
+        return [segment];
+      }
+      const parts = segment.text.split(phrase);
+      const next: CopySegment[] = [];
+      parts.forEach((part, index) => {
+        if (part) next.push({ text: part, strong: false });
+        if (index < parts.length - 1) next.push({ text: phrase, strong: true });
+      });
+      return next;
+    });
+  }
+
+  return segments;
+}
+
+const portraits = [
+  {
+    src: retratoKeytar,
+    caption: 'Keytar',
+    alt: 'Músico con un keytar blanco Roland',
+    rotate: -6,
+  },
+  {
+    src: retratoGuitarra,
+    caption: 'Guitarra',
+    alt: 'Guitarrista con camiseta de la banda',
+    rotate: 3,
+  },
+  {
+    src: retratoBajo,
+    caption: 'Bajo',
+    alt: 'Bajista con camiseta de la banda',
+    rotate: -2,
+  },
+  {
+    src: retratoOctapad,
+    caption: 'Octapad',
+    alt: 'Percusionista con baquetas y octapad',
+    rotate: 5,
+  },
+] as const;
 ---
+
 <section id="show" class="sec" data-stage="show" aria-labelledby="show-title">
-  <h2 id="show-title">Show</h2>
+  <div class="container show__inner">
+    <div class="sec-head">
+      <TapeX size={36} />
+      <h2 id="show-title">{show.titulo}</h2>
+    </div>
+
+    <div class="show__layout">
+      <div class="show__copy">
+        {
+          show.parrafos.map((parrafo) => (
+            <p class="show__paragraph">
+              {splitParagraph(parrafo).map((segment) =>
+                segment.strong ? <strong>{segment.text}</strong> : segment.text
+              )}
+            </p>
+          ))
+        }
+        <p class="show__director">{show.director}</p>
+      </div>
+
+      <div class="show__spread-wrap">
+        <ul class="show__spread" role="list">
+          {
+            portraits.map((item, idx) => (
+              <li class:list={['show__card', `show__card--${idx + 1}`]}>
+                <Polaroid
+                  src={item.src}
+                  alt={item.alt}
+                  caption={item.caption}
+                  rotate={item.rotate}
+                  widths={[240, 360, 480]}
+                  sizes="(max-width: 899px) 220px, 240px"
+                  loading="lazy"
+                  tape="top"
+                />
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
 </section>
+
+<style>
+  .show__layout {
+    display: grid;
+    gap: var(--s-7);
+    align-items: center;
+  }
+
+  .show__copy {
+    display: grid;
+    gap: var(--s-5);
+    max-width: 60ch;
+  }
+
+  .show__paragraph {
+    font-size: var(--t-lead);
+    line-height: 1.55;
+    color: var(--c-text);
+  }
+
+  .show__paragraph strong {
+    font-weight: 800;
+  }
+
+  .show__director {
+    margin-top: var(--s-2);
+    font-size: var(--t-body);
+    color: var(--c-text-soft);
+  }
+
+  .show__spread-wrap {
+    position: relative;
+    min-width: 0;
+  }
+
+  .show__spread {
+    list-style: none;
+    margin: 0;
+    padding: var(--s-6) var(--s-6) var(--s-6) var(--s-3);
+    display: flex;
+    gap: var(--s-5);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline-start: var(--s-3);
+    scrollbar-width: thin;
+    scrollbar-color: var(--c-red) var(--c-navy-800);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .show__card {
+    flex: 0 0 clamp(205px, 60vw, 245px);
+    max-width: 300px;
+    scroll-snap-align: start;
+  }
+
+  @media (max-width: 899px) {
+    .show__spread-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 2.75rem;
+      pointer-events: none;
+      background: linear-gradient(to right, transparent, var(--c-navy-900));
+    }
+  }
+
+  @media (min-width: 900px) {
+    .show__layout {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: var(--s-8);
+    }
+
+    .show__spread {
+      overflow: visible;
+      scroll-snap-type: none;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 235px));
+      justify-content: center;
+      row-gap: var(--s-4);
+      column-gap: 0;
+      padding: var(--s-4);
+    }
+
+    .show__card {
+      flex: none;
+      width: 100%;
+      max-width: 235px;
+      position: relative;
+    }
+
+    .show__card--1 {
+      z-index: 2;
+      transform: translate(0.45rem, 0);
+    }
+
+    .show__card--2 {
+      z-index: 3;
+      transform: translate(-0.45rem, 1.35rem);
+    }
+
+    .show__card--3 {
+      z-index: 4;
+      transform: translate(0.35rem, 0.35rem);
+    }
+
+    .show__card--4 {
+      z-index: 1;
+      transform: translate(-0.45rem, 1.5rem);
+    }
+  }
+</style>
