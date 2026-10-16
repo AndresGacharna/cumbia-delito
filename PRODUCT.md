@@ -72,7 +72,10 @@ Vinculantes; detalle completo en `PROMPT_WEB.md` §3 y §4.
 - **Prueba de Karol G:** el video oficial de *La Premiere* (desde 1:23) y la nota de Noticias RCN del 11-dic-2025.
 - **Trayectoria:** 15 ciudades de Colombia "entre otras" y 5 países (México, Ecuador, Perú, Argentina, Chile), sin fechas ni nombres de eventos.
 - **Ficha técnica, rider de 5 puestos y stage plot:** `brief.json → info_tecnica`.
-- **Fotos y logos:** `imagenes/` es la única fuente para publicar. **Hoy está creada y vacía: faltan los originales** `[CLIENTE-4]`. `brief/assets/` solo tiene recortes de baja resolución y referencias del EPK; sirven para mirar, nunca para publicar.
+- **Fotos y logos:** `imagenes/` es la única fuente para publicar `[CLIENTE-4]`. `brief/assets/` solo tiene recortes de baja resolución y referencias del EPK; sirven para mirar, nunca para publicar.
+  - `imagenes/logos/`: logo script original en PNG con transparencia, 692 × 692 px, en dos versiones: tinta blanca y tinta azul marino `#101820`, las dos con el "+" `#DA291C`. Es raster: **falta el vector** y **falta el original de la versión neón**.
+  - `imagenes/background/Fondo EPK.jpg`: el muro de ladrillo original del EPK (1480 × 10530 px), con franjas curvas en azul marino, rojo ladrillo y gris. Aportado como referencia del fondo.
+  - **Faltan todas las fotos** (tarima, retratos, grupo) y las portadas en buena resolución.
 
 **Ausencias que nadie debe fabricar:** testimonios; agenda o fechas; nombres de medios, de festivales o de los músicos contratados; fotos con Karol G; cifras de público o de streams (incluidas las métricas de Spotify); merch; letras; imágenes de personas, de la banda, de shows o de portadas generadas o "mejoradas" con IA.
 
