@@ -1,11 +1,4 @@
 ---
-// TODO: optimize the image sources in src/assets: convert the .jpg/.png files to
-// .webp (photos ~q84, neon-lito-mask.png and noticias-rcn.png lossless) and update
-// every import and the mask url() in Footer.astro. scripts/make-og.mjs reads
-// tarima-keytar.jpg and fondo-tarima.jpg too. public/og.jpg stays JPEG for social cards.
-// TODO: delete unused files: src/assets/logo/logo-azul.svg, src/assets/logo/logo-neon.png,
-// src/components/embeds/SpotifyFacade.astro, src/components/embeds/YouTubeFacade.astro
-// and src/scripts/embeds.ts (only those two facades load it).
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
@@ -21,18 +14,13 @@ import Footer from '../components/Footer.astro';
 import WhatsAppChat from '../components/WhatsAppChat.astro';
 import WallBand from '../components/ui/WallBand.astro';
 import Tendedero from '../components/ui/Tendedero.astro';
-import duoKeytar from '../assets/fotos/duo-keytar.jpg';
-import enVivoLuzMorada from '../assets/fotos/en-vivo-luz-morada.jpg';
-import grupoSoundCity from '../assets/fotos/grupo-sound-city.jpg';
-import enVivoBar from '../assets/fotos/en-vivo-bar.jpg';
-import grupoBar from '../assets/fotos/grupo-bar.jpg';
-import grupoPublicoTarima from '../assets/fotos/grupo-publico-tarima.jpg';
-import keytarCamisetaAzul from '../assets/fotos/keytar-camiseta-azul.jpg';
-import retratoBajo from '../assets/fotos/retrato-bajo.jpg';
-import retratoGuitarra from '../assets/fotos/retrato-guitarra.jpg';
-import retratoKeytar from '../assets/fotos/retrato-keytar.jpg';
-import retratoOctapad from '../assets/fotos/retrato-octapad.jpg';
-import tarimaKeytar from '../assets/fotos/tarima-keytar.jpg';
+import duoKeytar from '../assets/fotos/duo-keytar.webp';
+import grupoSoundCity from '../assets/fotos/grupo-sound-city.webp';
+import enVivoBar from '../assets/fotos/en-vivo-bar.webp';
+import grupoBar from '../assets/fotos/grupo-bar.webp';
+import grupoPublicoTarima from '../assets/fotos/grupo-publico-tarima.webp';
+import festivalArgentinaBogota from '../assets/fotos/festival-argentina-bogota.webp';
+import enVivoBarbaros from '../assets/fotos/en-vivo-barbaros.webp';
 import '../styles/sections.css';
 ---
 
@@ -52,17 +40,12 @@ import '../styles/sections.css';
         bajada="Momentos de tarima en tarima, colgados para que no se olviden."
         fotos={[
           { src: duoKeytar, alt: 'Dos músicos posando frente a un fondo naranja; uno lleva un keytar blanco y la camiseta de Cumbia De+Lito' },
-          { src: retratoGuitarra, alt: 'Guitarrista de Cumbia De+Lito con su guitarra eléctrica' },
+          { src: festivalArgentinaBogota, alt: 'La banda tocando con camisetas de Argentina en el festival ¡Argentina en el corazón de Bogotá!' },
           { src: grupoSoundCity, alt: 'Cuatro integrantes de Cumbia De+Lito con sus instrumentos en un escenario bajo un letrero de Sound City' },
-          { src: enVivoLuzMorada, alt: 'Músico de Cumbia De+Lito tocando un keytar blanco en vivo bajo luz morada' },
           { src: grupoPublicoTarima, alt: 'La banda en tarima con el público detrás, en un festival al aire libre' },
-          { src: retratoBajo, alt: 'Bajista de Cumbia De+Lito con su bajo' },
+          { src: enVivoBarbaros, alt: 'La banda tocando en vivo frente al público en Bárbaros Brewing Co.' },
           { src: enVivoBar, alt: 'La banda tocando en vivo en un bar, con guitarra, keytar blanco y el telón de Cumbia De+Lito' },
-          { src: retratoKeytar, alt: 'Músico de Cumbia De+Lito con un keytar blanco' },
-          { src: tarimaKeytar, alt: 'Músico de Cumbia De+Lito tocando un keytar blanco Roland en tarima, con gafas oscuras' },
           { src: grupoBar, alt: 'La banda completa posando con sus instrumentos junto al telón de Cumbia De+Lito en un bar' },
-          { src: retratoOctapad, alt: 'Músico de Cumbia De+Lito con baquetas frente a un octapad' },
-          { src: keytarCamisetaAzul, alt: 'Músico de Cumbia De+Lito tocando un keytar Roland con camiseta azul' },
         ]}
       />
     </WallBand>

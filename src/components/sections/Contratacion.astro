@@ -1,7 +1,7 @@
 ---
 import { Picture } from 'astro:assets';
-import seBusca from '../../assets/fotos/se-busca.png';
-import cierre from '../../assets/muro/cierre.jpg';
+import seBusca from '../../assets/fotos/se-busca.webp';
+import cierre from '../../assets/muro/cierre.webp';
 import {
   EMAIL,
   PHONE_DISPLAY,
@@ -25,6 +25,7 @@ import TapeX from '../ui/TapeX.astro';
     <Picture
       src={cierre}
       formats={['avif', 'webp']}
+      fallbackFormat="webp"
       widths={[640, 1024, 1480]}
       sizes="100vw"
       width={cierre.width}
@@ -47,7 +48,8 @@ import TapeX from '../ui/TapeX.astro';
         <Picture
           src={seBusca}
           formats={['avif', 'webp']}
-          widths={[320]}
+          fallbackFormat="webp"
+          widths={[320, 500, 750, 1000]}
           sizes="(max-width: 899px) 90vw, 500px"
           width={seBusca.width}
           height={seBusca.height}

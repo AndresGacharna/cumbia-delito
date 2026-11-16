@@ -1,10 +1,10 @@
 ---
 import { Picture } from 'astro:assets';
-import enVivoBar from '../assets/fotos/en-vivo-bar.jpg';
-import grupoBar from '../assets/fotos/grupo-bar.jpg';
-import tarimaKeytar from '../assets/fotos/tarima-keytar.jpg';
+import grupalDelito from '../assets/fotos/grupal-delito.webp';
+import grupoBar from '../assets/fotos/grupo-bar.webp';
+import tarimaKeytar from '../assets/fotos/tarima-keytar.webp';
 import logoBlanco from '../assets/logo/logo-blanco.svg';
-import fondoTarima from '../assets/muro/fondo-tarima.jpg';
+import fondoTarima from '../assets/muro/fondo-tarima.webp';
 import { SPOTIFY_ARTIST_URL, WHATSAPP_BOOKING_URL } from '../config';
 import { hero, trayectoria } from '../data/content';
 import Button from './ui/Button.astro';
@@ -34,6 +34,7 @@ const tickerItems = [
     <Picture
       src={fondoTarima}
       formats={['avif', 'webp']}
+      fallbackFormat="webp"
       widths={[640, 1024, 1480]}
       sizes="100vw"
       width={fondoTarima.width}
@@ -60,8 +61,8 @@ const tickerItems = [
       </div>
       <div class="hero__shot hero__shot--bar">
         <Polaroid
-          src={enVivoBar}
-          alt="La banda tocando en vivo en un bar, con guitarra, keytar blanco y el telón de Cumbia De+Lito"
+          src={grupalDelito}
+          alt="La banda celebrando con el público al final de un show en un bar, con bajo y keytar rojo"
           loading="eager"
           widths={[256, 400, 512]}
           sizes="(max-width: 759px) 34vw, 20vw"

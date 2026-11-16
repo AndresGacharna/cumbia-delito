@@ -1,6 +1,6 @@
 ---
 import { Picture } from 'astro:assets';
-import neonCumbia from '../assets/muro/neon-cumbia.jpg';
+import neonCumbia from '../assets/muro/neon-cumbia.webp';
 import { SOCIALS } from '../config';
 import Icon from './ui/Icon.astro';
 ---
@@ -16,6 +16,7 @@ import Icon from './ui/Icon.astro';
             <Picture
               src={neonCumbia}
               formats={['avif', 'webp']}
+              fallbackFormat="webp"
               widths={[640, 960, 1280, 1920]}
               sizes="(max-width: 759px) 760px, 100vw"
               width={neonCumbia.width}
@@ -120,8 +121,8 @@ import Icon from './ui/Icon.astro';
      (a round mask showed as a dark blot on the bricks). */
   .neon__layer--lito-off {
     opacity: 0;
-    -webkit-mask: url('../assets/muro/neon-lito-mask.png') center / 100% 100% no-repeat;
-    mask: url('../assets/muro/neon-lito-mask.png') center / 100% 100% no-repeat;
+    -webkit-mask: url('../assets/muro/neon-lito-mask.webp') center / 100% 100% no-repeat;
+    mask: url('../assets/muro/neon-lito-mask.webp') center / 100% 100% no-repeat;
   }
 
   @media (prefers-reduced-motion: no-preference) {

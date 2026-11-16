@@ -16,7 +16,7 @@ const photoH = 352;
 const cardW = polaroidWidth;
 const cardH = photoH + frameSide + frameBottom;
 
-const photoBuf = await sharp(path.join(root, 'src/assets/fotos/tarima-keytar.jpg'))
+const photoBuf = await sharp(path.join(root, 'src/assets/fotos/tarima-keytar.webp'))
   .resize(photoW, photoH, { fit: 'cover' })
   .extend({
     top: frameSide,
@@ -94,7 +94,7 @@ const cardTop = Math.round((HEIGHT - rh) / 2);
 const logoLeft = 68 - logoPad;
 const logoTop = Math.round((HEIGHT - logoMeta.height) / 2);
 
-await sharp(path.join(root, 'src/assets/muro/fondo-tarima.jpg'))
+await sharp(path.join(root, 'src/assets/muro/fondo-tarima.webp'))
   .resize(WIDTH, HEIGHT, { fit: 'cover' })
   .composite([
     {

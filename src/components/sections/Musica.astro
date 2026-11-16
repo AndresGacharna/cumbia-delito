@@ -1,10 +1,10 @@
 ---
 import type { ImageMetadata } from 'astro';
 import { getImage, Picture } from 'astro:assets';
-import cumbiaCervezaYMujer from '../../assets/portadas/cumbia-cerveza-y-mujer.jpg';
-import cumbiandoElMundo from '../../assets/portadas/cumbiando-el-mundo.jpg';
-import laFamosaBanda from '../../assets/portadas/la-famosa-banda.jpg';
-import laRuedaDeLaCumbia from '../../assets/portadas/la-rueda-de-la-cumbia.jpg';
+import cumbiaCervezaYMujer from '../../assets/portadas/cumbia-cerveza-y-mujer.webp';
+import cumbiandoElMundo from '../../assets/portadas/cumbiando-el-mundo.webp';
+import laFamosaBanda from '../../assets/portadas/la-famosa-banda.webp';
+import laRuedaDeLaCumbia from '../../assets/portadas/la-rueda-de-la-cumbia.webp';
 import { SOCIALS, SPOTIFY_ARTIST_URL } from '../../config';
 import { singles } from '../../data/content';
 import Button from '../ui/Button.astro';
@@ -70,6 +70,7 @@ const youtubeSocial = SOCIALS.find((social) => social.id === 'youtube')!;
                   <Picture
                     src={coverByTrackId[single.spotifyTrackId]}
                     formats={['avif', 'webp']}
+                    fallbackFormat="webp"
                     widths={[240, 300, 480, 720]}
                     sizes="(max-width: 600px) 64vw, 280px"
                     width={300}
