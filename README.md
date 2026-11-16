@@ -1,46 +1,37 @@
-# Astro Starter Kit: Basics
+# Cumbia De+Lito — landing
+
+Sitio estático hecho con Astro. Las imágenes fuente están en WebP (`src/assets/`) y Astro genera
+versiones AVIF/WebP redimensionadas en el build.
+
+## Desarrollo
 
 ```sh
-npm create astro@latest -- --template basics
+npm install
+npm run dev      # http://localhost:4321
+npm run build    # genera dist/
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Docker
 
-## 🚀 Project Structure
+La imagen compila el sitio con Node y lo sirve con nginx (puerto 80 dentro del contenedor).
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+```sh
+docker compose up -d --build          # http://localhost:8080
+PORT=3000 docker compose up -d --build  # otro puerto en el host
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+Sin compose:
 
-## 🧞 Commands
+```sh
+docker build -t cumbia-delito .
+docker run -d --restart unless-stopped -p 8080:80 cumbia-delito
+```
 
-All commands are run from the root of the project, from a terminal:
+Para HTTPS y dominio, pon un proxy (Caddy, Traefik, Nginx Proxy Manager, Coolify, Dokploy…) delante
+del contenedor. El dominio canónico se define en `src/config.ts` (`SITE_URL`).
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Carpetas
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- `src/assets/` — imágenes que usa el sitio (WebP).
+- `imagenes/`, `brief/` — material original del cliente; no entra en la imagen Docker.
+- `scripts/make-og.mjs` — regenera `public/og.jpg` (`node scripts/make-og.mjs`).

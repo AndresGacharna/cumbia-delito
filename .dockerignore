@@ -1,0 +1,24 @@
+# Dependencies and build output are recreated inside the image
+node_modules
+dist
+.astro
+
+# Not needed to build the site
+.git
+.gitignore
+.vscode
+.idea
+.claude
+.agents
+.impeccable
+imagenes
+brief
+descargas
+*.md
+Dockerfile
+.dockerignore
+compose.yaml
+
+# Local secrets
+.env
+.env.*

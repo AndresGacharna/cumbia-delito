@@ -1,0 +1,7 @@
+services:
+  web:
+    build: .
+    image: cumbia-delito:latest
+    restart: unless-stopped
+    ports:
+      - "${PORT:-8080}:80"
